@@ -1,4 +1,4 @@
-name: 'Commit Lint'
+name: 'Commit Linter'
 description: 'Lints Pull Request commit messages with commitlint'
 author: 'Wagner Santos'
 inputs:
