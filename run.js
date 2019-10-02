@@ -6,7 +6,6 @@ const read = require('@commitlint/read')
 const lint = require('@commitlint/lint')
 const { format } = require('@commitlint/format')
 const load = require('@commitlint/load')
-const chalk = require('chalk')
 
 const githubToken = process.env.GITHUB_TOKEN
 
@@ -49,12 +48,12 @@ const showLintResults = async ([from, to]) => {
     process.stderr.write(formattedResults)
     process.exit(1)
   } else {
-    console.log(chalk.green('Lint free! 🎉'))
+    console.log('Lint free! 🎉')
   }
 }
 
 const exitWithMessage = message => error => {
-  console.log(chalk.red(message))
+  console.log(message)
   console.error(error)
   process.exit(1)
 }
