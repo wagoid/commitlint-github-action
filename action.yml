@@ -1,0 +1,13 @@
+name: 'Commitlint'
+description: 'Lints commit messages with commitlint'
+author: 'Wagner Santos'
+inputs:
+  configFile:
+    description: 'commitlint config file'
+    default: './commitlint.config.js'
+runs:
+  using: 'docker'
+  image: 'Dockerfile'
+branding:
+  icon: 'check-square'
+  color: 'blue'
