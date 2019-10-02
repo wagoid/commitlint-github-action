@@ -1,5 +1,5 @@
-name: 'Commitlint'
-description: 'Lints commit messages with commitlint'
+name: 'Commit Lint'
+description: 'Lints Pull Request commit messages with commitlint'
 author: 'Wagner Santos'
 inputs:
   configFile:
