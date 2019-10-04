@@ -11,13 +11,13 @@ name: Commitlint
 on: [pull_request]
 
 jobs:
-  commitlint:
+  lint:
     runs-on: ubuntu-latest
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v1
-      - uses: wagoid/commitlint-github-action@v1.0.0
+      - uses: wagoid/commitlint-github-action@v1.1.0
 ```
 
 ## Inputs
