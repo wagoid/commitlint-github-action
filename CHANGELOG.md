@@ -6,6 +6,10 @@
 
 - do not call `require` in the config file to allow other file types ([949b695](https://github.com/wagoid/commitlint-github-action/commit/949b695))
 
+### Performance Improvements
+
+- use smaller debian image ([25c13db](https://github.com/wagoid/commitlint-github-action/commit/25c13db))
+
 <a name="1.1.0"></a>
 
 # [1.1.0](https://github.com/wagoid/commitlint-github-action/compare/v1.0.0...v1.1.0) (2019-10-04)
