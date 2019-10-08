@@ -1,4 +1,4 @@
-FROM node:10
+FROM node:10-stretch-slim
 
 COPY package*.json /
 

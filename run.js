@@ -1,4 +1,4 @@
-const { existsSync } = require('fs')
+const { existsSync, readFileSync } = require('fs')
 const { resolve } = require('path')
 const core = require('@actions/core')
 const github = require('@actions/github')
@@ -31,7 +31,9 @@ const getRangeFromPullRequest = async () => {
 
 const showLintResults = async ([from, to]) => {
   const commits = await read({ from, to })
-  const config = existsSync(configPath) ? await load(require(configPath)) : {}
+  const config = existsSync(configPath)
+    ? await load({}, { file: configPath })
+    : {}
   const results = await Promise.all(
     commits.map(commit => lint(commit, config.rules)),
   )
