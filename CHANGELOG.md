@@ -8,7 +8,7 @@
 
 ### Performance Improvements
 
-- use smaller debian image ([25c13db](https://github.com/wagoid/commitlint-github-action/commit/25c13db))
+- use smaller debian image ([9b3a9fc](https://github.com/wagoid/commitlint-github-action/commit/9b3a9fc))
 
 <a name="1.1.0"></a>
 
