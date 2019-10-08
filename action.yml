@@ -7,7 +7,7 @@ inputs:
     default: './commitlint.config.js'
 runs:
   using: 'docker'
-  image: 'docker://wagoid/commitlint-github-action:1.1.0'
+  image: 'docker://wagoid/commitlint-github-action:1.1.1'
 branding:
   icon: 'check-square'
   color: 'blue'
