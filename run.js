@@ -1,13 +1,16 @@
-const { existsSync, readFileSync } = require('fs')
+const { existsSync } = require('fs')
 const { resolve } = require('path')
 const core = require('@actions/core')
 const github = require('@actions/github')
-const read = require('@commitlint/read')
+const exec = require('@actions/exec')
 const lint = require('@commitlint/lint')
 const { format } = require('@commitlint/format')
 const load = require('@commitlint/load')
+const gitRawCommits = require('git-raw-commits')
 
-const githubToken = process.env.GITHUB_TOKEN
+const pullRequestEvent = 'pull_request'
+
+const { GITHUB_TOKEN, GITHUB_EVENT_NAME, GITHUB_SHA } = process.env
 
 const configPath = resolve(
   process.env.GITHUB_WORKSPACE,
@@ -15,7 +18,9 @@ const configPath = resolve(
 )
 
 const getRangeFromPullRequest = async () => {
-  const octokit = new github.GitHub(githubToken)
+  if (GITHUB_EVENT_NAME !== pullRequestEvent) return [null, GITHUB_SHA]
+
+  const octokit = new github.GitHub(GITHUB_TOKEN)
   const { owner, repo, number } = github.context.issue
   const { data: commits } = await octokit.pulls.listCommits({
     owner,
@@ -29,8 +34,34 @@ const getRangeFromPullRequest = async () => {
   return [from, to]
 }
 
+function getHistoryCommits(from, to) {
+  const options = {
+    from,
+    to,
+  }
+
+  if (core.getInput('firstParent') === 'true') {
+    options.firstParent = true
+  }
+
+  if (!from) {
+    options.maxCount = 1
+  }
+
+  return new Promise((resolve, reject) => {
+    const data = []
+
+    gitRawCommits(options)
+      .on('data', chunk => data.push(chunk.toString('utf-8')))
+      .on('error', reject)
+      .on('end', () => {
+        resolve(data)
+      })
+  })
+}
+
 const showLintResults = async ([from, to]) => {
-  const commits = await read({ from, to })
+  const commits = await getHistoryCommits(from, to)
   const config = existsSync(configPath)
     ? await load({}, { file: configPath })
     : {}
@@ -46,18 +77,17 @@ const showLintResults = async ([from, to]) => {
     },
   )
 
-  if (formattedResults.length) {
-    process.stderr.write(formattedResults)
-    process.exit(1)
+  if (formattedResults) {
+    core.setFailed(
+      `You have commit messages with errors\n\n${formattedResults}`,
+    )
   } else {
     console.log('Lint free! 🎉')
   }
 }
 
 const exitWithMessage = message => error => {
-  console.log(message)
-  console.error(error)
-  process.exit(1)
+  core.setFailed(`${message}\n${error}`)
 }
 
 const main = () =>

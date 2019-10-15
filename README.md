@@ -26,6 +26,15 @@ jobs:
 
 The path to your commitlint config file. Default `commitlint.config.js`.
 
+### `firstParent`
+
+When set to true, we follow only the first parent commit when seeing a merge commit.
+
+This helps to ignore errors in commits that were already present in your default branch (e.g. `master`) before adding conventional commit checks.
+More info in [git-log docs](https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent).
+
+Default `true`
+
 ## About `extends` in your config file
 
 This is a [`Docker` action](https://github.com/actions/toolkit/blob/e2adf403d6d14a9ca7474976ccaca20f72ff8209/docs/action-types.md#why-would-i-choose-a-docker-action), and was made like this so that you can run it with minimum setup, regardless of your repo's environment. It comes packed with the most famous shared configurations that you can use in your commitlint config's `extends` field:
