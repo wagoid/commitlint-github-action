@@ -10,7 +10,7 @@ inputs:
     default: true
 runs:
   using: 'docker'
-  image: 'docker://wagoid/commitlint-github-action:1.1.1'
+  image: 'docker://wagoid/commitlint-github-action:1.2.0'
 branding:
   icon: 'check-square'
   color: 'blue'

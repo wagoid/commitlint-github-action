@@ -1,3 +1,12 @@
+<a name="1.2.0"></a>
+
+## [1.2.1](https://github.com/wagoid/commitlint-github-action/compare/v1.1.1...v1.2.0) (2019-10-15)
+
+### Features
+
+- add ability to run commitlint on events that are not pull requests ([23cd801](https://github.com/wagoid/commitlint-github-action/commit/23cd801))
+- add firstParent input to ignore errors from your default branch ([598e473](https://github.com/wagoid/commitlint-github-action/commit/598e473))
+
 <a name="1.1.1"></a>
 
 ## [1.1.1](https://github.com/wagoid/commitlint-github-action/compare/v1.1.0...v1.1.1) (2019-10-08)
