@@ -8,4 +8,5 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v1
+      - run: sed -i -E "s/([']docker:.+)/Dockerfile/" ./action.yml
       - uses: ./
