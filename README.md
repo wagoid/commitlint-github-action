@@ -20,6 +20,8 @@ jobs:
       - uses: wagoid/commitlint-github-action@v1.1.1
 ```
 
+Alternatively, you can run on other event types such as `on: [push]`. In that case the action will lint the current commit instead of linting all commits from a pull request.
+
 ## Inputs
 
 ### `configFile`
@@ -39,10 +41,10 @@ Default `true`
 
 This is a [`Docker` action](https://github.com/actions/toolkit/blob/e2adf403d6d14a9ca7474976ccaca20f72ff8209/docs/action-types.md#why-would-i-choose-a-docker-action), and was made like this so that you can run it with minimum setup, regardless of your repo's environment. It comes packed with the most famous shared configurations that you can use in your commitlint config's `extends` field:
 
-- [@commitlint/config-angular](./@commitlint/config-angular)
-- [@commitlint/config-conventional](./@commitlint/config-conventional)
-- [@commitlint/config-lerna-scopes](./@commitlint/config-lerna-scopes)
-- [@commitlint/config-patternplate](./@commitlint/config-patternplate)
+- [@commitlint/config-angular](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-angular)
+- [@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)
+- [@commitlint/config-lerna-scopes](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-lerna-scopes)
+- [@commitlint/config-patternplate](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-patternplate)
 - [conventional-changelog-lint-config-canonical](https://github.com/gajus/conventional-changelog-lint-config-canonical)
 - [commitlint-config-jira](https://github.com/Gherciu/commitlint-jira)
 
