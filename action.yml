@@ -5,6 +5,9 @@ inputs:
   configFile:
     description: 'commitlint config file'
     default: './commitlint.config.js'
+  firstParent:
+    description: 'when set to true, we follow only the first parent commit when seeing a merge commit. More info in git-log docs https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent'
+    default: true
 runs:
   using: 'docker'
   image: 'docker://wagoid/commitlint-github-action:1.1.1'

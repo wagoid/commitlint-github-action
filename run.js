@@ -40,6 +40,10 @@ function getHistoryCommits(from, to) {
     to,
   }
 
+  if (core.getInput('firstParent') === 'true') {
+    options.firstParent = true
+  }
+
   if (!from) {
     options.maxCount = 1
   }
