@@ -87,7 +87,7 @@ const showLintResults = async ([from, to]) => {
 }
 
 const exitWithMessage = message => error => {
-  core.setFailed(`${message}\n${error}`)
+  core.setFailed(`${message}\n${error.message}\n${error.stack}`)
 }
 
 const main = () =>
