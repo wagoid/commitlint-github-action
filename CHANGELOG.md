@@ -1,3 +1,12 @@
+<a name="1.2.1"></a>
+
+## [1.2.1](https://github.com/wagoid/commitlint-github-action/compare/v1.2.0...v1.2.1) (2019-10-18)
+
+### Bug Fixes
+
+- also show stack when an error happens ([2c42093](https://github.com/wagoid/commitlint-github-action/commit/2c42093))
+- lerna scopes not working due to missing lerna dependency ([99b068a](https://github.com/wagoid/commitlint-github-action/commit/99b068a))
+
 <a name="1.2.0"></a>
 
 ## [1.2.1](https://github.com/wagoid/commitlint-github-action/compare/v1.1.1...v1.2.0) (2019-10-15)

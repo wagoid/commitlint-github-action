@@ -1,6 +1,6 @@
 {
   "name": "commitlint-github-action",
-  "version": "1.2.0",
+  "version": "1.2.1",
   "description": "commitlint github action",
   "main": "index.js",
   "scripts": {
