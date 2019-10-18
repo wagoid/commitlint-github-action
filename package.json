@@ -27,7 +27,8 @@
     "@commitlint/load": "8.2.0",
     "commitlint-config-jira": "1.0.9",
     "conventional-changelog-lint-config-canonical": "1.0.0",
-    "git-raw-commits": "2.0.2"
+    "git-raw-commits": "2.0.2",
+    "lerna": "3.18.1"
   },
   "devDependencies": {
     "conventional-changelog-cli": "2.0.23",

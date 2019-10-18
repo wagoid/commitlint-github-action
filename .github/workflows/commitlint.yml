@@ -20,3 +20,13 @@ jobs:
       - uses: ./
         with:
           configFile: './.commitlintrc.yml'
+  commitlint-with-lerna-scopes:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v1
+      - run: sed -i -E "s/([']docker:.+)/Dockerfile/" ./action.yml
+      - uses: ./
+        with:
+          configFile: './.commitlintrc-with-lerna-scopes.yml'

@@ -1,6 +1,7 @@
 node_modules
 .commitlintrc.yml
 commitlint.config.js
+.commitlintrc-with-lerna-scopes
 action.yml
 .github
 CHANGELOG.md
