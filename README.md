@@ -17,7 +17,7 @@ jobs:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v1
-      - uses: wagoid/commitlint-github-action@v1.2.1
+      - uses: wagoid/commitlint-github-action@v1.2.2
 ```
 
 Alternatively, you can run on other event types such as `on: [push]`. In that case the action will lint the current commit instead of linting all commits from a pull request.

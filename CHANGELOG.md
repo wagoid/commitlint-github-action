@@ -1,3 +1,12 @@
+<a name="1.2.2"></a>
+
+## [1.2.2](https://github.com/wagoid/commitlint-github-action/compare/v1.2.1...v1.2.2) (2019-10-21)
+
+### Bug Fixes
+
+- set [@commitlint](https://github.com/commitlint)/config-conventional to exact version 8.2.0 ([4fb9495](https://github.com/wagoid/commitlint-github-action/commit/4fb9495))
+- update [@commitlint](https://github.com/commitlint)/config-conventional to latest version ([bc31cec](https://github.com/wagoid/commitlint-github-action/commit/bc31cec))
+
 <a name="1.2.1"></a>
 
 ## [1.2.1](https://github.com/wagoid/commitlint-github-action/compare/v1.2.0...v1.2.1) (2019-10-18)
