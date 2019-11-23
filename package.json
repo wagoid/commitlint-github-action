@@ -16,7 +16,6 @@
   "homepage": "https://github.com/wagoid/commitlint-github-action",
   "dependencies": {
     "@actions/core": "1.1.1",
-    "@actions/exec": "1.0.1",
     "@actions/github": "1.1.0",
     "@commitlint/config-angular": "8.2.0",
     "@commitlint/config-conventional": "8.2.0",
