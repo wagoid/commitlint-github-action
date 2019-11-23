@@ -2,7 +2,6 @@ const { existsSync } = require('fs')
 const { resolve } = require('path')
 const core = require('@actions/core')
 const github = require('@actions/github')
-const exec = require('@actions/exec')
 const lint = require('@commitlint/lint')
 const { format } = require('@commitlint/format')
 const load = require('@commitlint/load')
@@ -17,11 +16,34 @@ const configPath = resolve(
   core.getInput('configFile'),
 )
 
-const getRangeFromPullRequest = async () => {
-  if (GITHUB_EVENT_NAME !== pullRequestEvent) return [null, GITHUB_SHA]
+const { context: eventContext } = github
+
+const gitEmptySha = '0000000000000000000000000000000000000000'
+
+const getRangeForPushEvent = () => {
+  let from = eventContext.payload.before
+  const to = GITHUB_SHA
+
+  if (eventContext.payload.forced) {
+    // When a commit is forced, "before" field from the push event data may point to a commit that doesn't exist
+    console.warn(
+      'Commit was forced, checking only the latest commit from push instead of a range of commit messages',
+    )
+    from = null
+  }
+
+  if (from === gitEmptySha) {
+    from = null
+  }
+
+  return [from, to]
+}
+
+const getRangeForEvent = async () => {
+  if (GITHUB_EVENT_NAME !== pullRequestEvent) return getRangeForPushEvent()
 
   const octokit = new github.GitHub(GITHUB_TOKEN)
-  const { owner, repo, number } = github.context.issue
+  const { owner, repo, number } = eventContext.issue
   const { data: commits } = await octokit.pulls.listCommits({
     owner,
     repo,
@@ -91,7 +113,7 @@ const exitWithMessage = message => error => {
 }
 
 const main = () =>
-  getRangeFromPullRequest()
+  getRangeForEvent()
     .catch(
       exitWithMessage("error trying to get list of pull request's commits"),
     )
