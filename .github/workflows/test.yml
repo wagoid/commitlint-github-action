@@ -9,4 +9,5 @@ jobs:
     steps:
       - uses: actions/checkout@v1
       - run: sed -i -E "s/([']docker:.+)/Dockerfile/" ./action.yml
+      - run: echo -n '' > .dockerignore
       - uses: ./
