@@ -18,7 +18,11 @@ const configPath = resolve(
 
 const { context: eventContext } = github
 
-const gitEmptySha = '0000000000000000000000000000000000000000'
+const pushEventHasOnlyOneCommit = from => {
+  const gitEmptySha = '0000000000000000000000000000000000000000'
+
+  return from === gitEmptySha
+}
 
 const getRangeForPushEvent = () => {
   let from = eventContext.payload.before
@@ -32,7 +36,7 @@ const getRangeForPushEvent = () => {
     from = null
   }
 
-  if (from === gitEmptySha) {
+  if (pushEventHasOnlyOneCommit(from)) {
     from = null
   }
 
@@ -58,7 +62,7 @@ const getRangeForEvent = async () => {
 
 function getHistoryCommits(from, to) {
   const options = {
-    from,
+    from: from && `${from}^1`,
     to,
   }
 
