@@ -1,3 +1,13 @@
+<a name="1.2.3"></a>
+
+## [1.2.3](https://github.com/wagoid/commitlint-github-action/compare/v1.2.2...v1.2.3) (2019-11-24)
+
+### Bug Fixes
+
+- also check range of commits for push events ([aa3e7ae](https://github.com/wagoid/commitlint-github-action/commit/aa3e7ae))
+- errors not showing when PR has only one commit ([8dd0fbf](https://github.com/wagoid/commitlint-github-action/commit/8dd0fbf))
+- Jira rules can now be used out of the box ([6cede4b](https://github.com/wagoid/commitlint-github-action/commit/6cede4b))
+
 <a name="1.2.2"></a>
 
 ## [1.2.2](https://github.com/wagoid/commitlint-github-action/compare/v1.2.1...v1.2.2) (2019-10-21)
