@@ -1,3 +1,11 @@
+<a name="1.3.0"></a>
+
+# [1.3.0](https://github.com/wagoid/commitlint-github-action/compare/v1.2.3...v1.3.0) (2019-11-25)
+
+### Features
+
+- support opts for lint ([c1cb555](https://github.com/wagoid/commitlint-github-action/commit/c1cb555))
+
 <a name="1.2.3"></a>
 
 ## [1.2.3](https://github.com/wagoid/commitlint-github-action/compare/v1.2.2...v1.2.3) (2019-11-24)
