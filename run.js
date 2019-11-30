@@ -56,13 +56,15 @@ const getRangeForEvent = async () => {
   const commitShas = commits.map(commit => commit.sha)
   const [from] = commitShas
   const to = commitShas[commitShas.length - 1]
+  // Git revision range doesn't include the "from" field in "git log", so for "from" we use the parent commit of PR's first commit
+  const fromParent = `${from}^1`
 
-  return [from, to]
+  return [fromParent, to]
 }
 
 function getHistoryCommits(from, to) {
   const options = {
-    from: from && `${from}^1`,
+    from,
     to,
   }
 
