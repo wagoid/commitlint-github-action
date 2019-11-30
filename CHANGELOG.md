@@ -1,3 +1,11 @@
+<a name="1.3.1"></a>
+
+## [1.3.1](https://github.com/wagoid/commitlint-github-action/compare/v1.3.0...v1.3.1) (2019-11-30)
+
+### Bug Fixes
+
+- do not try to get parent of push event's "before" field ([c1bba52](https://github.com/wagoid/commitlint-github-action/commit/c1bba52)), closes [#18](https://github.com/wagoid/commitlint-github-action/issues/18)
+
 <a name="1.3.0"></a>
 
 # [1.3.0](https://github.com/wagoid/commitlint-github-action/compare/v1.2.3...v1.3.0) (2019-11-25)
