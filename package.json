@@ -4,7 +4,7 @@
   "description": "commitlint github action",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "NODE_PATH=./node_modules jest",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
   },
   "repository": {
@@ -31,10 +31,14 @@
     "lerna": "3.18.1"
   },
   "devDependencies": {
+    "@commitlint/test": "8.2.0",
     "conventional-changelog-cli": "2.0.23",
+    "execa": "3.4.0",
     "husky": "3.0.7",
+    "jest": "^24.9.0",
     "prettier": "1.18.2",
-    "pretty-quick": "1.11.1"
+    "pretty-quick": "1.11.1",
+    "testdouble": "3.12.4"
   },
   "husky": {
     "hooks": {
