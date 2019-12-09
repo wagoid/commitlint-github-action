@@ -1,0 +1,5 @@
+{
+  "name": "fixture-lerna-scopes",
+  "version": "independent",
+  "packages": ["packages/*"]
+}

@@ -1,0 +1,15 @@
+{
+  "after": "cb3c15aee3d0fb546fa1509eef4286e421529e1e",
+  "base_ref": null,
+  "before": "d33e92a269fea31eac29d2dcbe964902cf0aee61",
+  "commits": [],
+  "compare": "https://github.com/wagoid/commitlint-github-action/compare/d33e92a269fe...cb3c15aee3d0",
+  "created": false,
+  "deleted": false,
+  "forced": false,
+  "head_commit": {},
+  "pusher": {},
+  "ref": "refs/heads/master",
+  "repository": {},
+  "sender": {}
+}

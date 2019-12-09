@@ -1,7 +1,10 @@
 node_modules
 .commitlintrc.yml
 commitlint.config.js
-.commitlintrc-with-lerna-scopes
 action.yml
 .github
 CHANGELOG.md
+coverage
+fixtures
+action.test.js
+testUtils.js
