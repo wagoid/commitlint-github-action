@@ -1,3 +1,11 @@
+<a name="1.3.2"></a>
+
+## [1.3.2](https://github.com/wagoid/commitlint-github-action/compare/v1.3.1...v1.3.2) (2020-01-05)
+
+### Bug Fixes
+
+- update jira rules ([1be2ce0](https://github.com/wagoid/commitlint-github-action/commit/1be2ce0))
+
 <a name="1.3.1"></a>
 
 ## [1.3.1](https://github.com/wagoid/commitlint-github-action/compare/v1.3.0...v1.3.1) (2019-11-30)
