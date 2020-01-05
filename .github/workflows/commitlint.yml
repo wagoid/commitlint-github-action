@@ -7,7 +7,9 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - run: sed -i -E "s/([']docker:.+)/Dockerfile/" ./action.yml
       - run: echo -n '' > .dockerignore
       - uses: ./
@@ -16,7 +18,9 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - run: sed -i -E "s/([']docker:.+)/Dockerfile/" ./action.yml
       - run: echo -n '' > .dockerignore
       - uses: ./
