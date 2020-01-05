@@ -16,11 +16,15 @@ jobs:
     env:
       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
-      - uses: actions/checkout@v1
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: wagoid/commitlint-github-action@v1
 ```
 
-Alternatively, you can run on other event types such as `on: [push]`. In that case the action will lint the current commit instead of linting all commits from a pull request.
+Alternatively, you can run on other event types such as `on: [push]`. In that case the action will lint the push event's commit(s) instead of linting commits from a pull request. You can also combine `push` and `pull_request` together in the same workflow.
+
+**Note**: It's necessary that you specify the `fetch-depth` argument to `actions/checkout@v2` step. By default they fetch only latest commit of the branch, but we need more commits since we validate a range of commit messages.
 
 ## Inputs
 
