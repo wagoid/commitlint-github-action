@@ -3,16 +3,20 @@ description: 'Lints Pull Request commit messages with commitlint'
 author: 'Wagner Santos'
 inputs:
   configFile:
-    description: 'commitlint config file'
+    description: 'Commitlint config file'
     default: './commitlint.config.js'
     required: false
   firstParent:
-    description: 'when set to true, we follow only the first parent commit when seeing a merge commit. More info in git-log docs https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent'
+    description: 'When set to true, we follow only the first parent commit when seeing a merge commit. More info in git-log docs https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent'
     default: 'true'
     required: false
   failOnWarnings:
-    description: 'whether you want to fail on warnings or not'
+    description: 'Whether you want to fail on warnings or not'
     default: 'false'
+    required: false
+  helpURL:
+    description: 'Link to a page explaining your commit message convention'
+    default: 'https://github.com/conventional-changelog/commitlint/#what-is-commitlint'
     required: false
 runs:
   using: 'docker'

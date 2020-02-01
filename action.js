@@ -106,8 +106,7 @@ const formatErrors = results =>
     { results },
     {
       color: true,
-      helpUrl:
-        'https://github.com/conventional-changelog/commitlint/#what-is-commitlint',
+      helpUrl: core.getInput('helpURL'),
     },
   )
 
