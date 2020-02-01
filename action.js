@@ -101,16 +101,8 @@ function getOptsFromConfig(config) {
   }
 }
 
-const showLintResults = async ([from, to]) => {
-  const commits = await getHistoryCommits(from, to)
-  const config = existsSync(configPath)
-    ? await load({}, { file: configPath })
-    : {}
-  const opts = getOptsFromConfig(config)
-  const results = await Promise.all(
-    commits.map(commit => lint(commit, config.rules, opts)),
-  )
-  const formattedResults = format(
+const formatErrors = results =>
+  format(
     { results },
     {
       color: true,
@@ -119,10 +111,45 @@ const showLintResults = async ([from, to]) => {
     },
   )
 
-  if (formattedResults) {
-    core.setFailed(
-      `You have commit messages with errors\n\n${formattedResults}`,
-    )
+const hasOnlyWarnings = results => {
+  const resultsWithOnlyWarnings = results.filter(
+    result => result.valid && result.warnings.length,
+  )
+
+  return (
+    resultsWithOnlyWarnings.length &&
+    resultsWithOnlyWarnings.length === results.length
+  )
+}
+
+const setFailed = formattedResults => {
+  core.setFailed(`You have commit messages with errors\n\n${formattedResults}`)
+}
+
+const handleOnlyWarnings = formattedResults => {
+  if (core.getInput('failOnWarnings') === 'true') {
+    setFailed(formattedResults)
+  } else {
+    console.log(`You have commit messages with warnings\n\n${formattedResults}`)
+  }
+}
+
+const showLintResults = async ([from, to]) => {
+  const failOnWarnings = core.getInput('failOnWarnings')
+  const commits = await getHistoryCommits(from, to)
+  const config = existsSync(configPath)
+    ? await load({}, { file: configPath })
+    : {}
+  const opts = getOptsFromConfig(config)
+  const results = await Promise.all(
+    commits.map(commit => lint(commit, config.rules, opts)),
+  )
+  const formattedResults = formatErrors(results)
+
+  if (hasOnlyWarnings(results)) {
+    handleOnlyWarnings(formattedResults)
+  } else if (formattedResults) {
+    setFailed(formattedResults)
   } else {
     console.log('Lint free! 🎉')
   }

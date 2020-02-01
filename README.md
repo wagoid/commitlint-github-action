@@ -30,7 +30,9 @@ Alternatively, you can run on other event types such as `on: [push]`. In that ca
 
 ### `configFile`
 
-The path to your commitlint config file. Default `commitlint.config.js`.
+The path to your commitlint config file.
+
+Default: `commitlint.config.js`
 
 ### `firstParent`
 
@@ -39,7 +41,13 @@ When set to true, we follow only the first parent commit when seeing a merge com
 This helps to ignore errors in commits that were already present in your default branch (e.g. `master`) before adding conventional commit checks.
 More info in [git-log docs](https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent).
 
-Default `true`
+Default: `true`
+
+### `failOnWarnings`
+
+Whether you want to fail on warnings or not.
+
+Default: `false`
 
 ## About `extends` in your config file
 
