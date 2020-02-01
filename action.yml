@@ -10,6 +10,10 @@ inputs:
     description: 'when set to true, we follow only the first parent commit when seeing a merge commit. More info in git-log docs https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent'
     default: 'true'
     required: false
+  failOnWarnings:
+    description: 'whether you want to fail on warnings or not'
+    default: 'false'
+    required: false
 runs:
   using: 'docker'
   image: 'docker://wagoid/commitlint-github-action:1.3.2'
