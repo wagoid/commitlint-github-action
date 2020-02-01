@@ -1,3 +1,15 @@
+<a name="1.4.0"></a>
+
+# [1.4.0](https://github.com/wagoid/commitlint-github-action/compare/v1.3.2...v1.4.0) (2020-02-01)
+
+### Bug Fixes
+
+- don't fail on warnings ([6e0fcb1](https://github.com/wagoid/commitlint-github-action/commit/6e0fcb1))
+
+### Features
+
+- add helpURL parameter ([f4821d1](https://github.com/wagoid/commitlint-github-action/commit/f4821d1))
+
 <a name="1.3.2"></a>
 
 ## [1.3.2](https://github.com/wagoid/commitlint-github-action/compare/v1.3.1...v1.3.2) (2020-01-05)
