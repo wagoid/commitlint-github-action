@@ -38,8 +38,7 @@ Default: `commitlint.config.js`
 
 When set to true, we follow only the first parent commit when seeing a merge commit.
 
-This helps to ignore errors in commits that were already present in your default branch (e.g. `master`) before adding conventional commit checks.
-More info in [git-log docs](https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent).
+This helps to ignore errors in commits that were already present in your default branch (e.g. `master`) before adding conventional commit checks. More info in [git-log docs](https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent).
 
 Default: `true`
 
@@ -48,6 +47,12 @@ Default: `true`
 Whether you want to fail on warnings or not.
 
 Default: `false`
+
+### `helpURL`
+
+Link to a page explaining your commit message convention.
+
+default: `https://github.com/conventional-changelog/commitlint/#what-is-commitlint`
 
 ## About `extends` in your config file
 

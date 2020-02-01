@@ -46,6 +46,9 @@ describe('Commit Linter action', () => {
     td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
     td.when(core.getInput('firstParent')).thenReturn('true')
     td.when(core.getInput('failOnWarnings')).thenReturn('false')
+    td.when(core.getInput('helpURL')).thenReturn(
+      'https://github.com/conventional-changelog/commitlint/#what-is-commitlint',
+    )
   })
 
   afterEach(() => {
