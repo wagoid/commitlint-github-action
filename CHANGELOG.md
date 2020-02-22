@@ -1,3 +1,11 @@
+<a name="1.5.0"></a>
+
+# [1.5.0](https://github.com/wagoid/commitlint-github-action/compare/v1.4.0...v1.5.0) (2020-02-22)
+
+### Features
+
+- add support for additional dependencies ([895d9f3](https://github.com/wagoid/commitlint-github-action/commit/895d9f3)), closes [#27](https://github.com/wagoid/commitlint-github-action/issues/27)
+
 <a name="1.4.0"></a>
 
 # [1.4.0](https://github.com/wagoid/commitlint-github-action/compare/v1.3.2...v1.4.0) (2020-02-01)
