@@ -24,6 +24,8 @@
     "@commitlint/format": "8.2.0",
     "@commitlint/lint": "8.2.0",
     "@commitlint/load": "8.2.0",
+    "@elevai/commitlint-config-github": "^0.1.0",
+    "@elevai/commitlint-plugin-github": "^0.1.0",
     "commitlint-config-jira": "1.2.0",
     "commitlint-plugin-jira-rules": "1.2.0",
     "conventional-changelog-lint-config-canonical": "1.0.0",
