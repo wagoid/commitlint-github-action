@@ -62,6 +62,7 @@ This is a [`Docker` action](https://github.com/actions/toolkit/blob/e2adf403d6d1
 - [@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)
 - [@commitlint/config-lerna-scopes](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-lerna-scopes)
 - [@commitlint/config-patternplate](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-patternplate)
+- [@elevai/commitlint-config-github](https://github.com/elevai-consulting/commitlint-github/)
 - [conventional-changelog-lint-config-canonical](https://github.com/gajus/conventional-changelog-lint-config-canonical)
 - [commitlint-config-jira](https://github.com/Gherciu/commitlint-jira)
 
