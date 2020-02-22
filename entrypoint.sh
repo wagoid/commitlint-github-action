@@ -2,6 +2,10 @@
 
 set -e
 
-cd ${GITHUB_WORKSPACE}
+if [ -z "$NODE_PATH" ]; then
+  export NODE_PATH=/node_modules
+else
+  export NODE_PATH=$NODE_PATH:/node_modules
+fi
 
-NODE_PATH=/node_modules node /run.js
+node /run.js
