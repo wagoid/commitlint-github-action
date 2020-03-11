@@ -1,3 +1,11 @@
+<a name="1.6.0"></a>
+
+# [1.6.0](https://github.com/wagoid/commitlint-github-action/compare/v1.5.0...v1.6.0) (2020-03-11)
+
+### Features
+
+- upgrade to latest commitlint version ([6125fde](https://github.com/wagoid/commitlint-github-action/commit/6125fde))
+
 <a name="1.5.0"></a>
 
 # [1.5.0](https://github.com/wagoid/commitlint-github-action/compare/v1.4.0...v1.5.0) (2020-02-22)
