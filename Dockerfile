@@ -1,4 +1,6 @@
-FROM node:10
+FROM node:12-alpine3.9
+
+RUN apk --no-cache add git
 
 COPY package*.json /
 

@@ -26,3 +26,12 @@ jobs:
       - uses: ./
         with:
           configFile: './.commitlintrc.yml'
+  commitlint-pulling-from-docker-hub:
+    runs-on: ubuntu-latest
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
+      - uses: ./
