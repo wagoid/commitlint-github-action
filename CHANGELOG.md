@@ -1,3 +1,11 @@
+<a name="1.7.0"></a>
+
+# [1.7.0](https://github.com/wagoid/commitlint-github-action/compare/v1.6.0...v1.7.0) (2020-07-03)
+
+### Performance Improvements
+
+- improve action pull speed by using an alpine image ([d0b8181](https://github.com/wagoid/commitlint-github-action/commit/d0b8181)), closes [#37](https://github.com/wagoid/commitlint-github-action/issues/37)
+
 <a name="1.6.0"></a>
 
 # [1.6.0](https://github.com/wagoid/commitlint-github-action/compare/v1.5.0...v1.6.0) (2020-03-11)
