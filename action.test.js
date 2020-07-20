@@ -11,6 +11,8 @@ const {
   updatePullRequestEnvVars,
 } = require('./testUtils')
 
+const resultsOutputId = 'results'
+
 const {
   matchers: { contains },
 } = td
@@ -43,6 +45,7 @@ describe('Commit Linter action', () => {
     core = require('@actions/core')
     td.replace(core, 'getInput')
     td.replace(core, 'setFailed')
+    td.replace(core, 'setOutput')
     td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
     td.when(core.getInput('firstParent')).thenReturn('true')
     td.when(core.getInput('failOnWarnings')).thenReturn('false')
@@ -317,6 +320,8 @@ describe('Commit Linter action', () => {
   })
 
   describe('when all errors are just warnings', () => {
+    let expectedResultsOutput
+
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/conventional')
       await gitEmptyCommit(
@@ -328,6 +333,17 @@ describe('Commit Linter action', () => {
       updatePushEnvVars(cwd, to)
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
+
+      expectedResultsOutput = [
+        {
+          hash: to,
+          message:
+            'chore: correct message\n\nsome context without leading blank line',
+          valid: true,
+          errors: [],
+          warnings: ['body must have leading blank line'],
+        },
+      ]
     })
 
     it('should pass and show that warnings exist', async () => {
@@ -335,6 +351,12 @@ describe('Commit Linter action', () => {
 
       td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
       td.verify(console.log(contains('You have commit messages with warnings')))
+    })
+
+    it('should show the results in an output', async () => {
+      await runAction()
+
+      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
     })
 
     describe('and failOnWarnings is set to true', () => {
@@ -349,18 +371,30 @@ describe('Commit Linter action', () => {
           core.setFailed(contains('You have commit messages with errors')),
         )
       })
+
+      it('should show the results in an output', async () => {
+        await runAction()
+
+        td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
+      })
     })
   })
 
   describe('when a subset of errors are just warnings', () => {
+    let firstHash
+    let secondHash
+
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/conventional')
+      await gitEmptyCommit(cwd, 'message from before push')
       await gitEmptyCommit(
         cwd,
         'chore: correct message\nsome context without leading blank line',
       )
       await gitEmptyCommit(cwd, 'wrong message')
-      const [before, to] = await getCommitHashes(cwd)
+      const [before, firstCommit, to] = await getCommitHashes(cwd)
+      firstHash = firstCommit
+      secondHash = to
       await createPushEventPayload(cwd, { before, to })
       updatePushEnvVars(cwd, to)
       td.replace(process, 'cwd', () => cwd)
@@ -373,6 +407,30 @@ describe('Commit Linter action', () => {
       td.verify(
         core.setFailed(contains('You have commit messages with errors')),
       )
+    })
+
+    it('should show the results in an output', async () => {
+      await runAction()
+
+      const expectedResultsOutput = [
+        {
+          hash: secondHash,
+          message: 'wrong message',
+          valid: false,
+          errors: ['subject may not be empty', 'type may not be empty'],
+          warnings: [],
+        },
+        {
+          hash: firstHash,
+          message:
+            'chore: correct message\n\nsome context without leading blank line',
+          valid: true,
+          errors: [],
+          warnings: ['body must have leading blank line'],
+        },
+      ]
+
+      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
     })
 
     describe('and failOnWarnings is set to true', () => {

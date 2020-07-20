@@ -6,6 +6,7 @@ const lint = require('@commitlint/lint')
 const { format } = require('@commitlint/format')
 const load = require('@commitlint/load')
 const gitCommits = require('./gitCommits')
+const generateOutputs = require('./generateOutputs')
 
 const pullRequestEvent = 'pull_request'
 
@@ -133,6 +134,8 @@ const showLintResults = async ([from, to]) => {
     })),
   )
   const formattedResults = formatErrors(lintedCommits)
+
+  generateOutputs(lintedCommits)
 
   if (hasOnlyWarnings(lintedCommits)) {
     handleOnlyWarnings(formattedResults)
