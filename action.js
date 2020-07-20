@@ -5,7 +5,7 @@ const github = require('@actions/github')
 const lint = require('@commitlint/lint')
 const { format } = require('@commitlint/format')
 const load = require('@commitlint/load')
-const gitRawCommits = require('git-raw-commits')
+const gitCommits = require('./gitCommits')
 
 const pullRequestEvent = 'pull_request'
 
@@ -76,16 +76,7 @@ function getHistoryCommits(from, to) {
     options.maxCount = 1
   }
 
-  return new Promise((resolve, reject) => {
-    const data = []
-
-    gitRawCommits(options)
-      .on('data', chunk => data.push(chunk.toString('utf-8')))
-      .on('error', reject)
-      .on('end', () => {
-        resolve(data)
-      })
-  })
+  return gitCommits(options)
 }
 
 function getOptsFromConfig(config) {
@@ -101,25 +92,20 @@ function getOptsFromConfig(config) {
   }
 }
 
-const formatErrors = results =>
+const formatErrors = lintedCommits =>
   format(
-    { results },
+    { results: lintedCommits.map(commit => commit.lintResult) },
     {
       color: true,
       helpUrl: core.getInput('helpURL'),
     },
   )
 
-const hasOnlyWarnings = results => {
-  const resultsWithOnlyWarnings = results.filter(
-    result => result.valid && result.warnings.length,
+const hasOnlyWarnings = lintedCommits =>
+  lintedCommits.length &&
+  lintedCommits.every(
+    ({ lintResult }) => lintResult.valid && lintResult.warnings.length,
   )
-
-  return (
-    resultsWithOnlyWarnings.length &&
-    resultsWithOnlyWarnings.length === results.length
-  )
-}
 
 const setFailed = formattedResults => {
   core.setFailed(`You have commit messages with errors\n\n${formattedResults}`)
@@ -140,12 +126,15 @@ const showLintResults = async ([from, to]) => {
     ? await load({}, { file: configPath })
     : {}
   const opts = getOptsFromConfig(config)
-  const results = await Promise.all(
-    commits.map(commit => lint(commit, config.rules, opts)),
+  const lintedCommits = await Promise.all(
+    commits.map(async commit => ({
+      lintResult: await lint(commit.message, config.rules, opts),
+      hash: commit.hash,
+    })),
   )
-  const formattedResults = formatErrors(results)
+  const formattedResults = formatErrors(lintedCommits)
 
-  if (hasOnlyWarnings(results)) {
+  if (hasOnlyWarnings(lintedCommits)) {
     handleOnlyWarnings(formattedResults)
   } else if (formattedResults) {
     setFailed(formattedResults)
