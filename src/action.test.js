@@ -73,21 +73,6 @@ describe('Commit Linter action', () => {
     td.verify(core.setFailed(contains('You have commit messages with errors')))
   })
 
-  it('should pass for single push with correct message', async () => {
-    cwd = await git.bootstrap('fixtures/conventional')
-    await gitEmptyCommit(cwd, 'chore: correct message')
-    const [to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { to })
-    updatePushEnvVars(cwd, to)
-    td.replace(process, 'cwd', () => cwd)
-    td.replace(console, 'log')
-
-    await runAction()
-
-    td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
-    td.verify(console.log('Lint free! 🎉'))
-  })
-
   it('should fail for push range with wrong messages', async () => {
     cwd = await git.bootstrap('fixtures/conventional')
     await gitEmptyCommit(cwd, 'message from before push')
@@ -319,6 +304,49 @@ describe('Commit Linter action', () => {
     td.verify(core.setFailed(contains('HttpError: Bad credentials')))
   })
 
+  describe("when there's a single commit with correct message", () => {
+    let commitHash
+
+    beforeEach(async () => {
+      cwd = await git.bootstrap('fixtures/conventional')
+      await gitEmptyCommit(cwd, 'chore: correct message')
+      const [to] = await getCommitHashes(cwd)
+      commitHash = to
+      await createPushEventPayload(cwd, { to })
+      updatePushEnvVars(cwd, to)
+      td.replace(process, 'cwd', () => cwd)
+      td.replace(console, 'log')
+    })
+
+    it('should pass', async () => {
+      await runAction()
+
+      td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
+    })
+
+    it('should show success message', async () => {
+      await runAction()
+
+      td.verify(console.log('Lint free! 🎉'))
+    })
+
+    it('should generate a JSON output of the messages', async () => {
+      const expectedResultsOutput = [
+        {
+          hash: commitHash,
+          message: 'chore: correct message',
+          valid: true,
+          errors: [],
+          warnings: [],
+        },
+      ]
+
+      await runAction()
+
+      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
+    })
+  })
+
   describe('when all errors are just warnings', () => {
     let expectedResultsOutput
 
@@ -410,8 +438,6 @@ describe('Commit Linter action', () => {
     })
 
     it('should show the results in an output', async () => {
-      await runAction()
-
       const expectedResultsOutput = [
         {
           hash: secondHash,
@@ -429,6 +455,8 @@ describe('Commit Linter action', () => {
           warnings: ['body must have leading blank line'],
         },
       ]
+
+      await runAction()
 
       td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
     })
