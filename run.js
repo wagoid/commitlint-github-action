@@ -1,3 +1,3 @@
-const action = require('./action')
+const action = require('./src/action')
 
 action()
