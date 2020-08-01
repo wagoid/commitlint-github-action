@@ -247,61 +247,109 @@ describe('Commit Linter action', () => {
     td.verify(core.setFailed(contains('wrong commit from another branch')))
   })
 
-  it('should lint all commits from a pull request', async () => {
-    cwd = await git.bootstrap('fixtures/conventional')
-    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
-    await gitEmptyCommit(cwd, 'message from before push')
-    await gitEmptyCommit(cwd, 'wrong message 1')
-    await gitEmptyCommit(cwd, 'wrong message 2')
-    await gitEmptyCommit(cwd, 'wrong message 3')
-    await createPullRequestEventPayload(cwd)
-    const [, first, second, to] = await getCommitHashes(cwd)
-    updatePullRequestEnvVars(cwd, to)
-    td.when(
-      listCommits({
-        owner: 'wagoid',
-        repo: 'commitlint-github-action',
-        pull_number: '1',
-      }),
-    ).thenResolve({
-      data: [first, second, to].map(sha => ({ sha })),
-    })
-    td.replace(process, 'cwd', () => cwd)
+  describe('when there are multiple commits failing in the pull request', () => {
+    let expectedResultsOutput
+    const firstMessage = 'wrong message 1'
+    const secondMessage = 'wrong message 2'
 
-    await runAction()
+    beforeEach(async () => {
+      cwd = await git.bootstrap('fixtures/conventional')
+      td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
+      await gitEmptyCommit(cwd, 'message from before push')
+      await gitEmptyCommit(cwd, firstMessage)
+      await gitEmptyCommit(cwd, secondMessage)
+      await createPullRequestEventPayload(cwd)
+      const [, first, to] = await getCommitHashes(cwd)
+      updatePullRequestEnvVars(cwd, to)
+      td.when(
+        listCommits({
+          owner: 'wagoid',
+          repo: 'commitlint-github-action',
+          pull_number: '1',
+        }),
+      ).thenResolve({
+        data: [first, to].map(sha => ({ sha })),
+      })
+      td.replace(process, 'cwd', () => cwd)
 
-    td.verify(core.setFailed(contains('message from before push')), {
-      times: 0,
+      expectedResultsOutput = [
+        {
+          hash: to,
+          message: secondMessage,
+          valid: false,
+          errors: ['subject may not be empty', 'type may not be empty'],
+          warnings: [],
+        },
+        {
+          hash: first,
+          message: firstMessage,
+          valid: false,
+          errors: ['subject may not be empty', 'type may not be empty'],
+          warnings: [],
+        },
+      ]
     })
-    td.verify(core.setFailed(contains('wrong message 1')))
-    td.verify(core.setFailed(contains('wrong message 2')))
-    td.verify(core.setFailed(contains('wrong message 3')))
+
+    it('should NOT show errors for a message from before the push', async () => {
+      await runAction()
+
+      td.verify(core.setFailed(contains('message from before push')), {
+        times: 0,
+      })
+    })
+
+    it('should show errors for the first wrong message', async () => {
+      await runAction()
+
+      td.verify(core.setFailed(contains(firstMessage)))
+    })
+
+    it('should show errors for the second wrong message', async () => {
+      await runAction()
+
+      td.verify(core.setFailed(contains(secondMessage)))
+    })
+
+    it('should generate a JSON output of the errors', async () => {
+      await runAction()
+
+      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
+    })
   })
 
-  it('should show an error message when failing to fetch commits', async () => {
-    cwd = await git.bootstrap('fixtures/conventional')
-    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
-    await gitEmptyCommit(cwd, 'commit message')
-    await createPullRequestEventPayload(cwd)
-    const [to] = await getCommitHashes(cwd)
-    updatePullRequestEnvVars(cwd, to)
-    td.when(
-      listCommits({
-        owner: 'wagoid',
-        repo: 'commitlint-github-action',
-        pull_number: '1',
-      }),
-    ).thenReject(new Error('HttpError: Bad credentials'))
-    td.replace(process, 'cwd', () => cwd)
+  describe('when it fails to fetch commits', () => {
+    beforeEach(async () => {
+      cwd = await git.bootstrap('fixtures/conventional')
+      td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
+      await gitEmptyCommit(cwd, 'commit message')
+      await createPullRequestEventPayload(cwd)
+      const [to] = await getCommitHashes(cwd)
+      updatePullRequestEnvVars(cwd, to)
+      td.when(
+        listCommits({
+          owner: 'wagoid',
+          repo: 'commitlint-github-action',
+          pull_number: '1',
+        }),
+      ).thenReject(new Error('HttpError: Bad credentials'))
+      td.replace(process, 'cwd', () => cwd)
+    })
 
-    await runAction()
+    it('should show an error message', async () => {
+      await runAction()
 
-    td.verify(
-      core.setFailed(
-        contains("error trying to get list of pull request's commits"),
-      ),
-    )
-    td.verify(core.setFailed(contains('HttpError: Bad credentials')))
+      td.verify(
+        core.setFailed(
+          contains("error trying to get list of pull request's commits"),
+        ),
+      )
+    })
+
+    it('should show the original error message', async () => {
+      await runAction()
+
+      td.verify(core.setFailed(contains('HttpError: Bad credentials')))
+    })
   })
 
   describe("when there's a single commit with correct message", () => {
