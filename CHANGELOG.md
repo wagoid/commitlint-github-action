@@ -1,3 +1,17 @@
+# [2.0.0](https://github.com/wagoid/commitlint-github-action/compare/v1.8.0...v2.0.0) (2020-08-02)
+
+### Features
+
+- upgrade commitlint dependencies to v9 ([a413a3f](https://github.com/wagoid/commitlint-github-action/commit/a413a3f439c38181670fdd6d1be4b528c942af4b))
+- use action input instead of env var to get the github token ([18e9bff](https://github.com/wagoid/commitlint-github-action/commit/18e9bff0e6956f1bfe76e18cc582c6cb5d3b9800))
+
+### BREAKING CHANGES
+
+- GITHUB_TOKEN env var is now ignored. In case a custom token is needed,
+  it'll be necessary to pass it via the `token` input from now on.
+- this includes breaking changes from commitlint v9,
+  like the fact that `improvement` type is now rejected in `@commitlint/config-conventional`.
+
 <a name="1.8.0"></a>
 
 # [1.8.0](https://github.com/wagoid/commitlint-github-action/compare/v1.7.0...v1.8.0) (2020-08-02)

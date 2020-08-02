@@ -32,7 +32,7 @@ outputs:
     description: The error and warning messages for each one of the analyzed commits
 runs:
   using: 'docker'
-  image: 'docker://wagoid/commitlint-github-action:1.8.0'
+  image: 'docker://wagoid/commitlint-github-action:2.0.0'
 branding:
   icon: 'check-square'
   color: 'blue'
