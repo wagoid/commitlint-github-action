@@ -2,9 +2,9 @@ const { existsSync } = require('fs')
 const { resolve } = require('path')
 const core = require('@actions/core')
 const github = require('@actions/github')
-const lint = require('@commitlint/lint')
+const lint = require('@commitlint/lint').default
 const { format } = require('@commitlint/format')
-const load = require('@commitlint/load')
+const load = require('@commitlint/load').default
 const gitCommits = require('./gitCommits')
 const generateOutputs = require('./generateOutputs')
 
