@@ -54,6 +54,50 @@ Link to a page explaining your commit message convention.
 
 default: `https://github.com/conventional-changelog/commitlint/#what-is-commitlint`
 
+## Outputs
+
+### `results`
+
+The error and warning messages for each one of the analyzed commits. This is useful if you want to use the commitlint results in a JSON format in other jobs. See [the documentation](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#fromjson) on how to read JSON information from outputs.
+
+Below you can see an example text output together with its corresponding JSON output:
+
+```
+You have commit messages with errors
+
+⧗   input: wrong message
+✖   subject may not be empty [subject-empty]
+✖   type may not be empty [type-empty]
+
+✖   found 2 problems, 0 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+
+⧗   input: chore: my message
+⚠   body must have leading blank line [body-leading-blank]
+
+⚠   found 0 problems, 1 warnings
+ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
+```
+
+```JSON
+[
+  {
+    "hash": "cb0f846f13b490c2fd17bd5ed0b6f65ba9b86c75",
+    "message": "wrong message",
+    "valid": false,
+    "errors": ["subject may not be empty", "type may not be empty"],
+    "warnings": [],
+  },
+  {
+    "hash": "cb14483cbde23b61322ffb8d3fcdc87f514a3141",
+    "message": "chore: my message\n\nsome context without leading blank line",
+    "valid": true,
+    "errors": [],
+    "warnings": ["body must have leading blank line"],
+  },
+]
+```
+
 ## About `extends` in your config file
 
 This is a [`Docker` action](https://github.com/actions/toolkit/blob/e2adf403d6d14a9ca7474976ccaca20f72ff8209/docs/action-types.md#why-would-i-choose-a-docker-action), and was made like this so that you can run it with minimum setup, regardless of your repo's environment. It comes packed with the most famous shared configurations that you can use in your commitlint config's `extends` field:

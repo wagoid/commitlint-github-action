@@ -6,5 +6,5 @@ action.yml
 CHANGELOG.md
 coverage
 fixtures
-action.test.js
-testUtils.js
+src/action.test.js
+src/testUtils.js

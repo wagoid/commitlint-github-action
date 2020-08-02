@@ -15,8 +15,8 @@
   "license": "ISC",
   "homepage": "https://github.com/wagoid/commitlint-github-action",
   "dependencies": {
-    "@actions/core": "1.1.1",
-    "@actions/github": "1.1.0",
+    "@actions/core": "^1.2.4",
+    "@actions/github": "^1.1.0",
     "@commitlint/config-angular": "^8.3.4",
     "@commitlint/config-conventional": "^8.3.4",
     "@commitlint/config-lerna-scopes": "^8.3.4",
@@ -24,21 +24,21 @@
     "@commitlint/format": "^8.3.4",
     "@commitlint/lint": "^8.3.5",
     "@commitlint/load": "^8.3.5",
-    "commitlint-config-jira": "1.2.0",
-    "commitlint-plugin-jira-rules": "1.2.0",
-    "conventional-changelog-lint-config-canonical": "1.0.0",
-    "git-raw-commits": "2.0.2",
-    "lerna": "3.18.1"
+    "commitlint-config-jira": "^1.2.0",
+    "commitlint-plugin-jira-rules": "^1.2.0",
+    "conventional-changelog-lint-config-canonical": "^1.0.0",
+    "dargs": "^7.0.0",
+    "execa": "^4.0.3",
+    "lerna": "^3.18.1"
   },
   "devDependencies": {
     "@commitlint/test": "^8.2.0",
-    "conventional-changelog-cli": "2.0.23",
-    "execa": "3.4.0",
-    "husky": "3.0.7",
+    "conventional-changelog-cli": "^2.0.23",
+    "husky": "^3.0.7",
     "jest": "^24.9.0",
-    "prettier": "1.18.2",
-    "pretty-quick": "1.11.1",
-    "testdouble": "3.12.4"
+    "prettier": "^1.18.2",
+    "pretty-quick": "^1.11.1",
+    "testdouble": "^3.12.4"
   },
   "husky": {
     "hooks": {

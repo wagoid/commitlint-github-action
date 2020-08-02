@@ -18,6 +18,9 @@ inputs:
     description: 'Link to a page explaining your commit message convention'
     default: 'https://github.com/conventional-changelog/commitlint/#what-is-commitlint'
     required: false
+outputs:
+  results:
+    description: The error and warning messages for each one of the analyzed commits
 runs:
   using: 'docker'
   image: 'docker://wagoid/commitlint-github-action:1.7.0'
