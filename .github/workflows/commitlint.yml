@@ -4,8 +4,6 @@ on: [push, pull_request]
 jobs:
   commitlint:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -19,8 +17,6 @@ jobs:
         run: echo ${{ toJSON(steps.run_commitlint.outputs.results) }}
   commitlint-with-yml-file:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -32,8 +28,6 @@ jobs:
           configFile: './.commitlintrc.yml'
   commitlint-pulling-from-docker-hub:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         with:

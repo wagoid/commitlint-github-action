@@ -7,19 +7,17 @@ Lints Pull Request commits with commitlint
 Create a github workflow in the `.github` folder, e.g. `.github/workflows/commitlint.yml`:
 
 ```yaml
-name: Commitlint
+name: Lint Commit Messages
 on: [pull_request]
 
 jobs:
-  lint:
+  commitlint:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v1
+      - uses: wagoid/commitlint-github-action@v2
 ```
 
 Alternatively, you can run on other event types such as `on: [push]`. In that case the action will lint the push event's commit(s) instead of linting commits from a pull request. You can also combine `push` and `pull_request` together in the same workflow.
@@ -53,6 +51,14 @@ Default: `false`
 Link to a page explaining your commit message convention.
 
 default: `https://github.com/conventional-changelog/commitlint/#what-is-commitlint`
+
+### `token`
+
+Personal access token (PAT) used to interact with the GitHub API.
+By default, the automatic token provided by GitHub is used.
+You can see more info about GitHub's default token [here](https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token).
+
+default: `${{ github.token }}`
 
 ## Outputs
 
@@ -114,14 +120,12 @@ Apart from the shared configurations that are included by default, you can also 
 In order to do so, you can use `NODE_PATH` env var to make the action take those dependencies into account. Below is an example workflow that does that.
 
 ```yaml
-name: Commitlint
+name: Lint Commit Messages
 on: [pull_request]
 
 jobs:
-  lint:
+  commitlint:
     runs-on: ubuntu-latest
-    env:
-      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     steps:
       - uses: actions/checkout@v2
         with:
@@ -134,7 +138,7 @@ jobs:
         # $GITHUB_WORKSPACE is the path to your repository
         run: echo "::set-env name=NODE_PATH::$GITHUB_WORKSPACE/node_modules"
       # Now the commitlint action will run considering its own dependencies and yours as well 🚀
-      - uses: wagoid/commitlint-github-action@v1
+      - uses: wagoid/commitlint-github-action@v2
 ```
 
 ---
