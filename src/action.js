@@ -2,15 +2,15 @@ const { existsSync } = require('fs')
 const { resolve } = require('path')
 const core = require('@actions/core')
 const github = require('@actions/github')
-const lint = require('@commitlint/lint')
+const lint = require('@commitlint/lint').default
 const { format } = require('@commitlint/format')
-const load = require('@commitlint/load')
+const load = require('@commitlint/load').default
 const gitCommits = require('./gitCommits')
 const generateOutputs = require('./generateOutputs')
 
 const pullRequestEvent = 'pull_request'
 
-const { GITHUB_TOKEN, GITHUB_EVENT_NAME, GITHUB_SHA } = process.env
+const { GITHUB_EVENT_NAME, GITHUB_SHA } = process.env
 
 const configPath = resolve(
   process.env.GITHUB_WORKSPACE,
@@ -47,7 +47,7 @@ const getRangeForPushEvent = () => {
 const getRangeForEvent = async () => {
   if (GITHUB_EVENT_NAME !== pullRequestEvent) return getRangeForPushEvent()
 
-  const octokit = new github.GitHub(GITHUB_TOKEN)
+  const octokit = new github.GitHub(core.getInput('token'))
   const { owner, repo, number } = eventContext.issue
   const { data: commits } = await octokit.pulls.listCommits({
     owner,
