@@ -1,3 +1,11 @@
+<a name="1.8.0"></a>
+
+# [1.8.0](https://github.com/wagoid/commitlint-github-action/compare/v1.7.0...v1.8.0) (2020-08-02)
+
+### Features
+
+- add `results` output ([550792f](https://github.com/wagoid/commitlint-github-action/commit/550792f)), closes [#39](https://github.com/wagoid/commitlint-github-action/issues/39)
+
 <a name="1.7.0"></a>
 
 # [1.7.0](https://github.com/wagoid/commitlint-github-action/compare/v1.6.0...v1.7.0) (2020-07-03)
