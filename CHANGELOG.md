@@ -1,3 +1,9 @@
+## [2.0.1](https://github.com/wagoid/commitlint-github-action/compare/v2.0.0...v2.0.1) (2020-08-20)
+
+### Bug Fixes
+
+- action shows error ouput when not all commits have warnings ([0911cae](https://github.com/wagoid/commitlint-github-action/commit/0911cae00990e44bafab30af5357ed057b5cf964)), closes [#43](https://github.com/wagoid/commitlint-github-action/issues/43)
+
 # [2.0.0](https://github.com/wagoid/commitlint-github-action/compare/v1.8.0...v2.0.0) (2020-08-02)
 
 ### Features
