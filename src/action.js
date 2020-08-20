@@ -104,9 +104,8 @@ const formatErrors = lintedCommits =>
 
 const hasOnlyWarnings = lintedCommits =>
   lintedCommits.length &&
-  lintedCommits.every(
-    ({ lintResult }) => lintResult.valid && lintResult.warnings.length,
-  )
+  lintedCommits.every(({ lintResult }) => lintResult.valid) &&
+  lintedCommits.some(({ lintResult }) => lintResult.warnings.length)
 
 const setFailed = formattedResults => {
   core.setFailed(`You have commit messages with errors\n\n${formattedResults}`)
