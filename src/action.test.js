@@ -400,12 +400,14 @@ describe('Commit Linter action', () => {
 
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/conventional')
+      await gitEmptyCommit(cwd, 'chore: previous commit')
+      await gitEmptyCommit(cwd, 'chore: correct message with no warnings')
       await gitEmptyCommit(
         cwd,
         'chore: correct message\nsome context without leading blank line',
       )
-      const [to] = await getCommitHashes(cwd)
-      await createPushEventPayload(cwd, { to })
+      const [before, from, to] = await getCommitHashes(cwd)
+      await createPushEventPayload(cwd, { before, to })
       updatePushEnvVars(cwd, to)
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
@@ -418,6 +420,13 @@ describe('Commit Linter action', () => {
           valid: true,
           errors: [],
           warnings: ['body must have leading blank line'],
+        },
+        {
+          hash: from,
+          message: 'chore: correct message with no warnings',
+          valid: true,
+          errors: [],
+          warnings: [],
         },
       ]
     })
