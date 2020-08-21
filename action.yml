@@ -1,38 +1,38 @@
-name: 'Commit Linter'
-description: 'Lints Pull Request commit messages with commitlint'
-author: 'Wagner Santos'
+name: Commit Linter
+description: Lints Pull Request commit messages with commitlint
+author: Wagner Santos
 inputs:
   configFile:
-    description: 'Commitlint config file'
-    default: './commitlint.config.js'
+    description: Commitlint config file
+    default: ./commitlint.config.js
     required: false
   firstParent:
     description: >
-      When set to true, we follow only the first parent commit when seeing a merge commit.
-      More info in git-log docs https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent
-    default: 'true'
+      When set to true, we follow only the first parent commit when seeing a merge commit. More info
+      in git-log docs https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent
+    default: "true"
     required: false
   failOnWarnings:
-    description: 'Whether you want to fail on warnings or not'
-    default: 'false'
+    description: Whether you want to fail on warnings or not
+    default: "false"
     required: false
   helpURL:
-    description: 'Link to a page explaining your commit message convention'
-    default: 'https://github.com/conventional-changelog/commitlint/#what-is-commitlint'
+    description: Link to a page explaining your commit message convention
+    default: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
     required: false
   token:
     description: >
-      Personal access token (PAT) used to interact with the GitHub API.
-      By default, the automatic token provided by GitHub is used.
-      You can see more info about GitHub's default token here: https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token
+      Personal access token (PAT) used to interact with the GitHub API. By default, the automatic
+      token provided by GitHub is used. You can see more info about GitHub's default token here:
+      https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token
     default: ${{ github.token }}
     required: false
 outputs:
   results:
     description: The error and warning messages for each one of the analyzed commits
 runs:
-  using: 'docker'
-  image: 'docker://wagoid/commitlint-github-action:2.0.1'
+  using: docker
+  image: docker://wagoid/commitlint-github-action:2.0.1
 branding:
-  icon: 'check-square'
-  color: 'blue'
+  icon: check-square
+  color: blue
