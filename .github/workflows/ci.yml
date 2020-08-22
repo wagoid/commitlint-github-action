@@ -10,5 +10,63 @@ jobs:
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
       - run: npm install
       - run: npm test -- --ci --coverage
+  release:
+    needs: test
+    runs-on: ubuntu-latest
+    if: "github.ref == 'refs/heads/master' && !contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
+    env:
+      DOCKER_REGISTRY_URL: registry.hub.docker.com
+    steps:
+      - uses: actions/checkout@v2
+      - uses: actions/setup-node@v1
+        with:
+          node-version: '12.x'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - run: npm install
+      - name: Configure git user
+        run: |
+          git config user.email 'github-action@users.noreply.github.com'
+          git config user.name 'GitHub Action'
+      - name: Update versions and changelog
+        run: npx standard-version
+      - name: Set VERSION env var
+        run: |
+          version=`node -p "require('./package.json').version"`
+          echo "::set-env name=VERSION::$version"
+      - name: Login to docker registry
+        env:
+          DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+          DOCKER_TOKEN: ${{ secrets.DOCKER_TOKEN }}
+        run: docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN $DOCKER_REGISTRY_URL
+      - name: Build image
+        run: |
+          docker build -t $DOCKER_REGISTRY_URL/wagoid/commitlint-github-action:$VERSION .
+      - name: Push to docker registry
+        run: |
+          docker push $DOCKER_REGISTRY_URL/wagoid/commitlint-github-action:$VERSION
+      - run: git push --follow-tags origin master
+      - name: Create a git tag for the major version
+        run: |
+          major=`echo $VERSION | sed -E 's/([0-9]+)(.+)/\1/'`
+          version_name="v$major"
+          tag_heading="This version points to the latest version available (v$VERSION)."
+          tag_body="This is necessary because currently Github Actions don't apply any semantic versioning matching when downloading versions."
+          git tag -fa "$version_name" -m "$version_name" -m "$tag_heading" -m "$tag_body"
+          git push -f origin "$version_name"

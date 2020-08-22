@@ -2,7 +2,8 @@
   "name": "commitlint-github-action",
   "version": "2.0.1",
   "description": "commitlint github action",
-  "main": "index.js",
+  "private": true,
+  "main": "run.js",
   "scripts": {
     "test": "NODE_PATH=./node_modules jest",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s"
@@ -39,7 +40,9 @@
     "jest": "^24.9.0",
     "prettier": "^1.18.2",
     "pretty-quick": "^1.11.1",
-    "testdouble": "^3.12.4"
+    "standard-version": "^9.0.0",
+    "testdouble": "^3.12.4",
+    "yaml": "^1.10.0"
   },
   "husky": {
     "hooks": {
