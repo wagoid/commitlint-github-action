@@ -60,6 +60,20 @@ describe('Commit Linter action', () => {
     jest.resetModules()
   })
 
+  it('should use default config when config file does not exist', async () => {
+    td.when(core.getInput('configFile')).thenReturn('./not-existing-config.js')
+    cwd = await git.bootstrap('fixtures/conventional')
+    await gitEmptyCommit(cwd, 'wrong message')
+    const [to] = await getCommitHashes(cwd)
+    await createPushEventPayload(cwd, { to })
+    updatePushEnvVars(cwd, to)
+    td.replace(process, 'cwd', () => cwd)
+
+    await runAction()
+
+    td.verify(core.setFailed(contains('You have commit messages with errors')))
+  })
+
   it('should fail for single push with incorrect message', async () => {
     cwd = await git.bootstrap('fixtures/conventional')
     await gitEmptyCommit(cwd, 'wrong message')
