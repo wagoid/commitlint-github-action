@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.1.0](https://github.com/wagoid/commitlint-github-action/compare/v2.0.5...v2.1.0) (2020-09-14)
+
+
+### Features
+
+* upgrade dependencies to their latest version ([f162ac0](https://github.com/wagoid/commitlint-github-action/commit/f162ac07f904e8b5578fa77172b997145fd61b7a))
+
 ### 2.0.5 (2020-09-14)
 
 ### 2.0.4 (2020-09-14)
