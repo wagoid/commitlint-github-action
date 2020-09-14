@@ -28,6 +28,8 @@ jobs:
       DOCKER_REGISTRY_URL: registry.hub.docker.com
     steps:
       - uses: actions/checkout@v2
+        with:
+          fetch-depth: 0
       - uses: actions/setup-node@v1
         with:
           node-version: '12.x'

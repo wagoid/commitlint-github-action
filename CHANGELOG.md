@@ -8,6 +8,10 @@ All notable changes to this project will be documented in this file. See [standa
 
 ### 2.0.3 (2020-09-14)
 
+### Features
+
+- use config-conventional as default config ([7e67891](https://github.com/wagoid/commitlint-github-action/commit/7e678913ff14e04ef128e3d06523eabd0df4d639))
+
 ### 2.0.2 (2020-08-22)
 
 ## [2.0.1](https://github.com/wagoid/commitlint-github-action/compare/v2.0.0...v2.0.1) (2020-08-20)
