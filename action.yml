@@ -3,7 +3,8 @@ description: Lints Pull Request commit messages with commitlint
 author: Wagner Santos
 inputs:
   configFile:
-    description: Commitlint config file. If the file doesn't exist, config-conventional settings will be loaded as a fallback.
+    description: Commitlint config file. If the file doesn't exist, config-conventional settings will be
+      loaded as a fallback.
     default: ./commitlint.config.js
     required: false
   firstParent:
@@ -32,7 +33,7 @@ outputs:
     description: The error and warning messages for each one of the analyzed commits
 runs:
   using: docker
-  image: docker://wagoid/commitlint-github-action:2.0.2
+  image: docker://wagoid/commitlint-github-action:2.0.3
 branding:
   icon: check-square
   color: blue
