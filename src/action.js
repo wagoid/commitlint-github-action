@@ -120,11 +120,10 @@ const handleOnlyWarnings = formattedResults => {
 }
 
 const showLintResults = async ([from, to]) => {
-  const failOnWarnings = core.getInput('failOnWarnings')
   const commits = await getHistoryCommits(from, to)
   const config = existsSync(configPath)
     ? await load({}, { file: configPath })
-    : {}
+    : await load({ extends: ['@commitlint/config-conventional'] })
   const opts = getOptsFromConfig(config)
   const lintedCommits = await Promise.all(
     commits.map(async commit => ({
