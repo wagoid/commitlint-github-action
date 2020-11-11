@@ -1,5 +1,6 @@
 const { existsSync } = require('fs')
 const { resolve } = require('path')
+const { v4: uuidv4 } = require('uuid')
 const core = require('@actions/core')
 const github = require('@actions/github')
 const lint = require('@commitlint/lint').default
@@ -135,6 +136,10 @@ const showLintResults = async ([from, to]) => {
 
   generateOutputs(lintedCommits)
 
+  // disable workflow commands
+  const token = uuidv4()
+  console.log(`::stop-commands::${token}`)
+
   if (hasOnlyWarnings(lintedCommits)) {
     handleOnlyWarnings(formattedResults)
   } else if (formattedResults) {
@@ -142,6 +147,9 @@ const showLintResults = async ([from, to]) => {
   } else {
     console.log('Lint free! 🎉')
   }
+
+  // enable workflow commands
+  console.log(`::${token}::`)
 }
 
 const exitWithMessage = message => error => {
