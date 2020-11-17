@@ -136,11 +136,11 @@ jobs:
         with:
           node-version: '10.x'
       - run: npm install
-      - name: Add dependencies for commitlint action
-        # $GITHUB_WORKSPACE is the path to your repository
-        run: echo "::set-env name=NODE_PATH::$GITHUB_WORKSPACE/node_modules"
-      # Now the commitlint action will run considering its own dependencies and yours as well 🚀
+      # Run the commitlint action, considering its own dependencies and yours as well 🚀
+      # `github.workspace` is the path to your repository.
       - uses: wagoid/commitlint-github-action@v2
+        env:
+          NODE_PATH: ${{ github.workspace }}/node_modules
 ```
 
 ---
