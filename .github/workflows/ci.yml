@@ -51,7 +51,7 @@ jobs:
       - name: Set VERSION env var
         run: |
           version=`node -p "require('./package.json').version"`
-          echo "::set-env name=VERSION::$version"
+          echo "VERSION=$version" >> $GITHUB_ENV
       - name: Login to docker registry
         env:
           DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
