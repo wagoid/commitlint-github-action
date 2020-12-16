@@ -1,6 +1,6 @@
 {
   "name": "commitlint-github-action",
-  "version": "2.1.5",
+  "version": "2.1.6",
   "description": "commitlint github action",
   "private": true,
   "main": "run.js",
