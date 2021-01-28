@@ -62,14 +62,6 @@ You can see more info about GitHub's default token [here](https://docs.github.co
 
 default: `${{ github.token }}`
 
-## Outputs
-
-### `results`
-
-The error and warning messages for each one of the analyzed commits. This is useful if you want to use the commitlint results in a JSON format in other jobs. See [the documentation](https://docs.github.com/en/actions/reference/context-and-expression-syntax-for-github-actions#fromjson) on how to read JSON information from outputs.
-
-Below you can see an example text output together with its corresponding JSON output:
-
 ```
 You have commit messages with errors
 

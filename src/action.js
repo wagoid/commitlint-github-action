@@ -7,7 +7,6 @@ const lint = require('@commitlint/lint').default
 const { format } = require('@commitlint/format')
 const load = require('@commitlint/load').default
 const gitCommits = require('./gitCommits')
-const generateOutputs = require('./generateOutputs')
 
 const pullRequestEvent = 'pull_request'
 
@@ -135,8 +134,6 @@ const showLintResults = async ([from, to]) => {
     })),
   )
   const formattedResults = formatErrors(lintedCommits)
-
-  generateOutputs(lintedCommits)
 
   // disable workflow commands
   const token = uuidv4()
