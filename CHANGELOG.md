@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [2.1.7](https://github.com/wagoid/commitlint-github-action/compare/v2.1.6...v2.1.7) (2021-01-28)
+
+
+### Bug Fixes
+
+* remove output generation ([b674cd3](https://github.com/wagoid/commitlint-github-action/commit/b674cd3ec44b3d627899d44e7cd5c649566d291a))
+* stop trying to issue commands on failures ([1128358](https://github.com/wagoid/commitlint-github-action/commit/1128358de33626153faadc9d01d0fad8bde5cfb8)), closes [#70](https://github.com/wagoid/commitlint-github-action/issues/70)
+
 ### [2.1.6](https://github.com/wagoid/commitlint-github-action/compare/v2.1.5...v2.1.6) (2020-12-16)
 
 ### [2.1.5](https://github.com/wagoid/commitlint-github-action/compare/v2.1.4...v2.1.5) (2020-12-16)
