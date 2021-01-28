@@ -7,7 +7,6 @@ const lint = require('@commitlint/lint').default
 const { format } = require('@commitlint/format')
 const load = require('@commitlint/load').default
 const gitCommits = require('./gitCommits')
-const generateOutputs = require('./generateOutputs')
 
 const pullRequestEvent = 'pull_request'
 
@@ -109,7 +108,9 @@ const hasOnlyWarnings = lintedCommits =>
   lintedCommits.some(({ lintResult }) => lintResult.warnings.length)
 
 const setFailed = formattedResults => {
-  core.setFailed(`You have commit messages with errors\n\n${formattedResults}`)
+  process.exitCode = 1
+
+  console.error(`You have commit messages with errors\n\n${formattedResults}`)
 }
 
 const handleOnlyWarnings = formattedResults => {
@@ -134,8 +135,6 @@ const showLintResults = async ([from, to]) => {
   )
   const formattedResults = formatErrors(lintedCommits)
 
-  generateOutputs(lintedCommits)
-
   // disable workflow commands
   const token = uuidv4()
   console.log(`::stop-commands::${token}`)
@@ -153,7 +152,9 @@ const showLintResults = async ([from, to]) => {
 }
 
 const exitWithMessage = message => error => {
-  core.setFailed(`${message}\n${error.message}\n${error.stack}`)
+  process.exitCode = 1
+
+  console.error(`${message}\n${error.message}\n${error.stack}`)
 }
 
 const commitLinterAction = () =>

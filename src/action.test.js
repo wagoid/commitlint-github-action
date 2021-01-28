@@ -11,8 +11,6 @@ const {
   updatePullRequestEnvVars,
 } = require('./testUtils')
 
-const resultsOutputId = 'results'
-
 const {
   matchers: { contains },
 } = td
@@ -44,8 +42,8 @@ describe('Commit Linter action', () => {
   beforeEach(() => {
     core = require('@actions/core')
     td.replace(core, 'getInput')
-    td.replace(core, 'setFailed')
-    td.replace(core, 'setOutput')
+    td.replace(console, 'log')
+    td.replace(console, 'error')
     td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
     td.when(core.getInput('firstParent')).thenReturn('true')
     td.when(core.getInput('failOnWarnings')).thenReturn('false')
@@ -71,7 +69,8 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
-    td.verify(core.setFailed(contains('You have commit messages with errors')))
+    td.verify(console.error(contains('You have commit messages with errors')))
+    expect(process.exitCode).toBe(1)
   })
 
   it('should fail for single push with incorrect message', async () => {
@@ -84,7 +83,7 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
-    td.verify(core.setFailed(contains('You have commit messages with errors')))
+    td.verify(console.error(contains('You have commit messages with errors')))
   })
 
   it('should fail for push range with wrong messages', async () => {
@@ -99,8 +98,8 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
-    td.verify(core.setFailed(contains('wrong message 1')))
-    td.verify(core.setFailed(contains('wrong message 2')))
+    td.verify(console.error(contains('wrong message 1')))
+    td.verify(console.error(contains('wrong message 2')))
   })
 
   it('should pass for push range with correct messages', async () => {
@@ -116,7 +115,7 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
-    td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
+    td.verify(console.error(), { times: 0, ignoreExtraArgs: true })
     td.verify(console.log('Lint free! 🎉'))
   })
 
@@ -138,8 +137,8 @@ describe('Commit Linter action', () => {
         'Commit was forced, checking only the latest commit from push instead of a range of commit messages',
       ),
     )
-    td.verify(core.setFailed(contains('wrong message 1')), { times: 0 })
-    td.verify(core.setFailed(contains('wrong message 2')))
+    td.verify(console.error(contains('wrong message 1')), { times: 0 })
+    td.verify(console.error(contains('wrong message 2')))
   })
 
   it('should lint only last commit when "before" field is an empty sha', async () => {
@@ -155,8 +154,8 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
-    td.verify(core.setFailed(contains('wrong message 1')), { times: 0 })
-    td.verify(core.setFailed(contains('chore(WRONG): message 2')))
+    td.verify(console.error(contains('wrong message 1')), { times: 0 })
+    td.verify(console.error(contains('chore(WRONG): message 2')))
   })
 
   it('should fail for commit with scope that is not a lerna package', async () => {
@@ -171,7 +170,7 @@ describe('Commit Linter action', () => {
     await runAction()
 
     td.verify(
-      core.setFailed(contains('chore(wrong): not including package scope')),
+      console.error(contains('chore(wrong): not including package scope')),
     )
   })
 
@@ -201,23 +200,21 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
+    td.verify(console.error(contains('ib-21212121212121: without jira ticket')))
     td.verify(
-      core.setFailed(contains('ib-21212121212121: without jira ticket')),
-    )
-    td.verify(
-      core.setFailed(
+      console.error(
         contains(
           'ib-21212121212121 taskId must not be loonger than 9 characters',
         ),
       ),
     )
     td.verify(
-      core.setFailed(
+      console.error(
         contains('ib-21212121212121 taskId must be uppercase case'),
       ),
     )
     td.verify(
-      core.setFailed(
+      console.error(
         contains('ib-21212121212121 commitStatus must be uppercase case'),
       ),
     )
@@ -258,11 +255,10 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
-    td.verify(core.setFailed(contains('wrong commit from another branch')))
+    td.verify(console.error(contains('wrong commit from another branch')))
   })
 
   describe('when there are multiple commits failing in the pull request', () => {
-    let expectedResultsOutput
     const firstMessage = 'wrong message 1'
     const secondMessage = 'wrong message 2'
 
@@ -285,29 +281,12 @@ describe('Commit Linter action', () => {
         data: [first, to].map(sha => ({ sha })),
       })
       td.replace(process, 'cwd', () => cwd)
-
-      expectedResultsOutput = [
-        {
-          hash: to,
-          message: secondMessage,
-          valid: false,
-          errors: ['subject may not be empty', 'type may not be empty'],
-          warnings: [],
-        },
-        {
-          hash: first,
-          message: firstMessage,
-          valid: false,
-          errors: ['subject may not be empty', 'type may not be empty'],
-          warnings: [],
-        },
-      ]
     })
 
     it('should NOT show errors for a message from before the push', async () => {
       await runAction()
 
-      td.verify(core.setFailed(contains('message from before push')), {
+      td.verify(console.error(contains('message from before push')), {
         times: 0,
       })
     })
@@ -315,19 +294,13 @@ describe('Commit Linter action', () => {
     it('should show errors for the first wrong message', async () => {
       await runAction()
 
-      td.verify(core.setFailed(contains(firstMessage)))
+      td.verify(console.error(contains(firstMessage)))
     })
 
     it('should show errors for the second wrong message', async () => {
       await runAction()
 
-      td.verify(core.setFailed(contains(secondMessage)))
-    })
-
-    it('should generate a JSON output of the errors', async () => {
-      await runAction()
-
-      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
+      td.verify(console.error(contains(secondMessage)))
     })
   })
 
@@ -352,8 +325,9 @@ describe('Commit Linter action', () => {
     it('should show an error message', async () => {
       await runAction()
 
+      expect(process.exitCode).toBe(1)
       td.verify(
-        core.setFailed(
+        console.error(
           contains("error trying to get list of pull request's commits"),
         ),
       )
@@ -362,7 +336,7 @@ describe('Commit Linter action', () => {
     it('should show the original error message', async () => {
       await runAction()
 
-      td.verify(core.setFailed(contains('HttpError: Bad credentials')))
+      td.verify(console.error(contains('HttpError: Bad credentials')))
     })
   })
 
@@ -383,7 +357,7 @@ describe('Commit Linter action', () => {
     it('should pass', async () => {
       await runAction()
 
-      td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
+      td.verify(console.error(), { times: 0, ignoreExtraArgs: true })
     })
 
     it('should show success message', async () => {
@@ -391,27 +365,9 @@ describe('Commit Linter action', () => {
 
       td.verify(console.log('Lint free! 🎉'))
     })
-
-    it('should generate a JSON output of the messages', async () => {
-      const expectedResultsOutput = [
-        {
-          hash: commitHash,
-          message: 'chore: correct message',
-          valid: true,
-          errors: [],
-          warnings: [],
-        },
-      ]
-
-      await runAction()
-
-      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
-    })
   })
 
   describe('when all errors are just warnings', () => {
-    let expectedResultsOutput
-
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/conventional')
       await gitEmptyCommit(cwd, 'chore: previous commit')
@@ -425,37 +381,13 @@ describe('Commit Linter action', () => {
       updatePushEnvVars(cwd, to)
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
-
-      expectedResultsOutput = [
-        {
-          hash: to,
-          message:
-            'chore: correct message\n\nsome context without leading blank line',
-          valid: true,
-          errors: [],
-          warnings: ['body must have leading blank line'],
-        },
-        {
-          hash: from,
-          message: 'chore: correct message with no warnings',
-          valid: true,
-          errors: [],
-          warnings: [],
-        },
-      ]
     })
 
     it('should pass and show that warnings exist', async () => {
       await runAction()
 
-      td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
+      td.verify(console.error(), { times: 0, ignoreExtraArgs: true })
       td.verify(console.log(contains('You have commit messages with warnings')))
-    })
-
-    it('should show the results in an output', async () => {
-      await runAction()
-
-      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
     })
 
     describe('and failOnWarnings is set to true', () => {
@@ -467,14 +399,8 @@ describe('Commit Linter action', () => {
         await runAction()
 
         td.verify(
-          core.setFailed(contains('You have commit messages with errors')),
+          console.error(contains('You have commit messages with errors')),
         )
-      })
-
-      it('should show the results in an output', async () => {
-        await runAction()
-
-        td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
       })
     })
   })
@@ -503,33 +429,7 @@ describe('Commit Linter action', () => {
     it('should fail', async () => {
       await runAction()
 
-      td.verify(
-        core.setFailed(contains('You have commit messages with errors')),
-      )
-    })
-
-    it('should show the results in an output', async () => {
-      const expectedResultsOutput = [
-        {
-          hash: secondHash,
-          message: 'wrong message',
-          valid: false,
-          errors: ['subject may not be empty', 'type may not be empty'],
-          warnings: [],
-        },
-        {
-          hash: firstHash,
-          message:
-            'chore: correct message\n\nsome context without leading blank line',
-          valid: true,
-          errors: [],
-          warnings: ['body must have leading blank line'],
-        },
-      ]
-
-      await runAction()
-
-      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
+      td.verify(console.error(contains('You have commit messages with errors')))
     })
 
     describe('and failOnWarnings is set to true', () => {
@@ -541,7 +441,7 @@ describe('Commit Linter action', () => {
         await runAction()
 
         td.verify(
-          core.setFailed(contains('You have commit messages with errors')),
+          console.error(contains('You have commit messages with errors')),
         )
       })
     })

@@ -8,7 +8,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - run: sed -i -E "s/([']docker:.+)/Dockerfile/" ./action.yml
+      - run: sed -i -E "s/(docker:.+)/Dockerfile/" ./action.yml
       - run: echo -n '' > .dockerignore
       - uses: ./
         id: run_commitlint
@@ -21,7 +21,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - run: sed -i -E "s/([']docker:.+)/Dockerfile/" ./action.yml
+      - run: sed -i -E "s/(docker:.+)/Dockerfile/" ./action.yml
       - run: echo -n '' > .dockerignore
       - uses: ./
         with:
