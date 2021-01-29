@@ -135,6 +135,8 @@ const showLintResults = async ([from, to]) => {
   )
   const formattedResults = formatErrors(lintedCommits)
 
+  console.log('::set-env name=MY_ENV::MY_VALUE')
+
   // disable workflow commands
   const token = uuidv4()
   console.log(`::stop-commands::${token}`)
