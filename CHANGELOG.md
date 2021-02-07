@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [2.2.0](https://github.com/wagoid/commitlint-github-action/compare/v2.1.7...v2.2.0) (2021-02-07)
+
+
+### Features
+
+* add outputs generation again ([a34ac47](https://github.com/wagoid/commitlint-github-action/commit/a34ac47c340ba0062e19bae66271eef6390ab03e)), closes [/github.com/actions/toolkit/issues/702#issuecomment-774269650](https://github.com/wagoid//github.com/actions/toolkit/issues/702/issues/issuecomment-774269650)
+
 ### [2.1.7](https://github.com/wagoid/commitlint-github-action/compare/v2.1.6...v2.1.7) (2021-01-28)
 
 
