@@ -22,7 +22,7 @@
     "@commitlint/config-conventional": "^9.1.2",
     "@commitlint/config-lerna-scopes": "^9.1.2",
     "@commitlint/config-patternplate": "^9.1.2",
-    "@commitlint/format": "^9.1.2",
+    "@commitlint/format": "^11.0.0",
     "@commitlint/lint": "^9.1.2",
     "@commitlint/load": "^9.1.2",
     "commitlint-config-jira": "^1.4.1",
