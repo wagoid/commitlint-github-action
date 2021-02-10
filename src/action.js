@@ -1,6 +1,5 @@
 const { existsSync } = require('fs')
 const { resolve } = require('path')
-const { v4: uuidv4 } = require('uuid')
 const core = require('@actions/core')
 const github = require('@actions/github')
 const lint = require('@commitlint/lint').default
