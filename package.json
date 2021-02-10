@@ -30,8 +30,7 @@
     "conventional-changelog-lint-config-canonical": "^1.0.0",
     "dargs": "^7.0.0",
     "execa": "^4.0.3",
-    "lerna": "^3.22.1",
-    "uuid": "^8.3.1"
+    "lerna": "^3.22.1"
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
