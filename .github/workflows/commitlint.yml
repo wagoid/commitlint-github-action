@@ -15,17 +15,6 @@ jobs:
       - name: Show results from JSON output
         if: ${{ always() }}
         run: echo ${{ toJSON(steps.run_commitlint.outputs.results) }}
-  commitlint-with-yml-file:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - run: sed -i -E "s/(docker:.+)/Dockerfile/" ./action.yml
-      - run: echo -n '' > .dockerignore
-      - uses: ./
-        with:
-          configFile: './.commitlintrc.yml'
   commitlint-pulling-from-docker-hub:
     runs-on: ubuntu-latest
     steps:
