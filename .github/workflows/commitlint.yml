@@ -10,7 +10,7 @@ jobs:
           fetch-depth: 0
       - run: sed -i -E "s/(docker:.+)/Dockerfile/" ./action.yml
       - run: echo -n '' > .dockerignore
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2.1.4
         with:
           node-version: '14'
       - uses: actions/cache@v2
@@ -35,7 +35,7 @@ jobs:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v2
+      - uses: actions/setup-node@v2.1.4
         with:
           node-version: '14'
       - uses: actions/cache@v2
