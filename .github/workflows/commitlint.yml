@@ -10,26 +10,43 @@ jobs:
           fetch-depth: 0
       - run: sed -i -E "s/(docker:.+)/Dockerfile/" ./action.yml
       - run: echo -n '' > .dockerignore
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - run: npm install
       - uses: ./
         id: run_commitlint
+        env:
+          NODE_PATH: ${{ github.workspace }}/node_modules
       - name: Show results from JSON output
         if: ${{ always() }}
         run: echo ${{ toJSON(steps.run_commitlint.outputs.results) }}
-  commitlint-with-yml-file:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v2
-        with:
-          fetch-depth: 0
-      - run: sed -i -E "s/(docker:.+)/Dockerfile/" ./action.yml
-      - run: echo -n '' > .dockerignore
-      - uses: ./
-        with:
-          configFile: './.commitlintrc.yml'
   commitlint-pulling-from-docker-hub:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
         with:
           fetch-depth: 0
+      - uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - uses: actions/cache@v2
+        with:
+          path: |
+            ~/.npm
+            **/node_modules
+          key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
+          restore-keys: |
+            ${{ runner.os }}-node-
+      - run: npm install
       - uses: ./
+        env:
+          NODE_PATH: ${{ github.workspace }}/node_modules

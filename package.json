@@ -34,8 +34,10 @@
   },
   "devDependencies": {
     "@commitlint/cli": "^11.0.0",
+    "@commitlint/ensure": "^11.0.0",
     "@commitlint/test": "^9.0.1",
     "@commitlint/test-environment": "^9.0.1",
+    "commitlint-plugin-function-rules": "^1.1.20",
     "conventional-changelog-cli": "^2.1.0",
     "husky": "^3.1.0",
     "jest": "^24.9.0",

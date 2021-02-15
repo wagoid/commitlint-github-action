@@ -1,5 +1,4 @@
 node_modules
-.commitlintrc.yml
 commitlint.config.js
 action.yml
 .github
