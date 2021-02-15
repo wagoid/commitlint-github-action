@@ -2,20 +2,21 @@ const path = require('path')
 const fs = require('fs')
 const { promisify } = require('util')
 const execa = require('execa')
-const td = require('testdouble')
 
 const writeFile = promisify(fs.writeFile)
 
-const updateEnvVars = (exports.updateEnvVars = envVars => {
-  Object.keys(envVars).forEach(key => {
+const updateEnvVars = (envVars) => {
+  Object.keys(envVars).forEach((key) => {
     process.env[key] = envVars[key]
   })
-})
+}
+
+exports.updateEnvVars = updateEnvVars
 
 exports.gitEmptyCommit = (cwd, message) =>
   execa('git', ['commit', '--allow-empty', '-m', message], { cwd })
 
-exports.getCommitHashes = async cwd => {
+exports.getCommitHashes = async (cwd) => {
   const { stdout } = await execa.command('git log --pretty=%H', { cwd })
   const hashes = stdout.split('\n').reverse()
 
@@ -45,7 +46,7 @@ exports.createPushEventPayload = async (
   await writeFile(eventPath, JSON.stringify(payload), 'utf8')
 }
 
-exports.createPullRequestEventPayload = async cwd => {
+exports.createPullRequestEventPayload = async (cwd) => {
   const payload = {
     number: '1',
     repository: {

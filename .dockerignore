@@ -7,3 +7,4 @@ coverage
 fixtures
 src/action.test.js
 src/testUtils.js
+.eslintrc.json

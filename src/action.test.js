@@ -1,8 +1,9 @@
+/* eslint-disable global-require */
+/* eslint-env jest */
 const { git } = require('@commitlint/test')
 const execa = require('execa')
 const td = require('testdouble')
 const {
-  updateEnvVars,
   gitEmptyCommit,
   getCommitHashes,
   updatePushEnvVars,
@@ -147,7 +148,7 @@ describe('Commit Linter action', () => {
     await gitEmptyCommit(cwd, 'message from before push')
     await gitEmptyCommit(cwd, 'wrong message 1')
     await gitEmptyCommit(cwd, 'chore(WRONG): message 2')
-    const [before, , to] = await getCommitHashes(cwd)
+    const [, , to] = await getCommitHashes(cwd)
     await createPushEventPayload(cwd, { before: gitEmptySha, to })
     updatePushEnvVars(cwd, to)
     td.replace(process, 'cwd', () => cwd)
@@ -281,7 +282,7 @@ describe('Commit Linter action', () => {
           pull_number: '1',
         }),
       ).thenResolve({
-        data: [first, to].map(sha => ({ sha })),
+        data: [first, to].map((sha) => ({ sha })),
       })
       td.replace(process, 'cwd', () => cwd)
 
