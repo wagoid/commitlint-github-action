@@ -19,7 +19,7 @@
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
     "@commitlint/config-angular": "^9.1.2",
-    "@commitlint/config-conventional": "^9.1.2",
+    "@commitlint/config-conventional": "^11.0.0",
     "@commitlint/config-lerna-scopes": "^9.1.2",
     "@commitlint/config-patternplate": "^9.1.2",
     "@commitlint/format": "^9.1.2",
