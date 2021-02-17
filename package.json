@@ -41,7 +41,7 @@
     "conventional-changelog-cli": "^2.1.0",
     "husky": "^5.0.9",
     "jest": "^24.9.0",
-    "lint-staged": "^10.5.1",
+    "lint-staged": "^10.5.4",
     "prettier": "^2.2.1",
     "standard-version": "^9.0.0",
     "testdouble": "^3.16.1",
