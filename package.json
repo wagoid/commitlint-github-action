@@ -29,7 +29,7 @@
     "commitlint-plugin-jira-rules": "^1.4.0",
     "conventional-changelog-lint-config-canonical": "^1.0.0",
     "dargs": "^7.0.0",
-    "execa": "^4.0.3",
+    "execa": "^5.0.0",
     "lerna": "^3.22.1"
   },
   "devDependencies": {
