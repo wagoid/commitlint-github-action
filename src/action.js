@@ -47,7 +47,7 @@ const getRangeForPushEvent = () => {
 const getRangeForEvent = async () => {
   if (GITHUB_EVENT_NAME !== pullRequestEvent) return getRangeForPushEvent()
 
-  const octokit = new github.GitHub(core.getInput('token'))
+  const octokit = github.getOctokit(core.getInput('token'))
   const { owner, repo, number } = eventContext.issue
   const { data: commits } = await octokit.pulls.listCommits({
     owner,

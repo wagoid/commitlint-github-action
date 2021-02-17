@@ -31,8 +31,7 @@ const runAction = () => {
     }
   }
 
-  updateEnvVars({ GITHBU_TOKEN: 'test-github-token' })
-  td.replace(github, 'GitHub', MockOctokit)
+  td.replace(github, 'getOctokit', () => new MockOctokit())
 
   return require('./action')()
 }
