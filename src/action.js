@@ -19,7 +19,7 @@ const configPath = resolve(
 
 const { context: eventContext } = github
 
-const pushEventHasOnlyOneCommit = from => {
+const pushEventHasOnlyOneCommit = (from) => {
   const gitEmptySha = '0000000000000000000000000000000000000000'
 
   return from === gitEmptySha
@@ -54,7 +54,7 @@ const getRangeForEvent = async () => {
     repo,
     pull_number: number,
   })
-  const commitShas = commits.map(commit => commit.sha)
+  const commitShas = commits.map((commit) => commit.sha)
   const [from] = commitShas
   const to = commitShas[commitShas.length - 1]
   // Git revision range doesn't include the "from" field in "git log", so for "from" we use the parent commit of PR's first commit
@@ -93,25 +93,25 @@ function getOptsFromConfig(config) {
   }
 }
 
-const formatErrors = lintedCommits =>
+const formatErrors = (lintedCommits) =>
   format(
-    { results: lintedCommits.map(commit => commit.lintResult) },
+    { results: lintedCommits.map((commit) => commit.lintResult) },
     {
       color: true,
       helpUrl: core.getInput('helpURL'),
     },
   )
 
-const hasOnlyWarnings = lintedCommits =>
+const hasOnlyWarnings = (lintedCommits) =>
   lintedCommits.length &&
   lintedCommits.every(({ lintResult }) => lintResult.valid) &&
   lintedCommits.some(({ lintResult }) => lintResult.warnings.length)
 
-const setFailed = formattedResults => {
+const setFailed = (formattedResults) => {
   core.setFailed(`You have commit messages with errors\n\n${formattedResults}`)
 }
 
-const handleOnlyWarnings = formattedResults => {
+const handleOnlyWarnings = (formattedResults) => {
   if (core.getInput('failOnWarnings') === 'true') {
     setFailed(formattedResults)
   } else {
@@ -126,7 +126,7 @@ const showLintResults = async ([from, to]) => {
     : await load({ extends: ['@commitlint/config-conventional'] })
   const opts = getOptsFromConfig(config)
   const lintedCommits = await Promise.all(
-    commits.map(async commit => ({
+    commits.map(async (commit) => ({
       lintResult: await lint(commit.message, config.rules, opts),
       hash: commit.hash,
     })),
@@ -144,7 +144,7 @@ const showLintResults = async ([from, to]) => {
   }
 }
 
-const exitWithMessage = message => error => {
+const exitWithMessage = (message) => (error) => {
   core.setFailed(`${message}\n${error.message}\n${error.stack}`)
 }
 

@@ -2,8 +2,8 @@ name: CI
 on: [push]
 
 jobs:
-  test:
-    name: Test
+  sanity-checks:
+    name: Sanity Checks
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
@@ -19,9 +19,10 @@ jobs:
           restore-keys: |
             ${{ runner.os }}-node-
       - run: npm install
+      - run: npm run lint
       - run: npm test -- --ci --coverage
   release:
-    needs: test
+    needs: sanity-checks
     runs-on: ubuntu-latest
     if: "github.ref == 'refs/heads/master' && !contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
     env:

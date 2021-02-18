@@ -1,8 +1,9 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const { maxLineLength } = require('@commitlint/ensure')
 
 const bodyMaxLineLength = 100
 
-const validateBodyMaxLengthIgnoringDeps = parsedCommit => {
+const validateBodyMaxLengthIgnoringDeps = (parsedCommit) => {
   const { type, scope, body } = parsedCommit
   const isDepsCommit =
     type === 'chore' && (scope === 'deps' || scope === 'deps-dev')

@@ -2,7 +2,7 @@ const core = require('@actions/core')
 
 const resultsOutputId = 'results'
 
-const mapMessageValidation = item => item.message
+const mapMessageValidation = (item) => item.message
 
 const mapResultOutput = ({
   hash,
@@ -15,7 +15,7 @@ const mapResultOutput = ({
   warnings: warnings.map(mapMessageValidation),
 })
 
-const generateOutputs = lintedCommits => {
+const generateOutputs = (lintedCommits) => {
   const resultsOutput = lintedCommits.map(mapResultOutput)
 
   core.setOutput(resultsOutputId, resultsOutput)
