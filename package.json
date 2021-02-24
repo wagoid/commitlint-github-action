@@ -5,6 +5,7 @@
   "private": true,
   "main": "run.js",
   "scripts": {
+    "postinstall": "husky install",
     "test": "NODE_PATH=./node_modules jest",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
     "lint": "eslint --ignore-path .gitignore ."
@@ -57,11 +58,5 @@
     "standard-version": "^9.1.0",
     "testdouble": "^3.16.1",
     "yaml": "^1.10.0"
-  },
-  "husky": {
-    "hooks": {
-      "pre-commit": "lint-staged",
-      "commit-msg": "commitlint -E HUSKY_GIT_PARAMS"
-    }
   }
 }

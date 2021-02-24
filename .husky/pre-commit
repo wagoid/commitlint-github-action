@@ -1,0 +1,3 @@
+#!/bin/sh
+
+npx --no-install lint-staged
