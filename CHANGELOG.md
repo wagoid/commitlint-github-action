@@ -2,6 +2,18 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [3.0.0](https://github.com/wagoid/commitlint-github-action/compare/v2.2.5...v3.0.0) (2021-02-24)
+
+
+### ⚠ BREAKING CHANGES
+
+* **deps:** Remove support for lerna v2 and change the order of the `extends` resolution
+from right-to-left to left-to-right.
+
+### Bug Fixes
+
+* **deps:** udpate commitlint monorepo to v12 ([8b0b095](https://github.com/wagoid/commitlint-github-action/commit/8b0b095f5e2c4a8bc5ebc94da6e1a9c0ebc6b862)), closes [#97](https://github.com/wagoid/commitlint-github-action/issues/97)
+
 ### [2.2.5](https://github.com/wagoid/commitlint-github-action/compare/v2.2.4...v2.2.5) (2021-02-18)
 
 ### [2.2.4](https://github.com/wagoid/commitlint-github-action/compare/v2.2.3...v2.2.4) (2021-02-17)
