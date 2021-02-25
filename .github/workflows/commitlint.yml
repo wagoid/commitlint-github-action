@@ -21,7 +21,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: npm install
+      - run: npm ci --ignore-scripts
       - uses: ./
         id: run_commitlint
         env:
@@ -46,7 +46,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: npm install
+      - run: npm ci --ignore-scripts
       - uses: ./
         env:
           NODE_PATH: ${{ github.workspace }}/node_modules
