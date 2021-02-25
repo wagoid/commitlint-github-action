@@ -1,0 +1,10 @@
+.git/
+.vscode
+/build/
+/dist/
+/coverage/
+/LICENSE.md
+/modules/
+/node_modules/
+/worktrees/
+!.*
