@@ -18,7 +18,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: npm install
+      - run: npm ci --ignore-scripts
       - run: npm run lint
       - run: npm test -- --ci --coverage
   release:
@@ -42,7 +42,7 @@ jobs:
           key: ${{ runner.os }}-node-${{ hashFiles('**/package-lock.json') }}
           restore-keys: |
             ${{ runner.os }}-node-
-      - run: npm install
+      - run: npm ci --ignore-scripts
       - name: Configure git user
         run: |
           git config user.email 'github-action@users.noreply.github.com'
