@@ -4,7 +4,7 @@ RUN apk --no-cache add git
 
 COPY package*.json /
 
-RUN npm ci --production
+RUN npm ci --production --ignore-scripts
 
 COPY . .
 
