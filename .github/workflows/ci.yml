@@ -64,7 +64,7 @@ jobs:
       - name: Push to docker registry
         run: |
           docker push $DOCKER_REGISTRY_URL/wagoid/commitlint-github-action:$VERSION
-      - run: git push --follow-tags origin master
+      - run: git push --atomic --follow-tags origin master
       - name: Create a git tag for the major version
         run: |
           major=`echo $VERSION | sed -E 's/([0-9]+)(.+)/\1/'`
