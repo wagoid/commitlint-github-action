@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [3.0.6](https://github.com/wagoid/commitlint-github-action/compare/v3.0.5...v3.0.6) (2021-03-02)
+
+
+### Bug Fixes
+
+* perform an atomic push when releasing ([9d00d1e](https://github.com/wagoid/commitlint-github-action/commit/9d00d1e75718143215dbf95c9c12956c56225e90))
+
 ### [3.0.5](https://github.com/wagoid/commitlint-github-action/compare/v3.0.3...v3.0.5) (2021-03-02)
 
 ### [3.0.4](https://github.com/wagoid/commitlint-github-action/compare/v3.0.3...v3.0.4) (2021-03-02)
