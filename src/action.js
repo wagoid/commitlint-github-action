@@ -1,5 +1,6 @@
 const { existsSync } = require('fs')
 const { resolve } = require('path')
+const { inspect } = require('util')
 const core = require('@actions/core')
 const github = require('@actions/github')
 const lint = require('@commitlint/lint').default
@@ -24,6 +25,8 @@ const pushEventHasOnlyOneCommit = (from) => {
 
   return from === gitEmptySha
 }
+
+console.log(inspect(eventContext)
 
 const getRangeForPushEvent = () => {
   let from = eventContext.payload.before
@@ -125,6 +128,7 @@ const showLintResults = async ([from, to]) => {
     ? await load({}, { file: configPath })
     : await load({ extends: ['@commitlint/config-conventional'] })
   const opts = getOptsFromConfig(config)
+  console.log(inspect(commits)
   const lintedCommits = await Promise.all(
     commits.map(async (commit) => ({
       lintResult: await lint(commit.message, config.rules, opts),
