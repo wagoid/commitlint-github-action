@@ -66,10 +66,12 @@ exports.createPullRequestEventPayload = async (cwd) => {
   await writeFile(eventPath, JSON.stringify(payload), 'utf8')
 }
 
-exports.updatePullRequestEnvVars = (cwd, to) => {
+exports.updatePullRequestEnvVars = (cwd, to, options = {}) => {
+  const { eventName = 'pull_request' } = options
+
   updateEnvVars({
     GITHUB_WORKSPACE: cwd,
-    GITHUB_EVENT_NAME: 'pull_request',
+    GITHUB_EVENT_NAME: eventName,
     GITHUB_SHA: to,
   })
 }

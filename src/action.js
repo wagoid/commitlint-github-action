@@ -9,6 +9,8 @@ const gitCommits = require('./gitCommits')
 const generateOutputs = require('./generateOutputs')
 
 const pullRequestEvent = 'pull_request'
+const pullRequestTargetEvent = 'pull_request_target'
+const pullRequestEvents = [pullRequestEvent, pullRequestTargetEvent]
 
 const { GITHUB_EVENT_NAME, GITHUB_SHA } = process.env
 
@@ -45,7 +47,8 @@ const getRangeForPushEvent = () => {
 }
 
 const getRangeForEvent = async () => {
-  if (GITHUB_EVENT_NAME !== pullRequestEvent) return getRangeForPushEvent()
+  if (!pullRequestEvents.includes(GITHUB_EVENT_NAME))
+    return getRangeForPushEvent()
 
   const octokit = github.getOctokit(core.getInput('token'))
   const { owner, repo, number } = eventContext.issue
