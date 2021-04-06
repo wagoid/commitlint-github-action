@@ -261,75 +261,80 @@ describe('Commit Linter action', () => {
     td.verify(core.setFailed(contains('wrong commit from another branch')))
   })
 
-  describe('when there are multiple commits failing in the pull request', () => {
-    let expectedResultsOutput
-    const firstMessage = 'wrong message 1'
-    const secondMessage = 'wrong message 2'
+  describe.each(['pull_request', 'pull_request_target'])(
+    'when there are multiple commits failing in the %s event',
+    (eventName) => {
+      let expectedResultsOutput
+      const firstMessage = 'wrong message 1'
+      const secondMessage = 'wrong message 2'
 
-    beforeEach(async () => {
-      cwd = await git.bootstrap('fixtures/conventional')
-      td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
-      await gitEmptyCommit(cwd, 'message from before push')
-      await gitEmptyCommit(cwd, firstMessage)
-      await gitEmptyCommit(cwd, secondMessage)
-      await createPullRequestEventPayload(cwd)
-      const [, first, to] = await getCommitHashes(cwd)
-      updatePullRequestEnvVars(cwd, to)
-      td.when(
-        listCommits({
-          owner: 'wagoid',
-          repo: 'commitlint-github-action',
-          pull_number: '1',
-        }),
-      ).thenResolve({
-        data: [first, to].map((sha) => ({ sha })),
+      beforeEach(async () => {
+        cwd = await git.bootstrap('fixtures/conventional')
+        td.when(core.getInput('configFile')).thenReturn(
+          './commitlint.config.js',
+        )
+        await gitEmptyCommit(cwd, 'message from before push')
+        await gitEmptyCommit(cwd, firstMessage)
+        await gitEmptyCommit(cwd, secondMessage)
+        await createPullRequestEventPayload(cwd)
+        const [, first, to] = await getCommitHashes(cwd)
+        updatePullRequestEnvVars(cwd, to, { eventName })
+        td.when(
+          listCommits({
+            owner: 'wagoid',
+            repo: 'commitlint-github-action',
+            pull_number: '1',
+          }),
+        ).thenResolve({
+          data: [first, to].map((sha) => ({ sha })),
+        })
+        td.replace(process, 'cwd', () => cwd)
+
+        expectedResultsOutput = [
+          {
+            hash: to,
+            message: secondMessage,
+            valid: false,
+            errors: ['subject may not be empty', 'type may not be empty'],
+            warnings: [],
+          },
+          {
+            hash: first,
+            message: firstMessage,
+            valid: false,
+            errors: ['subject may not be empty', 'type may not be empty'],
+            warnings: [],
+          },
+        ]
       })
-      td.replace(process, 'cwd', () => cwd)
 
-      expectedResultsOutput = [
-        {
-          hash: to,
-          message: secondMessage,
-          valid: false,
-          errors: ['subject may not be empty', 'type may not be empty'],
-          warnings: [],
-        },
-        {
-          hash: first,
-          message: firstMessage,
-          valid: false,
-          errors: ['subject may not be empty', 'type may not be empty'],
-          warnings: [],
-        },
-      ]
-    })
+      it('should NOT show errors for a message from before the push', async () => {
+        await runAction()
 
-    it('should NOT show errors for a message from before the push', async () => {
-      await runAction()
-
-      td.verify(core.setFailed(contains('message from before push')), {
-        times: 0,
+        td.verify(core.setFailed(contains('message from before push')), {
+          times: 0,
+        })
       })
-    })
 
-    it('should show errors for the first wrong message', async () => {
-      await runAction()
+      it('should show errors for the first wrong message', async () => {
+        await runAction()
 
-      td.verify(core.setFailed(contains(firstMessage)))
-    })
+        td.verify(core.setFailed(contains(firstMessage)))
+      })
 
-    it('should show errors for the second wrong message', async () => {
-      await runAction()
+      it('should show errors for the second wrong message', async () => {
+        await runAction()
 
-      td.verify(core.setFailed(contains(secondMessage)))
-    })
+        td.verify(core.setFailed(contains(secondMessage)))
+      })
 
-    it('should generate a JSON output of the errors', async () => {
-      await runAction()
+      it('should generate a JSON output of the errors', async () => {
+        await runAction()
 
-      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
-    })
-  })
+        td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
+      })
+    },
+  )
 
   describe('when it fails to fetch commits', () => {
     beforeEach(async () => {
