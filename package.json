@@ -27,7 +27,7 @@
     "@commitlint/config-conventional": "^12.0.0",
     "@commitlint/config-lerna-scopes": "^12.0.0",
     "@commitlint/config-patternplate": "^12.0.0",
-    "@commitlint/format": "^12.0.0",
+    "@commitlint/format": "^12.1.1",
     "@commitlint/lint": "^12.0.0",
     "@commitlint/load": "^12.0.0",
     "commitlint-config-jira": "^1.4.1",
