@@ -1,6 +1,6 @@
 # Commitlint Github Action
 
-Lints Pull Request commits with commitlint
+Lints Pull Request commits with [commitlint](https://commitlint.js.org/).
 
 ## Usage
 
