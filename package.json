@@ -23,7 +23,7 @@
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",
-    "@commitlint/config-angular": "^12.0.0",
+    "@commitlint/config-angular": "^12.1.1",
     "@commitlint/config-conventional": "^12.0.0",
     "@commitlint/config-lerna-scopes": "^12.0.0",
     "@commitlint/config-patternplate": "^12.0.0",
