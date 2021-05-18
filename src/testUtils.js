@@ -51,7 +51,7 @@ exports.createPullRequestEventPayload = async (cwd) => {
     number: '1',
     repository: {
       owner: {
-        login: 'wagoid',
+        login: 'aperdomob',
       },
       name: 'commitlint-github-action',
     },
@@ -61,7 +61,7 @@ exports.createPullRequestEventPayload = async (cwd) => {
 
   updateEnvVars({
     GITHUB_EVENT_PATH: eventPath,
-    GITHUB_REPOSITORY: 'wagoid/commitlint-github-action',
+    GITHUB_REPOSITORY: 'aperdomob/commitlint-github-action',
   })
   await writeFile(eventPath, JSON.stringify(payload), 'utf8')
 }

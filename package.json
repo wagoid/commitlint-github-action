@@ -15,11 +15,11 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/wagoid/commitlint-github-action.git"
+    "url": "git+https://github.com/aperdomob/commitlint-github-action.git"
   },
   "author": "",
   "license": "ISC",
-  "homepage": "https://github.com/wagoid/commitlint-github-action",
+  "homepage": "https://github.com/aperdomob/commitlint-github-action",
   "dependencies": {
     "@actions/core": "^1.2.6",
     "@actions/github": "^4.0.0",

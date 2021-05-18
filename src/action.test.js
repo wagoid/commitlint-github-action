@@ -281,7 +281,7 @@ describe('Commit Linter action', () => {
         updatePullRequestEnvVars(cwd, to, { eventName })
         td.when(
           listCommits({
-            owner: 'wagoid',
+            owner: 'aperdomob',
             repo: 'commitlint-github-action',
             pull_number: '1',
           }),
@@ -346,7 +346,7 @@ describe('Commit Linter action', () => {
       updatePullRequestEnvVars(cwd, to)
       td.when(
         listCommits({
-          owner: 'wagoid',
+          owner: 'aperdomob',
           repo: 'commitlint-github-action',
           pull_number: '1',
         }),

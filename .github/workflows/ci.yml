@@ -60,10 +60,10 @@ jobs:
         run: docker login -u $DOCKER_USERNAME -p $DOCKER_TOKEN $DOCKER_REGISTRY_URL
       - name: Build image
         run: |
-          docker build -t $DOCKER_REGISTRY_URL/wagoid/commitlint-github-action:$VERSION .
+          docker build -t $DOCKER_REGISTRY_URL/aperdomob/commitlint-github-action:$VERSION .
       - name: Push to docker registry
         run: |
-          docker push $DOCKER_REGISTRY_URL/wagoid/commitlint-github-action:$VERSION
+          docker push $DOCKER_REGISTRY_URL/aperdomob/commitlint-github-action:$VERSION
       - run: git push --atomic --follow-tags origin master
       - name: Create a git tag for the major version
         run: |
