@@ -34,6 +34,8 @@ Default: `commitlint.config.js`
 
 If the config file doesn't exist, [config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) settings will be loaded as a default fallback.
 
+Details on the configuration file can be found on [the commitlint website](https://commitlint.js.org/#/reference-configuration).
+
 ### `firstParent`
 
 When set to true, we follow only the first parent commit when seeing a merge commit.
