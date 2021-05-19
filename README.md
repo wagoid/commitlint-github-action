@@ -26,6 +26,8 @@ Alternatively, you can run on other event types such as `on: [push]`. In that ca
 
 ## Inputs
 
+You can supply these inputs to the `wagoid/commitlint-github-action@v3` step.
+
 ### `configFile`
 
 The path to your commitlint config file.
@@ -33,6 +35,8 @@ The path to your commitlint config file.
 Default: `commitlint.config.js`
 
 If the config file doesn't exist, [config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) settings will be loaded as a default fallback.
+
+Details on the configuration file can be found on [the commitlint website](https://commitlint.js.org/#/reference-configuration).
 
 ### `firstParent`
 
