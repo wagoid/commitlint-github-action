@@ -33,7 +33,7 @@
     "commitlint-config-jira": "^1.4.1",
     "commitlint-plugin-jira-rules": "^1.4.0",
     "conventional-changelog-lint-config-canonical": "^1.0.0",
-    "dargs": "^7.0.0",
+    "dargs": "^8.0.0",
     "execa": "^5.0.0",
     "lerna": "^3.22.1"
   },
