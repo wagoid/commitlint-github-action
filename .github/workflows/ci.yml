@@ -10,7 +10,7 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: '12.x'
-      - uses: actions/cache@v2.1.4
+      - uses: actions/cache@v2.1.6
         with:
           path: |
             ~/.npm
@@ -34,7 +34,7 @@ jobs:
       - uses: actions/setup-node@v2.1.5
         with:
           node-version: '12.x'
-      - uses: actions/cache@v2.1.4
+      - uses: actions/cache@v2.1.6
         with:
           path: |
             ~/.npm
