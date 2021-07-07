@@ -147,7 +147,7 @@ describe('Commit Linter action', () => {
     cwd = await git.bootstrap('fixtures/conventional')
     await gitEmptyCommit(cwd, 'message from before push')
     await gitEmptyCommit(cwd, 'wrong message 1')
-    await gitEmptyCommit(cwd, 'chore(WRONG): message 2')
+    await gitEmptyCommit(cwd, 'wrong message 2')
     const [, , to] = await getCommitHashes(cwd)
     await createPushEventPayload(cwd, { before: gitEmptySha, to })
     updatePushEnvVars(cwd, to)
@@ -156,7 +156,7 @@ describe('Commit Linter action', () => {
     await runAction()
 
     td.verify(core.setFailed(contains('wrong message 1')), { times: 0 })
-    td.verify(core.setFailed(contains('chore(WRONG): message 2')))
+    td.verify(core.setFailed(contains('wrong message 2')))
   })
 
   it('should fail for commit with scope that is not a lerna package', async () => {
@@ -549,6 +549,28 @@ describe('Commit Linter action', () => {
           core.setFailed(contains('You have commit messages with errors')),
         )
       })
+    })
+  })
+
+  describe('when commit contains signed-off-by message', () => {
+    beforeEach(async () => {
+      cwd = await git.bootstrap('fixtures/conventional')
+      await gitEmptyCommit(
+        cwd,
+        'chore: correct message\n\nsome context without leading blank line\nSigned-off-by: John Doe <john.doe@example.com>',
+      )
+      const [to] = await getCommitHashes(cwd)
+      await createPushEventPayload(cwd, { to })
+      updatePushEnvVars(cwd, to)
+      td.replace(process, 'cwd', () => cwd)
+      td.replace(console, 'log')
+    })
+
+    it('should pass', async () => {
+      await runAction()
+
+      td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
+      td.verify(console.log('Lint free! 🎉'))
     })
   })
 })
