@@ -1,29 +1,27 @@
-const path = require('path')
-const fs = require('fs')
-const { promisify } = require('util')
-const execa = require('execa')
+import path from 'path'
+import fs from 'fs'
+import { promisify } from 'util'
+import execa from 'execa'
 
 const writeFile = promisify(fs.writeFile)
 
-const updateEnvVars = (envVars) => {
+export const updateEnvVars = (envVars) => {
   Object.keys(envVars).forEach((key) => {
     process.env[key] = envVars[key]
   })
 }
 
-exports.updateEnvVars = updateEnvVars
-
-exports.gitEmptyCommit = (cwd, message) =>
+export const gitEmptyCommit = (cwd, message) =>
   execa('git', ['commit', '--allow-empty', '-m', message], { cwd })
 
-exports.getCommitHashes = async (cwd) => {
+export const getCommitHashes = async (cwd) => {
   const { stdout } = await execa.command('git log --pretty=%H', { cwd })
   const hashes = stdout.split('\n').reverse()
 
   return hashes
 }
 
-exports.updatePushEnvVars = (cwd, to) => {
+export const updatePushEnvVars = (cwd, to) => {
   updateEnvVars({
     GITHUB_WORKSPACE: cwd,
     GITHUB_EVENT_NAME: 'push',
@@ -31,7 +29,7 @@ exports.updatePushEnvVars = (cwd, to) => {
   })
 }
 
-exports.createPushEventPayload = async (
+export const createPushEventPayload = async (
   cwd,
   { before = null, to, forced = false },
 ) => {
@@ -46,7 +44,7 @@ exports.createPushEventPayload = async (
   await writeFile(eventPath, JSON.stringify(payload), 'utf8')
 }
 
-exports.createPullRequestEventPayload = async (cwd) => {
+export const createPullRequestEventPayload = async (cwd) => {
   const payload = {
     number: '1',
     repository: {
@@ -66,7 +64,7 @@ exports.createPullRequestEventPayload = async (cwd) => {
   await writeFile(eventPath, JSON.stringify(payload), 'utf8')
 }
 
-exports.updatePullRequestEnvVars = (cwd, to, options = {}) => {
+export const updatePullRequestEnvVars = (cwd, to, options = {}) => {
   const { eventName = 'pull_request' } = options
 
   updateEnvVars({

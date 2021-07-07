@@ -1,5 +1,5 @@
-const dargs = require('dargs')
-const execa = require('execa')
+import dargs from 'dargs'
+import execa from 'execa'
 
 const commitDelimiter = '--------->commit---------'
 
@@ -40,4 +40,4 @@ const gitCommits = async (gitOpts) => {
   return commits
 }
 
-module.exports = gitCommits
+export default gitCommits

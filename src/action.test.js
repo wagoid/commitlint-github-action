@@ -1,16 +1,16 @@
-/* eslint-disable global-require */
 /* eslint-env jest */
-const { git } = require('@commitlint/test')
-const execa = require('execa')
-const td = require('testdouble')
-const {
+import { jest } from '@jest/globals'
+import { git } from '@commitlint/test'
+import execa from 'execa'
+import td from 'testdouble'
+import {
   gitEmptyCommit,
   getCommitHashes,
   updatePushEnvVars,
   createPushEventPayload,
   createPullRequestEventPayload,
   updatePullRequestEnvVars,
-} = require('./testUtils')
+} from './testUtils.js'
 
 const resultsOutputId = 'results'
 
@@ -22,8 +22,8 @@ const initialEnv = { ...process.env }
 
 const listCommits = td.func('listCommits')
 
-const runAction = () => {
-  const github = require('@actions/github')
+const runAction = async () => {
+  const github = (await import('@actions/github')).default
   class MockOctokit {
     constructor() {
       this.pulls = {
@@ -34,15 +34,17 @@ const runAction = () => {
 
   td.replace(github, 'getOctokit', () => new MockOctokit())
 
-  return require('./action')()
+  const action = (await import('./action.js')).default
+
+  return action()
 }
 
 describe('Commit Linter action', () => {
   let core
   let cwd
 
-  beforeEach(() => {
-    core = require('@actions/core')
+  beforeEach(async () => {
+    core = (await import('@actions/core')).default
     td.replace(core, 'getInput')
     td.replace(core, 'setFailed')
     td.replace(core, 'setOutput')
@@ -192,7 +194,7 @@ describe('Commit Linter action', () => {
 
   it("should fail for commit that doesn't comply with jira rules", async () => {
     cwd = await git.bootstrap('fixtures/jira')
-    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
+    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.cjs')
     await gitEmptyCommit(cwd, 'ib-21212121212121: without jira ticket')
     const [to] = await getCommitHashes(cwd)
     await createPushEventPayload(cwd, { to })
