@@ -3,19 +3,20 @@ description: Lints Pull Request commit messages with commitlint
 author: Wagner Santos
 inputs:
   configFile:
-    description: Commitlint config file. If the file doesn't exist, config-conventional settings will be
+    description:
+      Commitlint config file. If the file doesn't exist, config-conventional settings will be
       loaded as a fallback.
-    default: ./commitlint.config.js
+    default: ./commitlint.config.cjs
     required: false
   firstParent:
     description: >
       When set to true, we follow only the first parent commit when seeing a merge commit. More info
       in git-log docs https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent
-    default: "true"
+    default: 'true'
     required: false
   failOnWarnings:
     description: Whether you want to fail on warnings or not
-    default: "false"
+    default: 'false'
     required: false
   helpURL:
     description: Link to a page explaining your commit message convention

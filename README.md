@@ -32,7 +32,7 @@ You can supply these inputs to the `wagoid/commitlint-github-action@v3` step.
 
 The path to your commitlint config file.
 
-Default: `commitlint.config.js`
+Default: `commitlint.config.cjs`
 
 If the config file doesn't exist, [config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) settings will be loaded as a default fallback.
 
