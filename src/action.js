@@ -1,12 +1,15 @@
-const { existsSync } = require('fs')
-const { resolve } = require('path')
-const core = require('@actions/core')
-const github = require('@actions/github')
-const lint = require('@commitlint/lint').default
-const { format } = require('@commitlint/format')
-const load = require('@commitlint/load').default
-const gitCommits = require('./gitCommits')
-const generateOutputs = require('./generateOutputs')
+import { existsSync } from 'fs'
+import { resolve } from 'path'
+import core from '@actions/core'
+import github from '@actions/github'
+import lintModule from '@commitlint/lint'
+import { format } from '@commitlint/format'
+import loadModule from '@commitlint/load'
+import gitCommits from './gitCommits.js'
+import generateOutputs from './generateOutputs.js'
+
+const load = loadModule.default
+const lint = lintModule.default
 
 const pullRequestEvent = 'pull_request'
 const pullRequestTargetEvent = 'pull_request_target'
@@ -159,4 +162,4 @@ const commitLinterAction = () =>
     .then(showLintResults)
     .catch(exitWithMessage('error running commitlint'))
 
-module.exports = commitLinterAction
+export default commitLinterAction

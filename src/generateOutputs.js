@@ -1,4 +1,4 @@
-const core = require('@actions/core')
+import core from '@actions/core'
 
 const resultsOutputId = 'results'
 
@@ -21,4 +21,4 @@ const generateOutputs = (lintedCommits) => {
   core.setOutput(resultsOutputId, resultsOutput)
 }
 
-module.exports = generateOutputs
+export default generateOutputs

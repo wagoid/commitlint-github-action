@@ -1,3 +1,3 @@
-const action = require('./src/action')
+import action from './src/action.js'
 
 action()
