@@ -9,3 +9,4 @@ src/action.test.js
 src/testUtils.js
 .eslintignore
 .eslintrc.json
+.nvmrc
