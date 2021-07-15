@@ -48,7 +48,7 @@ describe('Commit Linter action', () => {
     td.replace(core, 'getInput')
     td.replace(core, 'setFailed')
     td.replace(core, 'setOutput')
-    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
+    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.cjs')
     td.when(core.getInput('firstParent')).thenReturn('true')
     td.when(core.getInput('failOnWarnings')).thenReturn('false')
     td.when(core.getInput('helpURL')).thenReturn(
@@ -273,7 +273,7 @@ describe('Commit Linter action', () => {
       beforeEach(async () => {
         cwd = await git.bootstrap('fixtures/conventional')
         td.when(core.getInput('configFile')).thenReturn(
-          './commitlint.config.js',
+          './commitlint.config.cjs',
         )
         await gitEmptyCommit(cwd, 'message from before push')
         await gitEmptyCommit(cwd, firstMessage)
@@ -341,7 +341,7 @@ describe('Commit Linter action', () => {
   describe('when it fails to fetch commits', () => {
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/conventional')
-      td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
+      td.when(core.getInput('configFile')).thenReturn('./commitlint.config.cjs')
       await gitEmptyCommit(cwd, 'commit message')
       await createPullRequestEventPayload(cwd)
       const [to] = await getCommitHashes(cwd)

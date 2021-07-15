@@ -11,6 +11,7 @@ All notable changes to this project will be documented in this file. See [standa
 
 * Node.js version used on the action updated from 12 to
 16
+* Config files now need to be renamed from .js to .cjs
 
 ### Features
 
