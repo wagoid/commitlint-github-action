@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.0.0](https://github.com/wagoid/commitlint-github-action/compare/v3.1.4...v4.0.0) (2021-07-15)
+
+
+### ⚠ BREAKING CHANGES
+
+* Node.js version used on the action updated from 12 to
+16
+
+### Features
+
+* update dependencies that needed to switch to ESM syntax ([5463926](https://github.com/wagoid/commitlint-github-action/commit/5463926c07584c419d865a3fc9efdb382be54995))
+* upgrade to node.js 16 to support ES modules by default ([30d514f](https://github.com/wagoid/commitlint-github-action/commit/30d514f252505053d2e65896a0865ff0302b7233))
+
 ### [3.1.4](https://github.com/wagoid/commitlint-github-action/compare/v3.1.3...v3.1.4) (2021-05-19)
 
 ### [3.1.3](https://github.com/wagoid/commitlint-github-action/compare/v3.1.2...v3.1.3) (2021-05-10)
