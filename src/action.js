@@ -1,15 +1,12 @@
 import { existsSync } from 'fs'
 import { resolve } from 'path'
-import core from '@actions/core'
-import github from '@actions/github'
-import lintModule from '@commitlint/lint'
+import { getInput, setFailed } from '@actions/core'
+import { context as eventContext, getOctokit } from '@actions/github'
+import lint from '@commitlint/lint'
 import { format } from '@commitlint/format'
-import loadModule from '@commitlint/load'
-import gitCommits from './gitCommits.js'
-import generateOutputs from './generateOutputs.js'
-
-const load = loadModule.default
-const lint = lintModule.default
+import load from '@commitlint/load'
+import gitCommits from './gitCommits'
+import generateOutputs from './generateOutputs'
 
 const pullRequestEvent = 'pull_request'
 const pullRequestTargetEvent = 'pull_request_target'
@@ -17,12 +14,7 @@ const pullRequestEvents = [pullRequestEvent, pullRequestTargetEvent]
 
 const { GITHUB_EVENT_NAME, GITHUB_SHA } = process.env
 
-const configPath = resolve(
-  process.env.GITHUB_WORKSPACE,
-  core.getInput('configFile'),
-)
-
-const { context: eventContext } = github
+const configPath = resolve(process.env.GITHUB_WORKSPACE, getInput('configFile'))
 
 const pushEventHasOnlyOneCommit = (from) => {
   const gitEmptySha = '0000000000000000000000000000000000000000'
@@ -53,7 +45,7 @@ const getRangeForEvent = async () => {
   if (!pullRequestEvents.includes(GITHUB_EVENT_NAME))
     return getRangeForPushEvent()
 
-  const octokit = github.getOctokit(core.getInput('token'))
+  const octokit = getOctokit(getInput('token'))
   const { owner, repo, number } = eventContext.issue
   const { data: commits } = await octokit.pulls.listCommits({
     owner,
@@ -75,7 +67,7 @@ function getHistoryCommits(from, to) {
     to,
   }
 
-  if (core.getInput('firstParent') === 'true') {
+  if (getInput('firstParent') === 'true') {
     options.firstParent = true
   }
 
@@ -104,7 +96,7 @@ const formatErrors = (lintedCommits) =>
     { results: lintedCommits.map((commit) => commit.lintResult) },
     {
       color: true,
-      helpUrl: core.getInput('helpURL'),
+      helpUrl: getInput('helpURL'),
     },
   )
 
@@ -113,13 +105,13 @@ const hasOnlyWarnings = (lintedCommits) =>
   lintedCommits.every(({ lintResult }) => lintResult.valid) &&
   lintedCommits.some(({ lintResult }) => lintResult.warnings.length)
 
-const setFailed = (formattedResults) => {
-  core.setFailed(`You have commit messages with errors\n\n${formattedResults}`)
+const setFailedAction = (formattedResults) => {
+  setFailed(`You have commit messages with errors\n\n${formattedResults}`)
 }
 
 const handleOnlyWarnings = (formattedResults) => {
-  if (core.getInput('failOnWarnings') === 'true') {
-    setFailed(formattedResults)
+  if (getInput('failOnWarnings') === 'true') {
+    setFailedAction(formattedResults)
   } else {
     console.log(`You have commit messages with warnings\n\n${formattedResults}`)
   }
@@ -144,14 +136,14 @@ const showLintResults = async ([from, to]) => {
   if (hasOnlyWarnings(lintedCommits)) {
     handleOnlyWarnings(formattedResults)
   } else if (formattedResults) {
-    setFailed(formattedResults)
+    setFailedAction(formattedResults)
   } else {
     console.log('Lint free! 🎉')
   }
 }
 
 const exitWithMessage = (message) => (error) => {
-  core.setFailed(`${message}\n${error.message}\n${error.stack}`)
+  setFailedAction(`${message}\n${error.message}\n${error.stack}`)
 }
 
 const commitLinterAction = () =>

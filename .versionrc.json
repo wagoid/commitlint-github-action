@@ -5,7 +5,7 @@
     "package-lock.json",
     {
       "filename": "action.yml",
-      "updater": "./.github/tasks/actionYamlUpdater.cjs"
+      "updater": "./.github/tasks/actionYamlUpdater.js"
     }
   ],
   "releaseCommitMessageFormat": "chore(release): publish {{currentTag}} [skip-ci]"

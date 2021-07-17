@@ -1,3 +1,3 @@
-import action from './src/action.js'
+import action from './src/action'
 
 action()
