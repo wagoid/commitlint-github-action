@@ -120,6 +120,7 @@ This is a [`Docker` action](https://github.com/actions/toolkit/blob/e2adf403d6d1
 - [@commitlint/config-patternplate](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-patternplate)
 - [conventional-changelog-lint-config-canonical](https://github.com/gajus/conventional-changelog-lint-config-canonical)
 - [commitlint-config-jira](https://github.com/Gherciu/commitlint-jira)
+- [commitlint-config-function-rules](https://github.com/vidavidorra/commitlint-plugin-function-rules#readme)
 
 Apart from the shared configurations that are included by default, you can also include extra dependencies for other configs and plugins that you want to use.
 
