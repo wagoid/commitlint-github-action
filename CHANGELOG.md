@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [4.1.0](https://github.com/wagoid/commitlint-github-action/compare/v4.0.3...v4.1.0) (2021-07-17)
+
+
+### Features
+
+* officially support commitlint-plugin-function-rules ([d6d6fc0](https://github.com/wagoid/commitlint-github-action/commit/d6d6fc0ae0ec45f7b495ae44a78ec5499877ae0d)), closes [#196](https://github.com/wagoid/commitlint-github-action/issues/196)
+
 ### [4.0.3](https://github.com/wagoid/commitlint-github-action/compare/v4.0.2...v4.0.3) (2021-07-17)
 
 
