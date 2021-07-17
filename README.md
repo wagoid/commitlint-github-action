@@ -26,7 +26,7 @@ Alternatively, you can run on other event types such as `on: [push]`. In that ca
 
 ## Inputs
 
-You can supply these inputs to the `wagoid/commitlint-github-action@v3` step.
+You can supply these inputs to the `wagoid/commitlint-github-action@v4` step.
 
 ### `configFile`
 
