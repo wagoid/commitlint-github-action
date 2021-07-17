@@ -47,7 +47,7 @@ const getRangeForEvent = async () => {
 
   const octokit = getOctokit(getInput('token'))
   const { owner, repo, number } = eventContext.issue
-  const { data: commits } = await octokit.pulls.listCommits({
+  const { data: commits } = await octokit.rest.pulls.listCommits({
     owner,
     repo,
     pull_number: number,
