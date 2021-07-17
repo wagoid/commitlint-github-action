@@ -25,8 +25,10 @@ const runAction = async () => {
   const github = await import('@actions/github')
   class MockOctokit {
     constructor() {
-      this.pulls = {
-        listCommits,
+      this.rest = {
+        pulls: {
+          listCommits,
+        },
       }
     }
   }
