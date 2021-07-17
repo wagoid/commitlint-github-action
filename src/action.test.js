@@ -1,5 +1,4 @@
 /* eslint-env jest */
-import { jest } from '@jest/globals'
 import { git } from '@commitlint/test'
 import execa from 'execa'
 import td from 'testdouble'
@@ -10,7 +9,7 @@ import {
   createPushEventPayload,
   createPullRequestEventPayload,
   updatePullRequestEnvVars,
-} from './testUtils.js'
+} from './testUtils'
 
 const resultsOutputId = 'results'
 
@@ -23,7 +22,7 @@ const initialEnv = { ...process.env }
 const listCommits = td.func('listCommits')
 
 const runAction = async () => {
-  const github = (await import('@actions/github')).default
+  const github = await import('@actions/github')
   class MockOctokit {
     constructor() {
       this.pulls = {
@@ -34,7 +33,7 @@ const runAction = async () => {
 
   td.replace(github, 'getOctokit', () => new MockOctokit())
 
-  const action = (await import('./action.js')).default
+  const action = (await import('./action')).default
 
   return action()
 }
@@ -44,11 +43,11 @@ describe('Commit Linter action', () => {
   let cwd
 
   beforeEach(async () => {
-    core = (await import('@actions/core')).default
+    core = await import('@actions/core')
     td.replace(core, 'getInput')
     td.replace(core, 'setFailed')
     td.replace(core, 'setOutput')
-    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.cjs')
+    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
     td.when(core.getInput('firstParent')).thenReturn('true')
     td.when(core.getInput('failOnWarnings')).thenReturn('false')
     td.when(core.getInput('helpURL')).thenReturn(
@@ -194,7 +193,7 @@ describe('Commit Linter action', () => {
 
   it("should fail for commit that doesn't comply with jira rules", async () => {
     cwd = await git.bootstrap('fixtures/jira')
-    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.cjs')
+    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
     await gitEmptyCommit(cwd, 'ib-21212121212121: without jira ticket')
     const [to] = await getCommitHashes(cwd)
     await createPushEventPayload(cwd, { to })
@@ -273,7 +272,7 @@ describe('Commit Linter action', () => {
       beforeEach(async () => {
         cwd = await git.bootstrap('fixtures/conventional')
         td.when(core.getInput('configFile')).thenReturn(
-          './commitlint.config.cjs',
+          './commitlint.config.js',
         )
         await gitEmptyCommit(cwd, 'message from before push')
         await gitEmptyCommit(cwd, firstMessage)
@@ -341,7 +340,7 @@ describe('Commit Linter action', () => {
   describe('when it fails to fetch commits', () => {
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/conventional')
-      td.when(core.getInput('configFile')).thenReturn('./commitlint.config.cjs')
+      td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
       await gitEmptyCommit(cwd, 'commit message')
       await createPullRequestEventPayload(cwd)
       const [to] = await getCommitHashes(cwd)

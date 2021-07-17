@@ -3,17 +3,17 @@
   "version": "4.0.2",
   "description": "commitlint github action",
   "private": true,
-  "exports": "./run.js",
+  "main": "./dist/run.js",
   "scripts": {
     "postinstall": "husky install",
-    "test": "NODE_PATH=./node_modules node --experimental-vm-modules node_modules/.bin/jest",
+    "test": "NODE_PATH=./node_modules jest",
     "changelog": "conventional-changelog -p angular -i CHANGELOG.md -s",
-    "lint": "eslint ."
+    "lint": "eslint .",
+    "build": "rollup -c"
   },
   "engines": {
-    "node": ">=16.0.0"
+    "node": "16.5.0"
   },
-  "type": "module",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/wagoid/commitlint-github-action.git"
@@ -39,11 +39,17 @@
     "lerna": "^4.0.0"
   },
   "devDependencies": {
+    "@babel/core": "^7.14.6",
+    "@babel/preset-env": "^7.14.7",
     "@commitlint/cli": "^12.1.4",
     "@commitlint/ensure": "^12.1.4",
     "@commitlint/test": "^9.0.1",
     "@commitlint/test-environment": "^9.0.1",
     "@jest/globals": "^27.0.6",
+    "@rollup/plugin-babel": "^5.3.0",
+    "@rollup/plugin-commonjs": "^19.0.1",
+    "@rollup/plugin-node-resolve": "^13.0.1",
+    "babel-jest": "^27.0.6",
     "commitlint-plugin-function-rules": "^1.3.2",
     "conventional-changelog-cli": "^2.1.1",
     "eslint": "^7.29.0",
@@ -57,6 +63,7 @@
     "jest": "^27.0.6",
     "lint-staged": "^11.0.1",
     "prettier": "^2.3.2",
+    "rollup": "^2.53.2",
     "standard-version": "^9.3.1",
     "testdouble": "^3.16.1",
     "yaml": "^1.10.2"

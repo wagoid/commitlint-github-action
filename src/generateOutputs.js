@@ -1,4 +1,4 @@
-import core from '@actions/core'
+import { setOutput } from '@actions/core'
 
 const resultsOutputId = 'results'
 
@@ -18,7 +18,7 @@ const mapResultOutput = ({
 const generateOutputs = (lintedCommits) => {
   const resultsOutput = lintedCommits.map(mapResultOutput)
 
-  core.setOutput(resultsOutputId, resultsOutput)
+  setOutput(resultsOutputId, resultsOutput)
 }
 
 export default generateOutputs
