@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.0.3](https://github.com/wagoid/commitlint-github-action/compare/v4.0.2...v4.0.3) (2021-07-17)
+
+
+### Bug Fixes
+
+* build the action with rollup ([2e57812](https://github.com/wagoid/commitlint-github-action/commit/2e578124a54b446aaf8dfa6d7c71d92e2d6a3de7)), closes [#194](https://github.com/wagoid/commitlint-github-action/issues/194)
+
 ### [4.0.2](https://github.com/wagoid/commitlint-github-action/compare/v4.0.1...v4.0.2) (2021-07-15)
 
 
