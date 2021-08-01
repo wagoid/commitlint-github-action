@@ -26,7 +26,7 @@
     "@actions/github": "^5.0.0",
     "@commitlint/config-angular": "^12.1.4",
     "@commitlint/config-conventional": "^12.1.4",
-    "@commitlint/config-lerna-scopes": "^12.1.4",
+    "@commitlint/config-lerna-scopes": "^13.1.0",
     "@commitlint/config-patternplate": "^12.1.4",
     "@commitlint/format": "^12.1.4",
     "@commitlint/lint": "^12.1.4",
