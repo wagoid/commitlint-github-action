@@ -3,6 +3,8 @@ on: [push]
 
 jobs:
   sanity-checks:
+    permissions:
+      contents: read
     name: Sanity Checks
     runs-on: ubuntu-latest
     steps:
@@ -22,6 +24,8 @@ jobs:
       - run: npm run lint
       - run: npm test -- --ci --coverage
   release:
+    permissions:
+      contents: write
     needs: sanity-checks
     runs-on: ubuntu-latest
     if: "github.ref == 'refs/heads/master' && !contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
