@@ -33,7 +33,7 @@ const gitCommits = async (gitOpts) => {
 
     return {
       hash,
-      message,
+      message: message.replace(commitDelimiter, ''),
     }
   })
 

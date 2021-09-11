@@ -1,5 +1,6 @@
 /* eslint-env jest */
 import { git } from '@commitlint/test'
+import { describe } from '@jest/globals'
 import execa from 'execa'
 import td from 'testdouble'
 import {
@@ -555,12 +556,12 @@ describe('Commit Linter action', () => {
     })
   })
 
-  describe('when commit contains signed-off-by message', () => {
+  describe('when commit contains required signed-off-by message', () => {
     beforeEach(async () => {
-      cwd = await git.bootstrap('fixtures/conventional')
+      cwd = await git.bootstrap('fixtures/signed-off-by')
       await gitEmptyCommit(
         cwd,
-        'chore: correct message\n\nsome context without leading blank line\nSigned-off-by: John Doe <john.doe@example.com>',
+        'chore: correct message\n\nsome context without leading blank line.\n\nSigned-off-by: John Doe <john.doe@example.com>',
       )
       const [to] = await getCommitHashes(cwd)
       await createPushEventPayload(cwd, { to })
