@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.3](https://github.com/wagoid/commitlint-github-action/compare/v4.1.2...v4.1.3) (2021-09-11)
+
+
+### Bug Fixes
+
+* action failing to check footer of a single commit ([961b6d4](https://github.com/wagoid/commitlint-github-action/commit/961b6d4cd7565e86ea5e28bcb015042ae2022f4f)), closes [#187](https://github.com/wagoid/commitlint-github-action/issues/187)
+* vulnerabilities from npm audit ([bf83d2b](https://github.com/wagoid/commitlint-github-action/commit/bf83d2b35c4177779d047f464b48d9907f2c5201))
+
 ### [4.1.2](https://github.com/wagoid/commitlint-github-action/compare/v4.1.1...v4.1.2) (2021-09-11)
 
 ### [4.1.1](https://github.com/wagoid/commitlint-github-action/compare/v4.1.0...v4.1.1) (2021-07-17)
