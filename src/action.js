@@ -91,12 +91,12 @@ function getOptsFromConfig(config) {
   }
 }
 
-const formatErrors = (lintedCommits) =>
+const formatErrors = (lintedCommits, { config }) =>
   format(
     { results: lintedCommits.map((commit) => commit.lintResult) },
     {
       color: true,
-      helpUrl: getInput('helpURL'),
+      helpUrl: config.helpUrl || getInput('helpURL'),
     },
   )
 
@@ -129,7 +129,7 @@ const showLintResults = async ([from, to]) => {
       hash: commit.hash,
     })),
   )
-  const formattedResults = formatErrors(lintedCommits)
+  const formattedResults = formatErrors(lintedCommits, { config })
 
   generateOutputs(lintedCommits)
 
