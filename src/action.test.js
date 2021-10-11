@@ -76,6 +76,13 @@ describe('Commit Linter action', () => {
     await runAction()
 
     td.verify(core.setFailed(contains('You have commit messages with errors')))
+    td.verify(
+      core.setFailed(
+        contains(
+          'https://github.com/conventional-changelog/commitlint/#what-is-commitlint',
+        ),
+      ),
+    )
   })
 
   it('should fail for single push with incorrect message', async () => {
@@ -575,6 +582,27 @@ describe('Commit Linter action', () => {
 
       td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
       td.verify(console.log('Lint free! 🎉'))
+    })
+  })
+
+  describe('when a different helpUrl is provided in the config', () => {
+    beforeEach(async () => {
+      cwd = await git.bootstrap('fixtures/custom-help-url')
+      await gitEmptyCommit(cwd, 'wrong message')
+      const [to] = await getCommitHashes(cwd)
+      await createPushEventPayload(cwd, { to })
+      updatePushEnvVars(cwd, to)
+      td.replace(process, 'cwd', () => cwd)
+      td.replace(console, 'log')
+    })
+
+    it('should show custom URL from helpUrl', async () => {
+      await runAction()
+
+      td.verify(
+        core.setFailed(contains('You have commit messages with errors')),
+      )
+      td.verify(core.setFailed(contains(' https://example.org')))
     })
   })
 })
