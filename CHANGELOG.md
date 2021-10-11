@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.9](https://github.com/wagoid/commitlint-github-action/compare/v4.1.8...v4.1.9) (2021-10-11)
+
+
+### Bug Fixes
+
+* use helpUrl from config when present ([6f0b49b](https://github.com/wagoid/commitlint-github-action/commit/6f0b49bb7b70977c2f0ea471a0282d21d5a8aab5)), closes [#234](https://github.com/wagoid/commitlint-github-action/issues/234)
+
 ### [4.1.8](https://github.com/wagoid/commitlint-github-action/compare/v4.1.7...v4.1.8) (2021-10-11)
 
 ### [4.1.7](https://github.com/wagoid/commitlint-github-action/compare/v4.1.6...v4.1.7) (2021-10-11)
