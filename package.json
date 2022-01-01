@@ -32,7 +32,7 @@
     "@commitlint/lint": "^13.2.0",
     "@commitlint/load": "^13.2.1",
     "commitlint-config-jira": "^1.5.1",
-    "commitlint-plugin-function-rules": "^1.4.0",
+    "commitlint-plugin-function-rules": "^1.6.0",
     "commitlint-plugin-jira-rules": "^1.5.1",
     "conventional-changelog-lint-config-canonical": "^1.0.0",
     "dargs": "^8.1.0",
