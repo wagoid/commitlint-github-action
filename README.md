@@ -66,6 +66,14 @@ You can see more info about GitHub's default token [here](https://docs.github.co
 
 default: `${{ github.token }}`
 
+### `dockerImage`
+
+Docker repository to be used by the action. Useful when using a private repository as a pull though cache for images from Docker Hub to avoid rate-limitting (read more [here](https://www.docker.com/increase-rate-limits)).
+Note that this can also be achieved by setting up a Docker Hub repository mirror on the runner, as described [here](https://docs.docker.com/registry/recipes/mirror/).
+By default, uses an image hosted in a public Docker Hub registry [here](https://hub.docker.com/r/wagoid/commitlint-github-action).
+
+default: `docker://wagoid/commitlint-github-action`
+
 ## Outputs
 
 ### `results`
