@@ -65,7 +65,7 @@
     "prettier": "^2.6.1",
     "rollup": "^2.70.1",
     "standard-version": "^9.3.2",
-    "testdouble": "^3.16.2",
+    "testdouble": "^3.16.4",
     "yaml": "^1.10.2"
   }
 }
