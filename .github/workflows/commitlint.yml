@@ -5,15 +5,15 @@ jobs:
   commitlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
       - run: sed -i -E "s/(docker:.+)/Dockerfile/" ./action.yml
       - run: echo -n '' > .dockerignore
-      - uses: actions/setup-node@v2.4.1
+      - uses: actions/setup-node@v3
         with:
           node-version: '14'
-      - uses: actions/cache@v2.1.6
+      - uses: actions/cache@v3
         with:
           path: |
             ~/.npm
@@ -32,13 +32,13 @@ jobs:
   commitlint-pulling-from-docker-hub:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v2.4.1
+      - uses: actions/setup-node@v3
         with:
           node-version: '14'
-      - uses: actions/cache@v2.1.6
+      - uses: actions/cache@v3
         with:
           path: |
             ~/.npm

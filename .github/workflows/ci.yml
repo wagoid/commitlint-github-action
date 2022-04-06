@@ -8,11 +8,11 @@ jobs:
     name: Sanity Checks
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
-      - uses: actions/setup-node@v2.4.1
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
         with:
           node-version: '12.x'
-      - uses: actions/cache@v2.1.6
+      - uses: actions/cache@v3
         with:
           path: |
             ~/.npm
@@ -28,17 +28,20 @@ jobs:
       contents: write
     needs: sanity-checks
     runs-on: ubuntu-latest
-    if: "github.ref == 'refs/heads/master' && !contains(toJSON(github.event.commits.*.message), '[skip-ci]')"
+    if: >
+      github.ref == 'refs/heads/master'
+      && !contains(toJSON(github.event.commits.*.message), '[skip-ci]')
+      && !contains(toJSON(github.event.commits.*.message), 'chore(deps-dev)')
     env:
       DOCKER_REGISTRY_URL: registry.hub.docker.com
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: actions/setup-node@v2.4.1
+      - uses: actions/setup-node@v3
         with:
           node-version: '12.x'
-      - uses: actions/cache@v2.1.6
+      - uses: actions/cache@v3
         with:
           path: |
             ~/.npm
