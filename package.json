@@ -22,7 +22,7 @@
   "license": "ISC",
   "homepage": "https://github.com/wagoid/commitlint-github-action",
   "dependencies": {
-    "@actions/core": "^1.6.0",
+    "@actions/core": "^1.7.0",
     "@actions/github": "^5.0.0",
     "@commitlint/config-angular": "^13.2.0",
     "@commitlint/config-conventional": "^13.2.0",
