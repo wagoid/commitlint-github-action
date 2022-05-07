@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.12](https://github.com/wagoid/commitlint-github-action/compare/v4.1.11...v4.1.12) (2022-05-07)
+
+
+### Bug Fixes
+
+* set workspace directory as safe in the entrypoint ([ce9a8cb](https://github.com/wagoid/commitlint-github-action/commit/ce9a8cb8ca913ad31123ebcfb3ce88061fe7108e)), closes [/github.com/actions/checkout/issues/760#issuecomment-1098135955](https://github.com/wagoid//github.com/actions/checkout/issues/760/issues/issuecomment-1098135955)
+
 ### [4.1.11](https://github.com/wagoid/commitlint-github-action/compare/v4.1.10...v4.1.11) (2022-04-06)
 
 ### [4.1.10](https://github.com/wagoid/commitlint-github-action/compare/v4.1.9...v4.1.10) (2022-04-01)
