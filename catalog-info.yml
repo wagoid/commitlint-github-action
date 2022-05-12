@@ -1,0 +1,16 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: commitlint-github-action
+  description: |
+    Lints Pull Request commits with commitlint.
+  annotations:
+    github.com/project-slug: Tradeshift/commitlint-github-action
+  tags:
+    - github-action
+    - nodejs
+    - fork
+spec:
+  type: library
+  owner: developer-productivity
+  lifecycle: production
