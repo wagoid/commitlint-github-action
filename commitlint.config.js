@@ -24,5 +24,17 @@ module.exports = {
       'always',
       validateBodyMaxLengthIgnoringDeps,
     ],
+    'function-rules/body-jira-id-check': [
+      2, // level: error
+      'always',
+      (parsed) => {
+        const jiraRegex = parsed.body.match(/[A-Z]+[-\d]+/g);
+        const jiraIgnoreRegex = parsed.body.match(/I don’t have a ticket for this/g);
+        if ( jiraRegex != null || jiraIgnoreRegex != null) {
+          return [true];
+        }
+        return [false, 'The body doesnot have Jira ID OR ignore quote'];
+      },
+    ],
   },
 }
