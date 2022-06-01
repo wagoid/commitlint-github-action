@@ -27,7 +27,7 @@
     "@commitlint/config-angular": "^13.2.0",
     "@commitlint/config-conventional": "^13.2.0",
     "@commitlint/config-lerna-scopes": "^13.2.0",
-    "@commitlint/config-patternplate": "^13.2.0",
+    "@commitlint/config-patternplate": "^17.0.0",
     "@commitlint/format": "^13.2.0",
     "@commitlint/lint": "^13.2.0",
     "@commitlint/load": "^13.2.1",
