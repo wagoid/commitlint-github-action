@@ -64,7 +64,7 @@
     "lint-staged": "^12.3.7",
     "prettier": "^2.6.1",
     "rollup": "^2.70.1",
-    "standard-version": "^9.3.2",
+    "standard-version": "^9.5.0",
     "testdouble": "^3.16.4",
     "yaml": "^2.0.1"
   }
