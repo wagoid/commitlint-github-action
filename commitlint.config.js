@@ -6,7 +6,7 @@ const bodyMaxLineLength = 100
 const validateBodyMaxLengthIgnoringDeps = (parsedCommit) => {
   const { type, scope, body } = parsedCommit
   const isDepsCommit =
-    type === 'chore' && (scope === 'deps' || scope === 'deps-dev')
+    ['chore', 'build'].includes(type) && ['deps', 'deps-dev'].includes(scope)
 
   return [
     isDepsCommit || !body || maxLineLength(body, bodyMaxLineLength),
