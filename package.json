@@ -43,7 +43,7 @@
     "@babel/core": "^7.17.8",
     "@babel/preset-env": "^7.18.2",
     "@commitlint/cli": "^16.2.3",
-    "@commitlint/ensure": "^16.2.1",
+    "@commitlint/ensure": "^17.0.0",
     "@commitlint/test": "^9.0.1",
     "@commitlint/test-environment": "^9.0.1",
     "@jest/globals": "^28.1.0",
