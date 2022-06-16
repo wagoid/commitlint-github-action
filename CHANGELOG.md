@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+### [4.1.15](https://github.com/wagoid/commitlint-github-action/compare/v4.1.14...v4.1.15) (2022-06-16)
+
 ### [4.1.14](https://github.com/wagoid/commitlint-github-action/compare/v4.1.13...v4.1.14) (2022-06-16)
 
 ### [4.1.13](https://github.com/wagoid/commitlint-github-action/compare/v4.1.12...v4.1.13) (2022-06-16)
