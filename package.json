@@ -63,7 +63,7 @@
     "jest": "^28.1.1",
     "lint-staged": "^12.3.7",
     "prettier": "^2.7.1",
-    "rollup": "^2.70.1",
+    "rollup": "^2.75.6",
     "standard-version": "^9.5.0",
     "testdouble": "^3.16.4",
     "yaml": "^2.1.1"
