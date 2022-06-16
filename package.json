@@ -62,7 +62,7 @@
     "husky": "^8.0.1",
     "jest": "^28.1.1",
     "lint-staged": "^12.3.7",
-    "prettier": "^2.6.1",
+    "prettier": "^2.7.1",
     "rollup": "^2.70.1",
     "standard-version": "^9.5.0",
     "testdouble": "^3.16.4",
