@@ -17,7 +17,7 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
-      - uses: wagoid/commitlint-github-action@v4
+      - uses: wagoid/commitlint-github-action@v5
 ```
 
 Alternatively, you can run on other event types such as `on: [push]`. In that case the action will lint the push event's commit(s) instead of linting commits from a pull request. You can also combine `push` and `pull_request` together in the same workflow.
@@ -26,7 +26,7 @@ Alternatively, you can run on other event types such as `on: [push]`. In that ca
 
 ## Inputs
 
-You can supply these inputs to the `wagoid/commitlint-github-action@v4` step.
+You can supply these inputs to the `wagoid/commitlint-github-action@v5` step.
 
 ### `configFile`
 
@@ -143,7 +143,7 @@ jobs:
       - run: npm install
       # Run the commitlint action, considering its own dependencies and yours as well 🚀
       # `github.workspace` is the path to your repository.
-      - uses: wagoid/commitlint-github-action@v4
+      - uses: wagoid/commitlint-github-action@v5
         env:
           NODE_PATH: ${{ github.workspace }}/node_modules
 ```
