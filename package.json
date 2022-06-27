@@ -30,7 +30,7 @@
     "@commitlint/config-patternplate": "^17.0.0",
     "@commitlint/format": "^17.0.0",
     "@commitlint/lint": "^17.0.0",
-    "@commitlint/load": "^17.0.0",
+    "@commitlint/load": "^17.0.3",
     "commitlint-config-jira": "^1.5.1",
     "commitlint-plugin-function-rules": "^1.4.0",
     "commitlint-plugin-jira-rules": "^1.5.1",
