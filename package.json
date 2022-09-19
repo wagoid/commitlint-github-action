@@ -52,7 +52,7 @@
     "@rollup/plugin-node-resolve": "^13.3.0",
     "babel-jest": "^28.1.0",
     "conventional-changelog-cli": "^2.2.2",
-    "eslint": "^8.18.0",
+    "eslint": "^8.23.1",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^8.5.0",
