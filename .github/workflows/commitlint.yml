@@ -12,7 +12,7 @@ jobs:
       - run: echo -n '' > .dockerignore
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16.5.0'
       - uses: actions/cache@v3
         with:
           path: |
@@ -37,7 +37,7 @@ jobs:
           fetch-depth: 0
       - uses: actions/setup-node@v3
         with:
-          node-version: '14'
+          node-version: '16.5.0'
       - uses: actions/cache@v3
         with:
           path: |
