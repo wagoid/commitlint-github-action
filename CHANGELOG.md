@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [standard-version](https://github.com/conventional-changelog/standard-version) for commit guidelines.
 
+## [5.1.0](https://github.com/wagoid/commitlint-github-action/compare/v5.0.2...v5.1.0) (2022-10-06)
+
+
+### Features
+
+* add @commitlint/ensure so that users of the action can use it too ([21c37a5](https://github.com/wagoid/commitlint-github-action/commit/21c37a524217629f2486c3f38a88b1628bf78d87))
+
 ### [5.0.2](https://github.com/wagoid/commitlint-github-action/compare/v5.0.1...v5.0.2) (2022-06-28)
 
 ### [5.0.1](https://github.com/wagoid/commitlint-github-action/compare/v5.0.0...v5.0.1) (2022-06-18)
