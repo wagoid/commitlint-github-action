@@ -51,6 +51,7 @@
     "@rollup/plugin-commonjs": "^22.0.0",
     "@rollup/plugin-node-resolve": "^13.3.0",
     "babel-jest": "^28.1.0",
+    "commit-and-tag-version": "^10.1.0",
     "conventional-changelog-cli": "^2.2.2",
     "eslint": "^8.18.0",
     "eslint-config-airbnb-base": "^15.0.0",
@@ -64,7 +65,6 @@
     "lint-staged": "^13.0.2",
     "prettier": "^2.7.1",
     "rollup": "^2.75.6",
-    "standard-version": "^9.5.0",
     "testdouble": "^3.16.6",
     "yaml": "^2.1.1"
   }
