@@ -218,7 +218,7 @@ describe('Commit Linter action', () => {
     td.verify(
       core.setFailed(
         contains(
-          'ib-21212121212121 taskId must not be loonger than 9 characters',
+          'ib-21212121212121 taskId must not be longer than 9 characters',
         ),
       ),
     )
