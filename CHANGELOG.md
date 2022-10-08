@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.2.0](https://github.com/wagoid/commitlint-github-action/compare/v5.1.2...v5.2.0) (2022-10-08)
+
+
+### Features
+
+* **deps:** update [@commitlint](https://github.com/commitlint) packages from 17.0 to 17.1 ([d23c330](https://github.com/wagoid/commitlint-github-action/commit/d23c330a95e9e3bead8cbab20e1fbe072bdaeec9))
+* **deps:** update commitlint-config-jira and commitlint-config-jira-rules to 1.6.4 ([8b8230b](https://github.com/wagoid/commitlint-github-action/commit/8b8230b1f5be718edfe694137f7af2843c8617fa))
+* **deps:** update commitlint-plugin-function-rules to 1.7.1 ([c2981f1](https://github.com/wagoid/commitlint-github-action/commit/c2981f157c76acf9bc11bc5d3d278140b642aa8f))
+
+
+### Bug Fixes
+
+* add conventional-changelog-conventionalcommits dependency to fix [#552](https://github.com/wagoid/commitlint-github-action/issues/552) ([b584ba3](https://github.com/wagoid/commitlint-github-action/commit/b584ba3e8df77995e7e1858cac45eea8e203e0aa))
+
 ### [5.1.2](https://github.com/wagoid/commitlint-github-action/compare/v5.1.1...v5.1.2) (2022-10-06)
 
 ### [5.1.1](https://github.com/wagoid/commitlint-github-action/compare/v5.1.0...v5.1.1) (2022-10-06)
