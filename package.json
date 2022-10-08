@@ -35,6 +35,7 @@
     "commitlint-config-jira": "^1.6.4",
     "commitlint-plugin-function-rules": "^1.7.1",
     "commitlint-plugin-jira-rules": "^1.6.4",
+    "conventional-changelog-conventionalcommits": "^4.6.3",
     "conventional-changelog-lint-config-canonical": "^1.0.0",
     "dargs": "^8.1.0",
     "execa": "^5.1.1",
