@@ -58,6 +58,12 @@ Link to a page explaining your commit message convention.
 
 default: `https://github.com/conventional-changelog/commitlint/#what-is-commitlint`
 
+### `commitDepth`
+
+When set to a valid Integer value - X, considers only the latest X number of commits.
+
+default: `null` (Equivalent to linting all commits)
+
 ### `token`
 
 Personal access token (PAT) used to interact with the GitHub API.
@@ -144,6 +150,10 @@ jobs:
       # Run the commitlint action, considering its own dependencies and yours as well 🚀
       # `github.workspace` is the path to your repository.
       - uses: wagoid/commitlint-github-action@v5
+        # Optinally, add a commitDepth parameter
+        # This example would only consider the last 10 commits.
+        with:
+          commitDepth: 10
         env:
           NODE_PATH: ${{ github.workspace }}/node_modules
 ```

@@ -16,6 +16,13 @@ const { GITHUB_EVENT_NAME, GITHUB_SHA } = process.env
 
 const configPath = resolve(process.env.GITHUB_WORKSPACE, getInput('configFile'))
 
+const getCommitDepth = () => {
+  const commitDepthString = getInput('commitDepth')
+  if (!commitDepthString?.trim()) return null
+  const commitDepth = parseInt(commitDepthString, 10)
+  return Number.isNaN(commitDepth) ? null : Math.max(commitDepth, 0)
+}
+
 const pushEventHasOnlyOneCommit = (from) => {
   const gitEmptySha = '0000000000000000000000000000000000000000'
 
@@ -118,7 +125,11 @@ const handleOnlyWarnings = (formattedResults) => {
 }
 
 const showLintResults = async ([from, to]) => {
-  const commits = await getHistoryCommits(from, to)
+  let commits = await getHistoryCommits(from, to)
+  const commitDepth = getCommitDepth()
+  if (commitDepth) {
+    commits = commits?.slice(0, commitDepth)
+  }
   const config = existsSync(configPath)
     ? await load({}, { file: configPath })
     : await load({ extends: ['@commitlint/config-conventional'] })
@@ -130,7 +141,6 @@ const showLintResults = async ([from, to]) => {
     })),
   )
   const formattedResults = formatErrors(lintedCommits, { config })
-
   generateOutputs(lintedCommits)
 
   if (hasOnlyWarnings(lintedCommits)) {

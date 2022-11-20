@@ -605,4 +605,41 @@ describe('Commit Linter action', () => {
       td.verify(core.setFailed(contains(' https://example.org')))
     })
   })
+
+  describe('when commitDepth is provided in the config', () => {
+    beforeEach(async () => {
+      cwd = await git.bootstrap('fixtures/conventional')
+      await gitEmptyCommit(cwd, 'message from before push')
+      await gitEmptyCommit(cwd, 'incorrect message within commit depth')
+      await gitEmptyCommit(cwd, 'chore: correct message 2')
+      const [before, , to] = await getCommitHashes(cwd)
+      await createPushEventPayload(cwd, { before, to })
+      updatePushEnvVars(cwd, to)
+      td.replace(process, 'cwd', () => cwd)
+      td.replace(console, 'log')
+    })
+    it('should pass when only considering messages defined by commitDepth', async () => {
+      td.when(core.getInput('commitDepth')).thenReturn('1')
+      await runAction()
+
+      td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
+      td.verify(console.log('Lint free! 🎉'))
+    })
+    it('should fail when older commits have lint errors', async () => {
+      td.when(core.getInput('commitDepth')).thenReturn('2')
+      await runAction()
+
+      td.verify(
+        core.setFailed(contains('incorrect message within commit depth')),
+      )
+    })
+    it('should consider all commits when an invalid commit depth is passed in config', async () => {
+      td.when(core.getInput('commitDepth')).thenReturn('xzy')
+      await runAction()
+
+      td.verify(
+        core.setFailed(contains('incorrect message within commit depth')),
+      )
+    })
+  })
 })
