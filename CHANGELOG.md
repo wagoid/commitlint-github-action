@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.3.0](https://github.com/wagoid/commitlint-github-action/compare/v5.2.2...v5.3.0) (2022-11-24)
+
+
+### Features
+
+* adds commitDepth as new input param ([b0982e3](https://github.com/wagoid/commitlint-github-action/commit/b0982e3b0a9fd9398bcfdf10c12df058bb8ffaf2))
+
 ### [5.2.2](https://github.com/wagoid/commitlint-github-action/compare/v5.2.1...v5.2.2) (2022-10-24)
 
 ### [5.2.1](https://github.com/wagoid/commitlint-github-action/compare/v5.2.0...v5.2.1) (2022-10-24)
