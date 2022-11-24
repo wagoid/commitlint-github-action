@@ -150,10 +150,6 @@ jobs:
       # Run the commitlint action, considering its own dependencies and yours as well 🚀
       # `github.workspace` is the path to your repository.
       - uses: wagoid/commitlint-github-action@v5
-        # Optinally, add a commitDepth parameter
-        # This example would only consider the last 10 commits.
-        with:
-          commitDepth: 10
         env:
           NODE_PATH: ${{ github.workspace }}/node_modules
 ```
