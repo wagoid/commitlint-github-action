@@ -58,6 +58,12 @@ Link to a page explaining your commit message convention.
 
 default: `https://github.com/conventional-changelog/commitlint/#what-is-commitlint`
 
+### `commitDepth`
+
+When set to a valid Integer value - X, considers only the latest X number of commits.
+
+default: `null` (Equivalent to linting all commits)
+
 ### `token`
 
 Personal access token (PAT) used to interact with the GitHub API.
