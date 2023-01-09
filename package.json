@@ -31,7 +31,7 @@
     "@commitlint/ensure": "^17.0.0",
     "@commitlint/format": "^17.0.0",
     "@commitlint/lint": "^17.1.0",
-    "@commitlint/load": "^17.1.2",
+    "@commitlint/load": "^17.4.0",
     "commitlint-config-jira": "^1.6.4",
     "commitlint-plugin-function-rules": "^1.7.1",
     "commitlint-plugin-jira-rules": "^1.6.4",
