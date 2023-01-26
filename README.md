@@ -72,6 +72,12 @@ You can see more info about GitHub's default token [here](https://docs.github.co
 
 default: `${{ github.token }}`
 
+### `excludeTargetBranch`
+
+When set to `true` excludes commits from the target branch. This is useful if the two branches diverged at a time before `commitlint` was used. In this case, the target branch may have old commits that are not in the source branch and which don't follow the lint rules. In this case, they'll be flagged on every check and there's nothing you can do to resolve it. In this case, turn on `excludeTargetBranch`.
+
+default: `false`
+
 ## Outputs
 
 ### `results`
