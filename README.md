@@ -72,6 +72,12 @@ You can see more info about GitHub's default token [here](https://docs.github.co
 
 default: `${{ github.token }}`
 
+### `excludeTarget`
+
+When set to `true` excludes commits from the target branch.
+
+default: `false`
+
 ## Outputs
 
 ### `results`

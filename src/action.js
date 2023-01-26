@@ -78,6 +78,10 @@ function getHistoryCommits(from, to) {
     options.firstParent = true
   }
 
+  if (getInput('excludeTarget') === 'true') {
+    options[`^${to}`] = true
+  }
+
   if (!from) {
     options.maxCount = 1
   }

@@ -34,6 +34,14 @@ inputs:
       https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token
     default: ${{ github.token }}
     required: false
+  excludeTarget:
+    description: >
+      When set to `true` excludes commits from the target branch. This is useful on merge commits of two
+      divergent branches. By default all of the commits in the target branch that are not in the source
+      branch will be linted again. Set this to `true` to avoid that.
+    default: "false"
+    required: false
+
 outputs:
   results:
     description: The error and warning messages for each one of the analyzed commits
