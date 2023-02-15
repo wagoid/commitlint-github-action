@@ -38,7 +38,7 @@
     "conventional-changelog-conventionalcommits": "^4.6.3",
     "conventional-changelog-lint-config-canonical": "^1.0.0",
     "dargs": "^8.1.0",
-    "execa": "^5.1.1",
+    "execa": "^7.0.0",
     "lerna": "^5.1.4"
   },
   "devDependencies": {
