@@ -50,7 +50,7 @@
     "@jest/globals": "^29.4.2",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.2",
-    "@rollup/plugin-node-resolve": "^14.1.0",
+    "@rollup/plugin-node-resolve": "^15.0.1",
     "babel-jest": "^29.4.3",
     "commit-and-tag-version": "^11.1.0",
     "conventional-changelog-cli": "^2.2.2",
