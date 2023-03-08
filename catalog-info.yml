@@ -12,5 +12,5 @@ metadata:
     - fork
 spec:
   type: library
-  owner: developer-productivity
+  owner: sre
   lifecycle: production
