@@ -47,7 +47,7 @@
     "@commitlint/cli": "^17.4.3",
     "@commitlint/test": "^9.0.1",
     "@commitlint/test-environment": "^9.0.1",
-    "@jest/globals": "^29.4.2",
+    "@jest/globals": "^29.5.0",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^14.1.0",
