@@ -51,7 +51,7 @@
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.2",
     "@rollup/plugin-node-resolve": "^14.1.0",
-    "babel-jest": "^29.4.3",
+    "babel-jest": "^29.5.0",
     "commit-and-tag-version": "^11.1.0",
     "conventional-changelog-cli": "^2.2.2",
     "eslint": "^8.34.0",
