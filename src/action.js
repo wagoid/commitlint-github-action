@@ -16,6 +16,8 @@ const { GITHUB_EVENT_NAME, GITHUB_SHA } = process.env
 
 const configPath = resolve(process.env.GITHUB_WORKSPACE, getInput('configFile'))
 
+const failOnErrors = resolve(process.env.GITHUB_WORKSPACE, getInput('failOnErrors', { required: false }))
+
 const getCommitDepth = () => {
   const commitDepthString = getInput('commitDepth')
   if (!commitDepthString?.trim()) return null
@@ -145,6 +147,12 @@ const showLintResults = async ([from, to]) => {
 
   if (hasOnlyWarnings(lintedCommits)) {
     handleOnlyWarnings(formattedResults)
+  } else if (formattedResults && (failOnErrors == false)) {
+    // https://github.com/actions/toolkit/tree/master/packages/core#exit-codes 
+    // this would be a good place to implement the setNeutral() when it's eventually implimented.
+    // for now it can pass with a check mark. 
+    console.log('Passing despite errors ✅')
+    console.log(`You have commit messages with errors\n\n${formattedResults}`)
   } else if (formattedResults) {
     setFailedAction(formattedResults)
   } else {
@@ -155,6 +163,7 @@ const showLintResults = async ([from, to]) => {
 const exitWithMessage = (message) => (error) => {
   setFailedAction(`${message}\n${error.message}\n${error.stack}`)
 }
+
 
 const commitLinterAction = () =>
   getRangeForEvent()
