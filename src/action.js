@@ -1,6 +1,6 @@
 import { existsSync } from 'fs'
 import { resolve } from 'path'
-import { getInput, setFailed } from '@actions/core'
+import { getInput, setFailed, setOutput } from '@actions/core'
 import { context as eventContext, getOctokit } from '@actions/github'
 import lint from '@commitlint/lint'
 import { format } from '@commitlint/format'
@@ -16,7 +16,7 @@ const { GITHUB_EVENT_NAME, GITHUB_SHA } = process.env
 
 const configPath = resolve(process.env.GITHUB_WORKSPACE, getInput('configFile'))
 
-const failOnErrors = resolve(process.env.GITHUB_WORKSPACE, getInput('failOnErrors', { required: false }))
+const failOnErrors = getInput('failOnErrors')
 
 const getCommitDepth = () => {
   const commitDepthString = getInput('commitDepth')
@@ -147,12 +147,12 @@ const showLintResults = async ([from, to]) => {
 
   if (hasOnlyWarnings(lintedCommits)) {
     handleOnlyWarnings(formattedResults)
-  } else if (formattedResults && (failOnErrors == false)) {
-    // https://github.com/actions/toolkit/tree/master/packages/core#exit-codes 
+  } else if (formattedResults && failOnErrors === 'false') {
+    // https://github.com/actions/toolkit/tree/master/packages/core#exit-codes
     // this would be a good place to implement the setNeutral() when it's eventually implimented.
-    // for now it can pass with a check mark. 
+    // for now it can pass with a check mark.
     console.log('Passing despite errors ✅')
-    console.log(`You have commit messages with errors\n\n${formattedResults}`)
+    setOutput(`You have commit messages with errors\n\n${formattedResults}`)
   } else if (formattedResults) {
     setFailedAction(formattedResults)
   } else {
@@ -163,7 +163,6 @@ const showLintResults = async ([from, to]) => {
 const exitWithMessage = (message) => (error) => {
   setFailedAction(`${message}\n${error.message}\n${error.stack}`)
 }
-
 
 const commitLinterAction = () =>
   getRangeForEvent()

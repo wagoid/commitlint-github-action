@@ -110,8 +110,47 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
+    console.log()
     td.verify(core.setFailed(contains('wrong message 1')))
     td.verify(core.setFailed(contains('wrong message 2')))
+  })
+
+  it('should pass for push range with wrong messages with failOnErrors set to false', async () => {
+    td.when(core.getInput('failOnErrors')).thenReturn('false')
+    cwd = await git.bootstrap('fixtures/conventional')
+    await gitEmptyCommit(cwd, 'message from before push')
+    await gitEmptyCommit(cwd, 'wrong message 1')
+    await gitEmptyCommit(cwd, 'wrong message 2')
+    const [before, , to] = await getCommitHashes(cwd)
+    await createPushEventPayload(cwd, { before, to })
+    updatePushEnvVars(cwd, to)
+    td.replace(process, 'cwd', () => cwd)
+    td.replace(console, 'log')
+
+    await runAction()
+
+    td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
+    td.verify(console.log(contains('Passing despite errors ✅')))
+    td.verify(core.setOutput(contains('wrong message 1')))
+    td.verify(core.setOutput(contains('wrong message 2')))
+  })
+
+  it('should pass for push range with correct messages with failOnErrors set to false', async () => {
+    td.when(core.getInput('failOnErrors')).thenReturn('false')
+    cwd = await git.bootstrap('fixtures/conventional')
+    await gitEmptyCommit(cwd, 'message from before push')
+    await gitEmptyCommit(cwd, 'chore: correct message 1')
+    await gitEmptyCommit(cwd, 'chore: correct message 2')
+    const [before, , to] = await getCommitHashes(cwd)
+    await createPushEventPayload(cwd, { before, to })
+    updatePushEnvVars(cwd, to)
+    td.replace(process, 'cwd', () => cwd)
+    td.replace(console, 'log')
+
+    await runAction()
+
+    td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
+    td.verify(console.log('Lint free! 🎉'))
   })
 
   it('should pass for push range with correct messages', async () => {
