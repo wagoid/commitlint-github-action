@@ -109,8 +109,6 @@ describe('Commit Linter action', () => {
     td.replace(process, 'cwd', () => cwd)
 
     await runAction()
-
-    console.log()
     td.verify(core.setFailed(contains('wrong message 1')))
     td.verify(core.setFailed(contains('wrong message 2')))
   })
