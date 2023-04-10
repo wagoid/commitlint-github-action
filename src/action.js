@@ -150,7 +150,7 @@ const showLintResults = async ([from, to]) => {
     // this would be a good place to implement the setNeutral() when it's eventually implimented.
     // for now it can pass with a check mark.
     console.log(formattedResults)
-    console.log('Passing despite errors ✅')
+    console.log('Fail on Errors is set to false: Passing despite errors ✅')
   } else if (formattedResults) {
     setFailedAction(formattedResults)
   } else {
