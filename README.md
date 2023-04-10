@@ -52,6 +52,12 @@ Whether you want to fail on warnings or not.
 
 Default: `false`
 
+### `failOnErrors`
+
+Whether you want to fail on errors or not. Still outputs the results, just forces the action to pass even if errors are detected.
+
+Default: `true`
+
 ### `helpURL`
 
 Link to a page explaining your commit message convention.
