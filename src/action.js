@@ -1,6 +1,6 @@
 import { existsSync } from 'fs'
 import { resolve } from 'path'
-import { getInput, setFailed, setOutput } from '@actions/core'
+import { getInput, setFailed } from '@actions/core'
 import { context as eventContext, getOctokit } from '@actions/github'
 import lint from '@commitlint/lint'
 import { format } from '@commitlint/format'
@@ -150,7 +150,7 @@ const showLintResults = async ([from, to]) => {
     // this would be a good place to implement the setNeutral() when it's eventually implimented.
     // for now it can pass with a check mark.
     console.log('Passing despite errors ✅')
-    setOutput(`You have commit messages with errors\n\n${formattedResults}`)
+    console.log(formattedResults)
   } else if (formattedResults) {
     setFailedAction(formattedResults)
   } else {
