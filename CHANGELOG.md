@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.4.0](https://github.com/wagoid/commitlint-github-action/compare/v5.3.1...v5.4.0) (2023-04-10)
+
+
+### Features
+
+* **action:** adds flag to optionally fail on errors ([83467da](https://github.com/wagoid/commitlint-github-action/commit/83467da07bcf182bf7dead9d98090d358bb760d8))
+
+
+### Bug Fixes
+
+* **action:** add field to action ([8589bb7](https://github.com/wagoid/commitlint-github-action/commit/8589bb7e04b6baba23e93083597321c592b18593))
+* **action:** fix bug with value, add tests ([2640e4c](https://github.com/wagoid/commitlint-github-action/commit/2640e4c8bf1ef522aea0d9fa997c4f07ee95ba97))
+* **action:** refactor a value, add to docs ([7991e57](https://github.com/wagoid/commitlint-github-action/commit/7991e57b35c9a86cdda880119d9c4ca3b975b4fd))
+* **docs:** remove dupe ([6a9739b](https://github.com/wagoid/commitlint-github-action/commit/6a9739b9a2f47cb6e51a850b6e82fa9c42a13f61))
+* **tests:** remove log ([097b726](https://github.com/wagoid/commitlint-github-action/commit/097b726807006a63d6f34782aad667815f4217dc))
+
 ## [5.3.1](https://github.com/wagoid/commitlint-github-action/compare/v5.3.0...v5.3.1) (2023-02-15)
 
 ## [5.3.0](https://github.com/wagoid/commitlint-github-action/compare/v5.2.2...v5.3.0) (2022-11-24)
