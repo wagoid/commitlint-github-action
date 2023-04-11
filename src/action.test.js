@@ -128,9 +128,9 @@ describe('Commit Linter action', () => {
     await runAction()
 
     td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
+    td.verify(console.log(contains('wrong message 1')))
+    td.verify(console.log(contains('wrong message 2')))
     td.verify(console.log(contains('Passing despite errors ✅')))
-    td.verify(core.setOutput(contains('wrong message 1')))
-    td.verify(core.setOutput(contains('wrong message 2')))
   })
 
   it('should pass for push range with correct messages with failOnErrors set to false', async () => {

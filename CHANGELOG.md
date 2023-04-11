@@ -4,28 +4,25 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [5.4.0](https://github.com/wagoid/commitlint-github-action/compare/v5.3.1...v5.4.0) (2023-04-10)
 
-
 ### Features
 
-* **action:** adds flag to optionally fail on errors ([83467da](https://github.com/wagoid/commitlint-github-action/commit/83467da07bcf182bf7dead9d98090d358bb760d8))
-
+- **action:** adds flag to optionally fail on errors ([83467da](https://github.com/wagoid/commitlint-github-action/commit/83467da07bcf182bf7dead9d98090d358bb760d8))
 
 ### Bug Fixes
 
-* **action:** add field to action ([8589bb7](https://github.com/wagoid/commitlint-github-action/commit/8589bb7e04b6baba23e93083597321c592b18593))
-* **action:** fix bug with value, add tests ([2640e4c](https://github.com/wagoid/commitlint-github-action/commit/2640e4c8bf1ef522aea0d9fa997c4f07ee95ba97))
-* **action:** refactor a value, add to docs ([7991e57](https://github.com/wagoid/commitlint-github-action/commit/7991e57b35c9a86cdda880119d9c4ca3b975b4fd))
-* **docs:** remove dupe ([6a9739b](https://github.com/wagoid/commitlint-github-action/commit/6a9739b9a2f47cb6e51a850b6e82fa9c42a13f61))
-* **tests:** remove log ([097b726](https://github.com/wagoid/commitlint-github-action/commit/097b726807006a63d6f34782aad667815f4217dc))
+- **action:** add field to action ([8589bb7](https://github.com/wagoid/commitlint-github-action/commit/8589bb7e04b6baba23e93083597321c592b18593))
+- **action:** fix bug with value, add tests ([2640e4c](https://github.com/wagoid/commitlint-github-action/commit/2640e4c8bf1ef522aea0d9fa997c4f07ee95ba97))
+- **action:** refactor a value, add to docs ([7991e57](https://github.com/wagoid/commitlint-github-action/commit/7991e57b35c9a86cdda880119d9c4ca3b975b4fd))
+- **docs:** remove dupe ([6a9739b](https://github.com/wagoid/commitlint-github-action/commit/6a9739b9a2f47cb6e51a850b6e82fa9c42a13f61))
+- **tests:** remove log ([097b726](https://github.com/wagoid/commitlint-github-action/commit/097b726807006a63d6f34782aad667815f4217dc))
 
 ## [5.3.1](https://github.com/wagoid/commitlint-github-action/compare/v5.3.0...v5.3.1) (2023-02-15)
 
 ## [5.3.0](https://github.com/wagoid/commitlint-github-action/compare/v5.2.2...v5.3.0) (2022-11-24)
 
-
 ### Features
 
-* adds commitDepth as new input param ([b0982e3](https://github.com/wagoid/commitlint-github-action/commit/b0982e3b0a9fd9398bcfdf10c12df058bb8ffaf2))
+- adds commitDepth as new input param ([b0982e3](https://github.com/wagoid/commitlint-github-action/commit/b0982e3b0a9fd9398bcfdf10c12df058bb8ffaf2))
 
 ### [5.2.2](https://github.com/wagoid/commitlint-github-action/compare/v5.2.1...v5.2.2) (2022-10-24)
 
@@ -33,17 +30,15 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [5.2.0](https://github.com/wagoid/commitlint-github-action/compare/v5.1.2...v5.2.0) (2022-10-08)
 
-
 ### Features
 
-* **deps:** update [@commitlint](https://github.com/commitlint) packages from 17.0 to 17.1 ([d23c330](https://github.com/wagoid/commitlint-github-action/commit/d23c330a95e9e3bead8cbab20e1fbe072bdaeec9))
-* **deps:** update commitlint-config-jira and commitlint-config-jira-rules to 1.6.4 ([8b8230b](https://github.com/wagoid/commitlint-github-action/commit/8b8230b1f5be718edfe694137f7af2843c8617fa))
-* **deps:** update commitlint-plugin-function-rules to 1.7.1 ([c2981f1](https://github.com/wagoid/commitlint-github-action/commit/c2981f157c76acf9bc11bc5d3d278140b642aa8f))
-
+- **deps:** update [@commitlint](https://github.com/commitlint) packages from 17.0 to 17.1 ([d23c330](https://github.com/wagoid/commitlint-github-action/commit/d23c330a95e9e3bead8cbab20e1fbe072bdaeec9))
+- **deps:** update commitlint-config-jira and commitlint-config-jira-rules to 1.6.4 ([8b8230b](https://github.com/wagoid/commitlint-github-action/commit/8b8230b1f5be718edfe694137f7af2843c8617fa))
+- **deps:** update commitlint-plugin-function-rules to 1.7.1 ([c2981f1](https://github.com/wagoid/commitlint-github-action/commit/c2981f157c76acf9bc11bc5d3d278140b642aa8f))
 
 ### Bug Fixes
 
-* add conventional-changelog-conventionalcommits dependency to fix [#552](https://github.com/wagoid/commitlint-github-action/issues/552) ([b584ba3](https://github.com/wagoid/commitlint-github-action/commit/b584ba3e8df77995e7e1858cac45eea8e203e0aa))
+- add conventional-changelog-conventionalcommits dependency to fix [#552](https://github.com/wagoid/commitlint-github-action/issues/552) ([b584ba3](https://github.com/wagoid/commitlint-github-action/commit/b584ba3e8df77995e7e1858cac45eea8e203e0aa))
 
 ### [5.1.2](https://github.com/wagoid/commitlint-github-action/compare/v5.1.1...v5.1.2) (2022-10-06)
 
@@ -51,10 +46,9 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [5.1.0](https://github.com/wagoid/commitlint-github-action/compare/v5.0.2...v5.1.0) (2022-10-06)
 
-
 ### Features
 
-* add @commitlint/ensure so that users of the action can use it too ([21c37a5](https://github.com/wagoid/commitlint-github-action/commit/21c37a524217629f2486c3f38a88b1628bf78d87))
+- add @commitlint/ensure so that users of the action can use it too ([21c37a5](https://github.com/wagoid/commitlint-github-action/commit/21c37a524217629f2486c3f38a88b1628bf78d87))
 
 ### [5.0.2](https://github.com/wagoid/commitlint-github-action/compare/v5.0.1...v5.0.2) (2022-06-28)
 
@@ -62,15 +56,14 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [5.0.0](https://github.com/wagoid/commitlint-github-action/compare/v4.1.15...v5.0.0) (2022-06-16)
 
-
 ### ⚠ BREAKING CHANGES
 
-* chore: rename circleci windows job
-* requires lerna v5
+- chore: rename circleci windows job
+- requires lerna v5
 
 ### Features
 
-* upgrade [@commitlint](https://github.com/commitlint) packages ([91c000c](https://github.com/wagoid/commitlint-github-action/commit/91c000c1e080c9c04bf3c2c139acf4a8cd2f98c9))
+- upgrade [@commitlint](https://github.com/commitlint) packages ([91c000c](https://github.com/wagoid/commitlint-github-action/commit/91c000c1e080c9c04bf3c2c139acf4a8cd2f98c9))
 
 ### [4.1.15](https://github.com/wagoid/commitlint-github-action/compare/v4.1.14...v4.1.15) (2022-06-16)
 
@@ -80,10 +73,9 @@ All notable changes to this project will be documented in this file. See [commit
 
 ### [4.1.12](https://github.com/wagoid/commitlint-github-action/compare/v4.1.11...v4.1.12) (2022-05-07)
 
-
 ### Bug Fixes
 
-* set workspace directory as safe in the entrypoint ([ce9a8cb](https://github.com/wagoid/commitlint-github-action/commit/ce9a8cb8ca913ad31123ebcfb3ce88061fe7108e)), closes [/github.com/actions/checkout/issues/760#issuecomment-1098135955](https://github.com/wagoid//github.com/actions/checkout/issues/760/issues/issuecomment-1098135955)
+- set workspace directory as safe in the entrypoint ([ce9a8cb](https://github.com/wagoid/commitlint-github-action/commit/ce9a8cb8ca913ad31123ebcfb3ce88061fe7108e)), closes [/github.com/actions/checkout/issues/760#issuecomment-1098135955](https://github.com/wagoid//github.com/actions/checkout/issues/760/issues/issuecomment-1098135955)
 
 ### [4.1.11](https://github.com/wagoid/commitlint-github-action/compare/v4.1.10...v4.1.11) (2022-04-06)
 
@@ -91,10 +83,9 @@ All notable changes to this project will be documented in this file. See [commit
 
 ### [4.1.9](https://github.com/wagoid/commitlint-github-action/compare/v4.1.8...v4.1.9) (2021-10-11)
 
-
 ### Bug Fixes
 
-* use helpUrl from config when present ([6f0b49b](https://github.com/wagoid/commitlint-github-action/commit/6f0b49bb7b70977c2f0ea471a0282d21d5a8aab5)), closes [#234](https://github.com/wagoid/commitlint-github-action/issues/234)
+- use helpUrl from config when present ([6f0b49b](https://github.com/wagoid/commitlint-github-action/commit/6f0b49bb7b70977c2f0ea471a0282d21d5a8aab5)), closes [#234](https://github.com/wagoid/commitlint-github-action/issues/234)
 
 ### [4.1.8](https://github.com/wagoid/commitlint-github-action/compare/v4.1.7...v4.1.8) (2021-10-11)
 
@@ -108,11 +99,10 @@ All notable changes to this project will be documented in this file. See [commit
 
 ### [4.1.3](https://github.com/wagoid/commitlint-github-action/compare/v4.1.2...v4.1.3) (2021-09-11)
 
-
 ### Bug Fixes
 
-* action failing to check footer of a single commit ([961b6d4](https://github.com/wagoid/commitlint-github-action/commit/961b6d4cd7565e86ea5e28bcb015042ae2022f4f)), closes [#187](https://github.com/wagoid/commitlint-github-action/issues/187)
-* vulnerabilities from npm audit ([bf83d2b](https://github.com/wagoid/commitlint-github-action/commit/bf83d2b35c4177779d047f464b48d9907f2c5201))
+- action failing to check footer of a single commit ([961b6d4](https://github.com/wagoid/commitlint-github-action/commit/961b6d4cd7565e86ea5e28bcb015042ae2022f4f)), closes [#187](https://github.com/wagoid/commitlint-github-action/issues/187)
+- vulnerabilities from npm audit ([bf83d2b](https://github.com/wagoid/commitlint-github-action/commit/bf83d2b35c4177779d047f464b48d9907f2c5201))
 
 ### [4.1.2](https://github.com/wagoid/commitlint-github-action/compare/v4.1.1...v4.1.2) (2021-09-11)
 
@@ -120,39 +110,35 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [4.1.0](https://github.com/wagoid/commitlint-github-action/compare/v4.0.3...v4.1.0) (2021-07-17)
 
-
 ### Features
 
-* officially support commitlint-plugin-function-rules ([d6d6fc0](https://github.com/wagoid/commitlint-github-action/commit/d6d6fc0ae0ec45f7b495ae44a78ec5499877ae0d)), closes [#196](https://github.com/wagoid/commitlint-github-action/issues/196)
+- officially support commitlint-plugin-function-rules ([d6d6fc0](https://github.com/wagoid/commitlint-github-action/commit/d6d6fc0ae0ec45f7b495ae44a78ec5499877ae0d)), closes [#196](https://github.com/wagoid/commitlint-github-action/issues/196)
 
 ### [4.0.3](https://github.com/wagoid/commitlint-github-action/compare/v4.0.2...v4.0.3) (2021-07-17)
 
-
 ### Bug Fixes
 
-* build the action with rollup ([2e57812](https://github.com/wagoid/commitlint-github-action/commit/2e578124a54b446aaf8dfa6d7c71d92e2d6a3de7)), closes [#194](https://github.com/wagoid/commitlint-github-action/issues/194)
+- build the action with rollup ([2e57812](https://github.com/wagoid/commitlint-github-action/commit/2e578124a54b446aaf8dfa6d7c71d92e2d6a3de7)), closes [#194](https://github.com/wagoid/commitlint-github-action/issues/194)
 
 ### [4.0.2](https://github.com/wagoid/commitlint-github-action/compare/v4.0.1...v4.0.2) (2021-07-15)
 
-
 ### Bug Fixes
 
-* default to .cjs extension in config files ([5b6cd1b](https://github.com/wagoid/commitlint-github-action/commit/5b6cd1b23af3fcd4e6df552d48cc01dff41262dd))
+- default to .cjs extension in config files ([5b6cd1b](https://github.com/wagoid/commitlint-github-action/commit/5b6cd1b23af3fcd4e6df552d48cc01dff41262dd))
 
 ### [4.0.1](https://github.com/wagoid/commitlint-github-action/compare/v4.0.0...v4.0.1) (2021-07-15)
 
 ## [4.0.0](https://github.com/wagoid/commitlint-github-action/compare/v3.1.4...v4.0.0) (2021-07-15)
 
-
 ### ⚠ BREAKING CHANGES
 
-* Node.js version used on the action updated from 12 to
-16
+- Node.js version used on the action updated from 12 to
+  16
 
 ### Features
 
-* update dependencies that needed to switch to ESM syntax ([5463926](https://github.com/wagoid/commitlint-github-action/commit/5463926c07584c419d865a3fc9efdb382be54995))
-* upgrade to node.js 16 to support ES modules by default ([30d514f](https://github.com/wagoid/commitlint-github-action/commit/30d514f252505053d2e65896a0865ff0302b7233))
+- update dependencies that needed to switch to ESM syntax ([5463926](https://github.com/wagoid/commitlint-github-action/commit/5463926c07584c419d865a3fc9efdb382be54995))
+- upgrade to node.js 16 to support ES modules by default ([30d514f](https://github.com/wagoid/commitlint-github-action/commit/30d514f252505053d2e65896a0865ff0302b7233))
 
 ### [3.1.4](https://github.com/wagoid/commitlint-github-action/compare/v3.1.3...v3.1.4) (2021-05-19)
 
@@ -164,10 +150,9 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [3.1.0](https://github.com/wagoid/commitlint-github-action/compare/v3.0.8...v3.1.0) (2021-04-06)
 
-
 ### Features
 
-* add support for pull_request_target event ([de51303](https://github.com/wagoid/commitlint-github-action/commit/de513030467551ee03fb8827bd790967fd5818ab))
+- add support for pull_request_target event ([de51303](https://github.com/wagoid/commitlint-github-action/commit/de513030467551ee03fb8827bd790967fd5818ab))
 
 ### [3.0.8](https://github.com/wagoid/commitlint-github-action/compare/v3.0.7...v3.0.8) (2021-04-05)
 
@@ -175,10 +160,9 @@ All notable changes to this project will be documented in this file. See [commit
 
 ### [3.0.6](https://github.com/wagoid/commitlint-github-action/compare/v3.0.5...v3.0.6) (2021-03-02)
 
-
 ### Bug Fixes
 
-* perform an atomic push when releasing ([9d00d1e](https://github.com/wagoid/commitlint-github-action/commit/9d00d1e75718143215dbf95c9c12956c56225e90))
+- perform an atomic push when releasing ([9d00d1e](https://github.com/wagoid/commitlint-github-action/commit/9d00d1e75718143215dbf95c9c12956c56225e90))
 
 ### [3.0.5](https://github.com/wagoid/commitlint-github-action/compare/v3.0.3...v3.0.5) (2021-03-02)
 
@@ -192,24 +176,22 @@ All notable changes to this project will be documented in this file. See [commit
 
 ## [3.0.0](https://github.com/wagoid/commitlint-github-action/compare/v2.2.5...v3.0.0) (2021-02-24)
 
-
 ### ⚠ BREAKING CHANGES
 
-* **deps:** Remove support for lerna v2 and change the order of the `extends` resolution
-from right-to-left to left-to-right.
+- **deps:** Remove support for lerna v2 and change the order of the `extends` resolution
+  from right-to-left to left-to-right.
 
 ### Bug Fixes
 
-* **deps:** udpate commitlint monorepo to v12 ([8b0b095](https://github.com/wagoid/commitlint-github-action/commit/8b0b095f5e2c4a8bc5ebc94da6e1a9c0ebc6b862)), closes [#97](https://github.com/wagoid/commitlint-github-action/issues/97)
+- **deps:** udpate commitlint monorepo to v12 ([8b0b095](https://github.com/wagoid/commitlint-github-action/commit/8b0b095f5e2c4a8bc5ebc94da6e1a9c0ebc6b862)), closes [#97](https://github.com/wagoid/commitlint-github-action/issues/97)
 
 ### [2.2.5](https://github.com/wagoid/commitlint-github-action/compare/v2.2.4...v2.2.5) (2021-02-18)
 
 ### [2.2.4](https://github.com/wagoid/commitlint-github-action/compare/v2.2.3...v2.2.4) (2021-02-17)
 
-
 ### Bug Fixes
 
-* call getOctokit function instead of removed Github constructor ([84dd768](https://github.com/wagoid/commitlint-github-action/commit/84dd7685c6e51c38415801f8ca57df0578a83059))
+- call getOctokit function instead of removed Github constructor ([84dd768](https://github.com/wagoid/commitlint-github-action/commit/84dd7685c6e51c38415801f8ca57df0578a83059))
 
 ### [2.2.3](https://github.com/wagoid/commitlint-github-action/compare/v2.2.2...v2.2.3) (2021-02-15)
 
@@ -219,18 +201,16 @@ from right-to-left to left-to-right.
 
 ## [2.2.0](https://github.com/wagoid/commitlint-github-action/compare/v2.1.7...v2.2.0) (2021-02-07)
 
-
 ### Features
 
-* add outputs generation again ([a34ac47](https://github.com/wagoid/commitlint-github-action/commit/a34ac47c340ba0062e19bae66271eef6390ab03e)), closes [/github.com/actions/toolkit/issues/702#issuecomment-774269650](https://github.com/wagoid//github.com/actions/toolkit/issues/702/issues/issuecomment-774269650)
+- add outputs generation again ([a34ac47](https://github.com/wagoid/commitlint-github-action/commit/a34ac47c340ba0062e19bae66271eef6390ab03e)), closes [/github.com/actions/toolkit/issues/702#issuecomment-774269650](https://github.com/wagoid//github.com/actions/toolkit/issues/702/issues/issuecomment-774269650)
 
 ### [2.1.7](https://github.com/wagoid/commitlint-github-action/compare/v2.1.6...v2.1.7) (2021-01-28)
 
-
 ### Bug Fixes
 
-* remove output generation ([b674cd3](https://github.com/wagoid/commitlint-github-action/commit/b674cd3ec44b3d627899d44e7cd5c649566d291a))
-* stop trying to issue commands on failures ([1128358](https://github.com/wagoid/commitlint-github-action/commit/1128358de33626153faadc9d01d0fad8bde5cfb8)), closes [#70](https://github.com/wagoid/commitlint-github-action/issues/70)
+- remove output generation ([b674cd3](https://github.com/wagoid/commitlint-github-action/commit/b674cd3ec44b3d627899d44e7cd5c649566d291a))
+- stop trying to issue commands on failures ([1128358](https://github.com/wagoid/commitlint-github-action/commit/1128358de33626153faadc9d01d0fad8bde5cfb8)), closes [#70](https://github.com/wagoid/commitlint-github-action/issues/70)
 
 ### [2.1.6](https://github.com/wagoid/commitlint-github-action/compare/v2.1.5...v2.1.6) (2020-12-16)
 
@@ -244,17 +224,15 @@ from right-to-left to left-to-right.
 
 ### [2.1.1](https://github.com/wagoid/commitlint-github-action/compare/v2.1.0...v2.1.1) (2020-11-11)
 
-
 ### Bug Fixes
 
-* do not run workflow commands in commit messages ([d67c2ec](https://github.com/wagoid/commitlint-github-action/commit/d67c2ec96c0039c3cdbde4e677be13127062ed85))
+- do not run workflow commands in commit messages ([d67c2ec](https://github.com/wagoid/commitlint-github-action/commit/d67c2ec96c0039c3cdbde4e677be13127062ed85))
 
 ## [2.1.0](https://github.com/wagoid/commitlint-github-action/compare/v2.0.5...v2.1.0) (2020-09-14)
 
-
 ### Features
 
-* upgrade dependencies to their latest version ([f162ac0](https://github.com/wagoid/commitlint-github-action/commit/f162ac07f904e8b5578fa77172b997145fd61b7a))
+- upgrade dependencies to their latest version ([f162ac0](https://github.com/wagoid/commitlint-github-action/commit/f162ac07f904e8b5578fa77172b997145fd61b7a))
 
 ### 2.0.5 (2020-09-14)
 

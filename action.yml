@@ -3,7 +3,8 @@ description: Lints Pull Request commit messages with commitlint
 author: Wagner Santos
 inputs:
   configFile:
-    description: Commitlint config file. If the file doesn't exist, config-conventional settings will be
+    description:
+      Commitlint config file. If the file doesn't exist, config-conventional settings will be
       loaded as a fallback.
     default: ./commitlint.config.js
     required: false
@@ -12,15 +13,15 @@ inputs:
       When set to true, we follow only the first parent commit when seeing a merge commit.
       More info in git-log docs
       https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent
-    default: "true"
+    default: 'true'
     required: false
   failOnWarnings:
     description: Whether you want to fail on warnings or not
-    default: "false"
+    default: 'false'
     required: false
   failOnErrors:
     description: Whether you want to fail on errors or not
-    default: "true"
+    default: 'true'
     required: true
   helpURL:
     description: Link to a page explaining your commit message convention
@@ -28,7 +29,7 @@ inputs:
     required: false
   commitDepth:
     description: When set to a valid Integer value - X, considers only the latest X number of commits.
-    default: ""
+    default: ''
     required: false
   token:
     description: >
@@ -43,7 +44,7 @@ outputs:
     description: The error and warning messages for each one of the analyzed commits
 runs:
   using: docker
-  image: docker://wagoid/commitlint-github-action:5.4.0
+  image: docker://wagoid/commitlint-github-action:5.3.1
 branding:
   icon: check-square
   color: blue
