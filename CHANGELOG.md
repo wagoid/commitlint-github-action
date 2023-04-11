@@ -2,6 +2,19 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.4.1](https://github.com/wagoid/commitlint-github-action/compare/v5.4.0...v5.4.1) (2023-04-11)
+
+
+### Bug Fixes
+
+* **action:** add docker image back to yml ([09fdc59](https://github.com/wagoid/commitlint-github-action/commit/09fdc594834fda031fa27ce7f95d89da8ef68dc8))
+* **action:** move info sequence for failonerrors ([d4e1e80](https://github.com/wagoid/commitlint-github-action/commit/d4e1e800cd5f24869c63b725ca461da53cc8b419))
+* **action:** move info sequence for failonerrors ([00cf650](https://github.com/wagoid/commitlint-github-action/commit/00cf65022ffbecf121f0ac4d7158772d57e35735))
+* **action:** removed unnecessary setOutput call ([0a35ed4](https://github.com/wagoid/commitlint-github-action/commit/0a35ed499e45918fc5e3735b85e015a20bb82177))
+* **action:** use dockerfile ([6a86716](https://github.com/wagoid/commitlint-github-action/commit/6a86716a7909116c765c7b750983a1eb5944a54f))
+* **action:** use dockerfile ([0561ba8](https://github.com/wagoid/commitlint-github-action/commit/0561ba89620ef690e74a82f00c378aa655a86490))
+* error when producing outputs ([7cb77e4](https://github.com/wagoid/commitlint-github-action/commit/7cb77e425dda71d2512c16a9114a450a553b3270))
+
 ## [5.4.0](https://github.com/wagoid/commitlint-github-action/compare/v5.3.1...v5.4.0) (2023-04-10)
 
 ### Features
