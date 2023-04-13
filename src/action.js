@@ -12,7 +12,7 @@ const pullRequestEvent = 'pull_request'
 const pullRequestTargetEvent = 'pull_request_target'
 const pullRequestEvents = [pullRequestEvent, pullRequestTargetEvent]
 
-const { GITHUB_EVENT_NAME, GITHUB_SHA } = process.env
+const { GITHUB_EVENT_NAME, GITHUB_SHA, GITHUB_BASE_REF } = process.env
 
 const configPath = resolve(process.env.GITHUB_WORKSPACE, getInput('configFile'))
 
@@ -76,6 +76,10 @@ function getHistoryCommits(from, to) {
 
   if (getInput('firstParent') === 'true') {
     options.firstParent = true
+  }
+
+  if (getInput('excludeTargetBranch') === 'true') {
+    options[`^${GITHUB_BASE_REF}`] = true
   }
 
   if (!from) {
