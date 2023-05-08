@@ -42,7 +42,7 @@
     "lerna": "^5.1.4"
   },
   "devDependencies": {
-    "@babel/core": "^7.19.3",
+    "@babel/core": "^7.21.8",
     "@babel/preset-env": "^7.19.3",
     "@commitlint/cli": "^17.4.3",
     "@commitlint/test": "^9.0.1",
