@@ -58,6 +58,7 @@ const getRangeForEvent = async () => {
     owner,
     repo,
     pull_number: number,
+    per_page: 100,
   })
   const commitShas = commits.map((commit) => commit.sha)
   const [from] = commitShas

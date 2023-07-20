@@ -332,6 +332,7 @@ describe('Commit Linter action', () => {
             owner: 'wagoid',
             repo: 'commitlint-github-action',
             pull_number: '1',
+            per_page: 100,
           }),
         ).thenResolve({
           data: [first, to].map((sha) => ({ sha })),
@@ -397,6 +398,7 @@ describe('Commit Linter action', () => {
           owner: 'wagoid',
           repo: 'commitlint-github-action',
           pull_number: '1',
+          per_page: 100,
         }),
       ).thenReject(new Error('HttpError: Bad credentials'))
       td.replace(process, 'cwd', () => cwd)
