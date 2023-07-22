@@ -1,15 +1,13 @@
 /* eslint-env jest */
 import { git } from '@commitlint/test'
 import { describe } from '@jest/globals'
-import execa from 'execa'
 import td from 'testdouble'
 import {
-  gitEmptyCommit,
-  getCommitHashes,
   updatePushEnvVars,
   createPushEventPayload,
   createPullRequestEventPayload,
   updatePullRequestEnvVars,
+  buildResponseCommit,
 } from './testUtils'
 
 const resultsOutputId = 'results'
@@ -51,7 +49,6 @@ describe('Commit Linter action', () => {
     td.replace(core, 'setFailed')
     td.replace(core, 'setOutput')
     td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
-    td.when(core.getInput('firstParent')).thenReturn('true')
     td.when(core.getInput('failOnWarnings')).thenReturn('false')
     td.when(core.getInput('helpURL')).thenReturn(
       'https://github.com/conventional-changelog/commitlint/#what-is-commitlint',
@@ -67,10 +64,15 @@ describe('Commit Linter action', () => {
   it('should use default config when config file does not exist', async () => {
     td.when(core.getInput('configFile')).thenReturn('./not-existing-config.js')
     cwd = await git.bootstrap('fixtures/conventional')
-    await gitEmptyCommit(cwd, 'wrong message')
-    const [to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { to })
-    updatePushEnvVars(cwd, to)
+    await createPushEventPayload(cwd, {
+      commits: [
+        {
+          id: 'wrong-message',
+          message: 'wrong message',
+        },
+      ],
+    })
+    updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
 
     await runAction()
@@ -87,10 +89,15 @@ describe('Commit Linter action', () => {
 
   it('should fail for single push with incorrect message', async () => {
     cwd = await git.bootstrap('fixtures/conventional')
-    await gitEmptyCommit(cwd, 'wrong message')
-    const [to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { to })
-    updatePushEnvVars(cwd, to)
+    await createPushEventPayload(cwd, {
+      commits: [
+        {
+          id: 'wrong-message',
+          message: 'wrong message',
+        },
+      ],
+    })
+    updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
 
     await runAction()
@@ -100,12 +107,19 @@ describe('Commit Linter action', () => {
 
   it('should fail for push range with wrong messages', async () => {
     cwd = await git.bootstrap('fixtures/conventional')
-    await gitEmptyCommit(cwd, 'message from before push')
-    await gitEmptyCommit(cwd, 'wrong message 1')
-    await gitEmptyCommit(cwd, 'wrong message 2')
-    const [before, , to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { before, to })
-    updatePushEnvVars(cwd, to)
+    await createPushEventPayload(cwd, {
+      commits: [
+        {
+          id: 'wrong-message-1',
+          message: 'wrong message 1',
+        },
+        {
+          id: 'wrong-message-2',
+          message: 'wrong message 2',
+        },
+      ],
+    })
+    updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
 
     await runAction()
@@ -116,12 +130,19 @@ describe('Commit Linter action', () => {
   it('should pass for push range with wrong messages with failOnErrors set to false', async () => {
     td.when(core.getInput('failOnErrors')).thenReturn('false')
     cwd = await git.bootstrap('fixtures/conventional')
-    await gitEmptyCommit(cwd, 'message from before push')
-    await gitEmptyCommit(cwd, 'wrong message 1')
-    await gitEmptyCommit(cwd, 'wrong message 2')
-    const [before, , to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { before, to })
-    updatePushEnvVars(cwd, to)
+    await createPushEventPayload(cwd, {
+      commits: [
+        {
+          id: 'wrong-message-1',
+          message: 'wrong message 1',
+        },
+        {
+          id: 'wrong-message-2',
+          message: 'wrong message 2',
+        },
+      ],
+    })
+    updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
     td.replace(console, 'log')
 
@@ -136,12 +157,19 @@ describe('Commit Linter action', () => {
   it('should pass for push range with correct messages with failOnErrors set to false', async () => {
     td.when(core.getInput('failOnErrors')).thenReturn('false')
     cwd = await git.bootstrap('fixtures/conventional')
-    await gitEmptyCommit(cwd, 'message from before push')
-    await gitEmptyCommit(cwd, 'chore: correct message 1')
-    await gitEmptyCommit(cwd, 'chore: correct message 2')
-    const [before, , to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { before, to })
-    updatePushEnvVars(cwd, to)
+    await createPushEventPayload(cwd, {
+      commits: [
+        {
+          id: 'correct-message-1',
+          message: 'chore: correct message 1',
+        },
+        {
+          id: 'correct-message-2',
+          message: 'chore: correct message 2',
+        },
+      ],
+    })
+    updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
     td.replace(console, 'log')
 
@@ -153,12 +181,19 @@ describe('Commit Linter action', () => {
 
   it('should pass for push range with correct messages', async () => {
     cwd = await git.bootstrap('fixtures/conventional')
-    await gitEmptyCommit(cwd, 'message from before push')
-    await gitEmptyCommit(cwd, 'chore: correct message 1')
-    await gitEmptyCommit(cwd, 'chore: correct message 2')
-    const [before, , to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { before, to })
-    updatePushEnvVars(cwd, to)
+    await createPushEventPayload(cwd, {
+      commits: [
+        {
+          id: 'correct-message-1',
+          message: 'chore: correct message 1',
+        },
+        {
+          id: 'correct-message-2',
+          message: 'chore: correct message 2',
+        },
+      ],
+    })
+    updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
     td.replace(console, 'log')
 
@@ -168,52 +203,17 @@ describe('Commit Linter action', () => {
     td.verify(console.log('Lint free! 🎉'))
   })
 
-  it('should lint only last commit for forced push', async () => {
-    cwd = await git.bootstrap('fixtures/conventional')
-    await gitEmptyCommit(cwd, 'message from before push')
-    await gitEmptyCommit(cwd, 'wrong message 1')
-    await gitEmptyCommit(cwd, 'wrong message 2')
-    const [before, , to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { before, to, forced: true })
-    updatePushEnvVars(cwd, to)
-    td.replace(process, 'cwd', () => cwd)
-    td.replace(console, 'warn')
-
-    await runAction()
-
-    td.verify(
-      console.warn(
-        'Commit was forced, checking only the latest commit from push instead of a range of commit messages',
-      ),
-    )
-    td.verify(core.setFailed(contains('wrong message 1')), { times: 0 })
-    td.verify(core.setFailed(contains('wrong message 2')))
-  })
-
-  it('should lint only last commit when "before" field is an empty sha', async () => {
-    const gitEmptySha = '0000000000000000000000000000000000000000'
-    cwd = await git.bootstrap('fixtures/conventional')
-    await gitEmptyCommit(cwd, 'message from before push')
-    await gitEmptyCommit(cwd, 'wrong message 1')
-    await gitEmptyCommit(cwd, 'wrong message 2')
-    const [, , to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { before: gitEmptySha, to })
-    updatePushEnvVars(cwd, to)
-    td.replace(process, 'cwd', () => cwd)
-
-    await runAction()
-
-    td.verify(core.setFailed(contains('wrong message 1')), { times: 0 })
-    td.verify(core.setFailed(contains('wrong message 2')))
-  })
-
   it('should fail for commit with scope that is not a lerna package', async () => {
     cwd = await git.bootstrap('fixtures/lerna-scopes')
     td.when(core.getInput('configFile')).thenReturn('./commitlint.config.yml')
-    await gitEmptyCommit(cwd, 'chore(wrong): not including package scope')
-    const [to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { to })
-    updatePushEnvVars(cwd, to)
+    await createPushEventPayload(cwd, {
+      commits: [
+        {
+          message: 'chore(wrong): not including package scope',
+        },
+      ],
+    })
+    updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
 
     await runAction()
@@ -226,10 +226,15 @@ describe('Commit Linter action', () => {
   it('should pass for scope that is a lerna package', async () => {
     cwd = await git.bootstrap('fixtures/lerna-scopes')
     td.when(core.getInput('configFile')).thenReturn('./commitlint.config.yml')
-    await gitEmptyCommit(cwd, 'chore(second-package): this works')
-    const [to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { to })
-    updatePushEnvVars(cwd, to)
+    await createPushEventPayload(cwd, {
+      commits: [
+        {
+          id: 'correct-message',
+          message: 'chore(second-package): this works',
+        },
+      ],
+    })
+    updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
     td.replace(console, 'log')
 
@@ -241,10 +246,15 @@ describe('Commit Linter action', () => {
   it("should fail for commit that doesn't comply with jira rules", async () => {
     cwd = await git.bootstrap('fixtures/jira')
     td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
-    await gitEmptyCommit(cwd, 'ib-21212121212121: without jira ticket')
-    const [to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { to })
-    updatePushEnvVars(cwd, to)
+    await createPushEventPayload(cwd, {
+      commits: [
+        {
+          id: 'wrong-message',
+          message: 'ib-21212121212121: without jira ticket',
+        },
+      ],
+    })
+    updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
 
     await runAction()
@@ -271,62 +281,23 @@ describe('Commit Linter action', () => {
     )
   })
 
-  it('should NOT consider commits from another branch', async () => {
-    cwd = await git.bootstrap('fixtures/conventional')
-    await gitEmptyCommit(cwd, 'chore: commit before')
-    await gitEmptyCommit(cwd, 'chore: correct message')
-    await execa.command('git checkout -b another-branch', { cwd })
-    await gitEmptyCommit(cwd, 'wrong commit from another branch')
-    await execa.command('git checkout -', { cwd })
-    await execa.command('git merge --no-ff another-branch', { cwd })
-    const [before, , to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { before, to })
-    updatePushEnvVars(cwd, to)
-    td.replace(process, 'cwd', () => cwd)
-    td.replace(console, 'log')
-
-    await runAction()
-
-    td.verify(console.log('Lint free! 🎉'))
-  })
-
-  it('should consider commits from another branch when firstParent is false', async () => {
-    cwd = await git.bootstrap('fixtures/conventional')
-    await gitEmptyCommit(cwd, 'chore: commit before')
-    await gitEmptyCommit(cwd, 'chore: correct message')
-    await execa.command('git checkout -b another-branch', { cwd })
-    await gitEmptyCommit(cwd, 'wrong commit from another branch')
-    await execa.command('git checkout -', { cwd })
-    await execa.command('git merge --no-ff another-branch', { cwd })
-    const [before, , , to] = await getCommitHashes(cwd)
-    await createPushEventPayload(cwd, { before, to })
-    updatePushEnvVars(cwd, to)
-    td.replace(process, 'cwd', () => cwd)
-    td.when(core.getInput('firstParent')).thenReturn('false')
-
-    await runAction()
-
-    td.verify(core.setFailed(contains('wrong commit from another branch')))
-  })
-
   describe.each(['pull_request', 'pull_request_target'])(
     'when there are multiple commits failing in the %s event',
     (eventName) => {
       let expectedResultsOutput
-      const firstMessage = 'wrong message 1'
-      const secondMessage = 'wrong message 2'
+      const firstCommit = buildResponseCommit('first-commit', 'wrong message 1')
+      const secondCommit = buildResponseCommit(
+        'second-commit',
+        'wrong message 2',
+      )
 
       beforeEach(async () => {
         cwd = await git.bootstrap('fixtures/conventional')
         td.when(core.getInput('configFile')).thenReturn(
           './commitlint.config.js',
         )
-        await gitEmptyCommit(cwd, 'message from before push')
-        await gitEmptyCommit(cwd, firstMessage)
-        await gitEmptyCommit(cwd, secondMessage)
         await createPullRequestEventPayload(cwd)
-        const [, first, to] = await getCommitHashes(cwd)
-        updatePullRequestEnvVars(cwd, to, { eventName })
+        updatePullRequestEnvVars(cwd, { eventName })
         td.when(
           listCommits({
             owner: 'wagoid',
@@ -335,21 +306,21 @@ describe('Commit Linter action', () => {
             per_page: 100,
           }),
         ).thenResolve({
-          data: [first, to].map((sha) => ({ sha })),
+          data: [firstCommit, secondCommit],
         })
         td.replace(process, 'cwd', () => cwd)
 
         expectedResultsOutput = [
           {
-            hash: to,
-            message: secondMessage,
+            hash: firstCommit.sha,
+            message: firstCommit.commit.message,
             valid: false,
             errors: ['subject may not be empty', 'type may not be empty'],
             warnings: [],
           },
           {
-            hash: first,
-            message: firstMessage,
+            hash: secondCommit.sha,
+            message: secondCommit.commit.message,
             valid: false,
             errors: ['subject may not be empty', 'type may not be empty'],
             warnings: [],
@@ -368,13 +339,13 @@ describe('Commit Linter action', () => {
       it('should show errors for the first wrong message', async () => {
         await runAction()
 
-        td.verify(core.setFailed(contains(firstMessage)))
+        td.verify(core.setFailed(contains(firstCommit.commit.message)))
       })
 
       it('should show errors for the second wrong message', async () => {
         await runAction()
 
-        td.verify(core.setFailed(contains(secondMessage)))
+        td.verify(core.setFailed(contains(secondCommit.commit.message)))
       })
 
       it('should generate a JSON output of the errors', async () => {
@@ -389,10 +360,8 @@ describe('Commit Linter action', () => {
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/conventional')
       td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
-      await gitEmptyCommit(cwd, 'commit message')
       await createPullRequestEventPayload(cwd)
-      const [to] = await getCommitHashes(cwd)
-      updatePullRequestEnvVars(cwd, to)
+      updatePullRequestEnvVars(cwd)
       td.when(
         listCommits({
           owner: 'wagoid',
@@ -422,15 +391,15 @@ describe('Commit Linter action', () => {
   })
 
   describe("when there's a single commit with correct message", () => {
-    let commitHash
+    const commit = {
+      id: 'correct-message',
+      message: 'chore: correct message',
+    }
 
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/conventional')
-      await gitEmptyCommit(cwd, 'chore: correct message')
-      const [to] = await getCommitHashes(cwd)
-      commitHash = to
-      await createPushEventPayload(cwd, { to })
-      updatePushEnvVars(cwd, to)
+      await createPushEventPayload(cwd, { commits: [commit] })
+      updatePushEnvVars(cwd)
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
     })
@@ -450,8 +419,8 @@ describe('Commit Linter action', () => {
     it('should generate a JSON output of the messages', async () => {
       const expectedResultsOutput = [
         {
-          hash: commitHash,
-          message: 'chore: correct message',
+          hash: commit.id,
+          message: commit.message,
           valid: true,
           errors: [],
           warnings: [],
@@ -468,22 +437,26 @@ describe('Commit Linter action', () => {
     let expectedResultsOutput
 
     beforeEach(async () => {
+      const correctCommit = {
+        id: 'correct-commit',
+        message: 'chore: correct message with no warnings',
+      }
+      const commitWithWarning = {
+        id: 'commit-with-warning',
+        message:
+          'chore: correct message\nsome context without leading blank line',
+      }
       cwd = await git.bootstrap('fixtures/conventional')
-      await gitEmptyCommit(cwd, 'chore: previous commit')
-      await gitEmptyCommit(cwd, 'chore: correct message with no warnings')
-      await gitEmptyCommit(
-        cwd,
-        'chore: correct message\nsome context without leading blank line',
-      )
-      const [before, from, to] = await getCommitHashes(cwd)
-      await createPushEventPayload(cwd, { before, to })
-      updatePushEnvVars(cwd, to)
+      await createPushEventPayload(cwd, {
+        commits: [commitWithWarning, correctCommit],
+      })
+      updatePushEnvVars(cwd)
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
 
       expectedResultsOutput = [
         {
-          hash: to,
+          hash: commitWithWarning.id,
           message:
             'chore: correct message\n\nsome context without leading blank line',
           valid: true,
@@ -491,7 +464,7 @@ describe('Commit Linter action', () => {
           warnings: ['body must have leading blank line'],
         },
         {
-          hash: from,
+          hash: correctCommit.id,
           message: 'chore: correct message with no warnings',
           valid: true,
           errors: [],
@@ -535,22 +508,22 @@ describe('Commit Linter action', () => {
   })
 
   describe('when a subset of errors are just warnings', () => {
-    let firstHash
-    let secondHash
+    const commitWithWarning = {
+      id: 'first-commit',
+      message:
+        'chore: correct message\nsome context without leading blank line',
+    }
+    const wrongCommit = {
+      id: 'second-commit',
+      message: 'wrong-message',
+    }
 
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/conventional')
-      await gitEmptyCommit(cwd, 'message from before push')
-      await gitEmptyCommit(
-        cwd,
-        'chore: correct message\nsome context without leading blank line',
-      )
-      await gitEmptyCommit(cwd, 'wrong message')
-      const [before, firstCommit, to] = await getCommitHashes(cwd)
-      firstHash = firstCommit
-      secondHash = to
-      await createPushEventPayload(cwd, { before, to })
-      updatePushEnvVars(cwd, to)
+      await createPushEventPayload(cwd, {
+        commits: [wrongCommit, commitWithWarning],
+      })
+      updatePushEnvVars(cwd)
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
     })
@@ -566,14 +539,14 @@ describe('Commit Linter action', () => {
     it('should show the results in an output', async () => {
       const expectedResultsOutput = [
         {
-          hash: secondHash,
-          message: 'wrong message',
+          hash: wrongCommit.id,
+          message: wrongCommit.message,
           valid: false,
           errors: ['subject may not be empty', 'type may not be empty'],
           warnings: [],
         },
         {
-          hash: firstHash,
+          hash: commitWithWarning.id,
           message:
             'chore: correct message\n\nsome context without leading blank line',
           valid: true,
@@ -605,13 +578,16 @@ describe('Commit Linter action', () => {
   describe('when commit contains required signed-off-by message', () => {
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/signed-off-by')
-      await gitEmptyCommit(
-        cwd,
-        'chore: correct message\n\nsome context without leading blank line.\n\nSigned-off-by: John Doe <john.doe@example.com>',
-      )
-      const [to] = await getCommitHashes(cwd)
-      await createPushEventPayload(cwd, { to })
-      updatePushEnvVars(cwd, to)
+      await createPushEventPayload(cwd, {
+        commits: [
+          {
+            id: 'correct-commit',
+            message:
+              'chore: correct message\n\nsome context without leading blank line.\n\nSigned-off-by: John Doe <john.doe@example.com>',
+          },
+        ],
+      })
+      updatePushEnvVars(cwd)
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
     })
@@ -627,10 +603,15 @@ describe('Commit Linter action', () => {
   describe('when a different helpUrl is provided in the config', () => {
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/custom-help-url')
-      await gitEmptyCommit(cwd, 'wrong message')
-      const [to] = await getCommitHashes(cwd)
-      await createPushEventPayload(cwd, { to })
-      updatePushEnvVars(cwd, to)
+      await createPushEventPayload(cwd, {
+        commits: [
+          {
+            id: 'wrong-commit',
+            message: 'wrong message',
+          },
+        ],
+      })
+      updatePushEnvVars(cwd)
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
     })
@@ -646,17 +627,24 @@ describe('Commit Linter action', () => {
   })
 
   describe('when commitDepth is provided in the config', () => {
+    const incorrectCommit = {
+      id: 'incorrect-message',
+      message: 'incorrect message within commit depth',
+    }
+
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/conventional')
-      await gitEmptyCommit(cwd, 'message from before push')
-      await gitEmptyCommit(cwd, 'incorrect message within commit depth')
-      await gitEmptyCommit(cwd, 'chore: correct message 2')
-      const [before, , to] = await getCommitHashes(cwd)
-      await createPushEventPayload(cwd, { before, to })
-      updatePushEnvVars(cwd, to)
+      await createPushEventPayload(cwd, {
+        commits: [
+          { id: 'correct-commit', message: 'chore: correct message 2' },
+          incorrectCommit,
+        ],
+      })
+      updatePushEnvVars(cwd)
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
     })
+
     it('should pass when only considering messages defined by commitDepth', async () => {
       td.when(core.getInput('commitDepth')).thenReturn('1')
       await runAction()
@@ -664,21 +652,19 @@ describe('Commit Linter action', () => {
       td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
       td.verify(console.log('Lint free! 🎉'))
     })
+
     it('should fail when older commits have lint errors', async () => {
       td.when(core.getInput('commitDepth')).thenReturn('2')
       await runAction()
 
-      td.verify(
-        core.setFailed(contains('incorrect message within commit depth')),
-      )
+      td.verify(core.setFailed(contains(incorrectCommit.message)))
     })
+
     it('should consider all commits when an invalid commit depth is passed in config', async () => {
       td.when(core.getInput('commitDepth')).thenReturn('xzy')
       await runAction()
 
-      td.verify(
-        core.setFailed(contains('incorrect message within commit depth')),
-      )
+      td.verify(core.setFailed(contains(incorrectCommit.message)))
     })
   })
 })

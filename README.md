@@ -38,14 +38,6 @@ If the config file doesn't exist, [config-conventional](https://github.com/conve
 
 Details on the configuration file can be found on [the commitlint website](https://commitlint.js.org/#/reference-configuration).
 
-### `firstParent`
-
-When set to true, we follow only the first parent commit when seeing a merge commit.
-
-This helps to ignore errors in commits that were already present in your default branch (e.g. `master`) before adding conventional commit checks. More info in [git-log docs](https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent).
-
-Default: `true`
-
 ### `failOnWarnings`
 
 Whether you want to fail on warnings or not.
