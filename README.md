@@ -15,14 +15,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - uses: wagoid/commitlint-github-action@v5
 ```
 
 Alternatively, you can run on other event types such as `on: [push]`. In that case the action will lint the push event's commit(s) instead of linting commits from a pull request. You can also combine `push` and `pull_request` together in the same workflow.
-
-**Note**: It's necessary that you specify the `fetch-depth` argument to `actions/checkout@v2` step. By default they fetch only latest commit of the branch, but we need more commits since we validate a range of commit messages.
 
 ## Inputs
 
@@ -37,14 +33,6 @@ Default: `commitlint.config.js`
 If the config file doesn't exist, [config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) settings will be loaded as a default fallback.
 
 Details on the configuration file can be found on [the commitlint website](https://commitlint.js.org/#/reference-configuration).
-
-### `firstParent`
-
-When set to true, we follow only the first parent commit when seeing a merge commit.
-
-This helps to ignore errors in commits that were already present in your default branch (e.g. `master`) before adding conventional commit checks. More info in [git-log docs](https://git-scm.com/docs/git-log#Documentation/git-log.txt---first-parent).
-
-Default: `true`
 
 ### `failOnWarnings`
 
@@ -147,8 +135,6 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-        with:
-          fetch-depth: 0
       - uses: actions/setup-node@v2
         with:
           node-version: '14'

@@ -5,14 +5,13 @@ import { context as eventContext, getOctokit } from '@actions/github'
 import lint from '@commitlint/lint'
 import { format } from '@commitlint/format'
 import load from '@commitlint/load'
-import gitCommits from './gitCommits'
 import generateOutputs from './generateOutputs'
 
 const pullRequestEvent = 'pull_request'
 const pullRequestTargetEvent = 'pull_request_target'
 const pullRequestEvents = [pullRequestEvent, pullRequestTargetEvent]
 
-const { GITHUB_EVENT_NAME, GITHUB_SHA } = process.env
+const { GITHUB_EVENT_NAME } = process.env
 
 const configPath = resolve(process.env.GITHUB_WORKSPACE, getInput('configFile'))
 
@@ -23,34 +22,18 @@ const getCommitDepth = () => {
   return Number.isNaN(commitDepth) ? null : Math.max(commitDepth, 0)
 }
 
-const pushEventHasOnlyOneCommit = (from) => {
-  const gitEmptySha = '0000000000000000000000000000000000000000'
+const getPushEventCommits = () => {
+  const mappedCommits = eventContext.payload.commits.map((commit) => ({
+    message: commit.message,
+    hash: commit.id,
+  }))
 
-  return from === gitEmptySha
+  return mappedCommits
 }
 
-const getRangeForPushEvent = () => {
-  let from = eventContext.payload.before
-  const to = GITHUB_SHA
-
-  if (eventContext.payload.forced) {
-    // When a commit is forced, "before" field from the push event data may point to a commit that doesn't exist
-    console.warn(
-      'Commit was forced, checking only the latest commit from push instead of a range of commit messages',
-    )
-    from = null
-  }
-
-  if (pushEventHasOnlyOneCommit(from)) {
-    from = null
-  }
-
-  return [from, to]
-}
-
-const getRangeForEvent = async () => {
+const getEventCommits = async () => {
   if (!pullRequestEvents.includes(GITHUB_EVENT_NAME))
-    return getRangeForPushEvent()
+    return getPushEventCommits()
 
   const octokit = getOctokit(getInput('token'))
   const { owner, repo, number } = eventContext.issue
@@ -58,31 +41,13 @@ const getRangeForEvent = async () => {
     owner,
     repo,
     pull_number: number,
+    per_page: 100,
   })
-  const commitShas = commits.map((commit) => commit.sha)
-  const [from] = commitShas
-  const to = commitShas[commitShas.length - 1]
-  // Git revision range doesn't include the "from" field in "git log", so for "from" we use the parent commit of PR's first commit
-  const fromParent = `${from}^1`
 
-  return [fromParent, to]
-}
-
-function getHistoryCommits(from, to) {
-  const options = {
-    from,
-    to,
-  }
-
-  if (getInput('firstParent') === 'true') {
-    options.firstParent = true
-  }
-
-  if (!from) {
-    options.maxCount = 1
-  }
-
-  return gitCommits(options)
+  return commits.map((commit) => ({
+    message: commit.commit.message,
+    hash: commit.sha,
+  }))
 }
 
 function getOptsFromConfig(config) {
@@ -124,8 +89,8 @@ const handleOnlyWarnings = (formattedResults) => {
   }
 }
 
-const showLintResults = async ([from, to]) => {
-  let commits = await getHistoryCommits(from, to)
+const showLintResults = async (eventCommits) => {
+  let commits = eventCommits
   const commitDepth = getCommitDepth()
   if (commitDepth) {
     commits = commits?.slice(0, commitDepth)
@@ -163,7 +128,7 @@ const exitWithMessage = (message) => (error) => {
 }
 
 const commitLinterAction = () =>
-  getRangeForEvent()
+  getEventCommits()
     .catch(
       exitWithMessage("error trying to get list of pull request's commits"),
     )
