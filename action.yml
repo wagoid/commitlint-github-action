@@ -3,18 +3,17 @@ description: Lints Pull Request commit messages with commitlint
 author: Wagner Santos
 inputs:
   configFile:
-    description:
-      Commitlint config file. If the file doesn't exist, config-conventional settings will be
+    description: Commitlint config file. If the file doesn't exist, config-conventional settings will be
       loaded as a fallback.
     default: ./commitlint.config.js
     required: false
   failOnWarnings:
     description: Whether you want to fail on warnings or not
-    default: 'false'
+    default: "false"
     required: false
   failOnErrors:
     description: Whether you want to fail on errors or not
-    default: 'true'
+    default: "true"
     required: true
   helpURL:
     description: Link to a page explaining your commit message convention
@@ -22,7 +21,7 @@ inputs:
     required: false
   commitDepth:
     description: When set to a valid Integer value - X, considers only the latest X number of commits.
-    default: ''
+    default: ""
     required: false
   token:
     description: >
@@ -37,7 +36,7 @@ outputs:
     description: The error and warning messages for each one of the analyzed commits
 runs:
   using: docker
-  image: docker://wagoid/commitlint-github-action:5.4.1
+  image: docker://wagoid/commitlint-github-action:5.4.2
 branding:
   icon: check-square
   color: blue

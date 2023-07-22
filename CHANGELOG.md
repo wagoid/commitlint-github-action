@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 5.4.2 (2023-07-22)
+
 ## [5.4.1](https://github.com/wagoid/commitlint-github-action/compare/v5.4.0...v5.4.1) (2023-04-11)
 
 
