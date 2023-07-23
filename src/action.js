@@ -31,10 +31,7 @@ const getPushEventCommits = () => {
   return mappedCommits
 }
 
-const getEventCommits = async () => {
-  if (!pullRequestEvents.includes(GITHUB_EVENT_NAME))
-    return getPushEventCommits()
-
+const getPullRequestEventCommits = async () => {
   const octokit = getOctokit(getInput('token'))
   const { owner, repo, number } = eventContext.issue
   const { data: commits } = await octokit.rest.pulls.listCommits({
@@ -48,6 +45,16 @@ const getEventCommits = async () => {
     message: commit.commit.message,
     hash: commit.sha,
   }))
+}
+
+const getEventCommits = async () => {
+  if (pullRequestEvents.includes(GITHUB_EVENT_NAME)) {
+    return getPullRequestEventCommits()
+  }
+  if (eventContext.payload.commits) {
+    return getPushEventCommits()
+  }
+  return []
 }
 
 function getOptsFromConfig(config) {
