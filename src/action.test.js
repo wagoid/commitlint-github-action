@@ -281,6 +281,20 @@ describe('Commit Linter action', () => {
     )
   })
 
+  it('should pass when commits are not available', async () => {
+    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
+    cwd = await git.bootstrap('fixtures/conventional')
+    await createPushEventPayload(cwd, {})
+    updatePushEnvVars(cwd)
+    td.replace(process, 'cwd', () => cwd)
+    td.replace(console, 'log')
+
+    await runAction()
+
+    td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
+    td.verify(console.log('Lint free! 🎉'))
+  })
+
   describe.each(['pull_request', 'pull_request_target'])(
     'when there are multiple commits failing in the %s event',
     (eventName) => {
