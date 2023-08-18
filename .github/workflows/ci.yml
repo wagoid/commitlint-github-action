@@ -74,6 +74,7 @@ jobs:
         run: |
           major=`echo $VERSION | sed -E 's/([0-9]+)(.+)/\1/'`
           version_name="v$major"
+          echo $version_name
           tag_heading="This version points to the latest version available (v$VERSION)."
           tag_body="This is necessary because currently Github Actions don't apply any semantic versioning matching when downloading versions."
           git tag -fa "$version_name" -m "$version_name" -m "$tag_heading" -m "$tag_body"
