@@ -1,4 +1,4 @@
-FROM node:16.14.2-alpine3.14 as build
+FROM node:18.3.0-alpine3.14 as build
 
 COPY package*.json /
 
@@ -8,7 +8,7 @@ COPY . .
 
 RUN npm run build
 
-FROM node:16.5.0-alpine3.14
+FROM node:18.3.0-alpine3.14
 
 RUN apk --no-cache add git
 
