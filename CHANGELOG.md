@@ -2,6 +2,8 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## 5.4.4 (2023-11-01)
+
 ## 5.4.3 (2023-07-23)
 
 ## 5.4.2 (2023-07-22)
