@@ -8,7 +8,7 @@ COPY . .
 
 RUN npm run build
 
-FROM node:16.5.0-alpine3.14
+FROM node:20.9.0-alpine3.17
 
 RUN apk --no-cache add git
 
