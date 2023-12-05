@@ -1,6 +1,6 @@
 {
     "maintainers": [
-        "Developer productivity"
+        "sre"
     ],
     "checks": [
         "commitlint"
