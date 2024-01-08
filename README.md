@@ -10,6 +10,10 @@ Create a github workflow in the `.github` folder, e.g. `.github/workflows/commit
 name: Lint Commit Messages
 on: [pull_request]
 
+permissions:
+  contents: read
+  pull-requests: read
+
 jobs:
   commitlint:
     runs-on: ubuntu-latest
@@ -129,6 +133,10 @@ In order to do so, you can use `NODE_PATH` env var to make the action take those
 ```yaml
 name: Lint Commit Messages
 on: [pull_request]
+
+permissions:
+  contents: read
+  pull-requests: read
 
 jobs:
   commitlint:
