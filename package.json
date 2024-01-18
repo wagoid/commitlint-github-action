@@ -48,7 +48,7 @@
     "@commitlint/test-environment": "^9.0.1",
     "@jest/globals": "^29.4.2",
     "@rollup/plugin-babel": "^6.0.0",
-    "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-commonjs": "^25.0.0",
     "@rollup/plugin-node-resolve": "^14.1.0",
     "babel-jest": "^29.4.3",
     "commit-and-tag-version": "^12.0.0",
