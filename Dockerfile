@@ -12,7 +12,7 @@ FROM node:20.9.0-alpine3.17
 
 RUN apk --no-cache add git
 
-COPY --from=build dist/run.mjs /run.mjs
+COPY --from=build dist/run.js /run.js
 
 COPY package*.json /
 

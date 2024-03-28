@@ -3,7 +3,7 @@
   "version": "5.4.6",
   "description": "commitlint github action",
   "private": true,
-  "module": "./dist/run.mjs",
+  "main": "./dist/run.mjs",
   "scripts": {
     "postinstall": "husky install",
     "test": "NODE_PATH=./node_modules NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" npx jest",
@@ -49,6 +49,7 @@
     "@jest/globals": "^29.7.0",
     "@rollup/plugin-babel": "^5.3.1",
     "@rollup/plugin-commonjs": "^22.0.2",
+    "@rollup/plugin-json": "^6.1.0",
     "@rollup/plugin-node-resolve": "^14.1.0",
     "babel-jest": "^29.7.0",
     "commit-and-tag-version": "^12.2.0",

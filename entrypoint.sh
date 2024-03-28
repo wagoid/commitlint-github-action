@@ -12,6 +12,4 @@ fi
 # Info about the vunlerability: https://github.blog/2022-04-12-git-security-vulnerability-announced/
 git config --global --add safe.directory "$GITHUB_WORKSPACE"
 
-export NODE_OPTIONS="$NODE_OPTIONS --experimental-vm-modules"
-
-node /run.mjs
+node /run.js
