@@ -5,10 +5,10 @@ import { babel } from '@rollup/plugin-babel'
 import pkg from './package.json'
 
 export default {
-  input: 'run.mjs',
+  input: 'run.js',
   external: (depName) =>
     depName.includes('node_modules') && !depName.includes('node_modules/dargs'),
-  output: [{ file: pkg.module, format: 'es' }],
+  output: [{ file: pkg.main, format: 'cjs' }],
   plugins: [
     babel({
       babelHelpers: 'bundled',

@@ -1,15 +1,14 @@
-/* eslint-disable import/no-extraneous-dependencies */
 /* eslint-env jest */
 import { git } from '@commitlint/test'
-import { jest, describe, it } from '@jest/globals'
-import * as td from 'testdouble'
+import { describe } from '@jest/globals'
+import td from 'testdouble'
 import {
   updatePushEnvVars,
   createPushEventPayload,
   createPullRequestEventPayload,
   updatePullRequestEnvVars,
   buildResponseCommit,
-} from './testUtils.mjs'
+} from './testUtils'
 
 const resultsOutputId = 'results'
 
@@ -19,44 +18,39 @@ const {
 
 const initialEnv = { ...process.env }
 
-const mockListCommits = td.func('listCommits')
+const listCommits = td.func('listCommits')
 
-const mockCore = td.object(['getInput', 'setFailed', 'setOutput'])
-
-jest.unstable_mockModule('@actions/core', () => mockCore)
-
-jest.unstable_mockModule('@actions/github', () => {
+const runAction = async () => {
+  const github = await import('@actions/github')
   class MockOctokit {
     constructor() {
       this.rest = {
         pulls: {
-          listCommits: mockListCommits,
+          listCommits,
         },
       }
     }
   }
 
-  return {
-    ...jest.requireActual('@actions/github'),
-    getOctokit: () => new MockOctokit(),
-  }
-})
+  td.replace(github, 'getOctokit', () => new MockOctokit())
 
-const runAction = async () => {
-  const action = (await import('./action.mjs')).default
+  const action = (await import('./action')).default
 
   return action()
 }
 
 describe('Commit Linter action', () => {
+  let core
   let cwd
 
   beforeEach(async () => {
-    td.when(mockCore.getInput('configFile')).thenReturn(
-      './commitlint.config.js',
-    )
-    td.when(mockCore.getInput('failOnWarnings')).thenReturn('false')
-    td.when(mockCore.getInput('helpURL')).thenReturn(
+    core = await import('@actions/core')
+    td.replace(core, 'getInput')
+    td.replace(core, 'setFailed')
+    td.replace(core, 'setOutput')
+    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
+    td.when(core.getInput('failOnWarnings')).thenReturn('false')
+    td.when(core.getInput('helpURL')).thenReturn(
       'https://github.com/conventional-changelog/commitlint/#what-is-commitlint',
     )
   })
@@ -68,10 +62,8 @@ describe('Commit Linter action', () => {
   })
 
   it('should use default config when config file does not exist', async () => {
-    td.when(mockCore.getInput('configFile')).thenReturn(
-      './not-existing-config.js',
-    )
-    cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+    td.when(core.getInput('configFile')).thenReturn('./not-existing-config.js')
+    cwd = await git.bootstrap('fixtures/conventional')
     await createPushEventPayload(cwd, {
       commits: [
         {
@@ -85,11 +77,9 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
+    td.verify(core.setFailed(contains('You have commit messages with errors')))
     td.verify(
-      mockCore.setFailed(contains('You have commit messages with errors')),
-    )
-    td.verify(
-      mockCore.setFailed(
+      core.setFailed(
         contains(
           'https://github.com/conventional-changelog/commitlint/#what-is-commitlint',
         ),
@@ -98,7 +88,7 @@ describe('Commit Linter action', () => {
   })
 
   it('should fail for single push with incorrect message', async () => {
-    cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+    cwd = await git.bootstrap('fixtures/conventional')
     await createPushEventPayload(cwd, {
       commits: [
         {
@@ -112,13 +102,11 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
-    td.verify(
-      mockCore.setFailed(contains('You have commit messages with errors')),
-    )
+    td.verify(core.setFailed(contains('You have commit messages with errors')))
   })
 
   it('should fail for push range with wrong messages', async () => {
-    cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+    cwd = await git.bootstrap('fixtures/conventional')
     await createPushEventPayload(cwd, {
       commits: [
         {
@@ -135,13 +123,13 @@ describe('Commit Linter action', () => {
     td.replace(process, 'cwd', () => cwd)
 
     await runAction()
-    td.verify(mockCore.setFailed(contains('wrong message 1')))
-    td.verify(mockCore.setFailed(contains('wrong message 2')))
+    td.verify(core.setFailed(contains('wrong message 1')))
+    td.verify(core.setFailed(contains('wrong message 2')))
   })
 
   it('should pass for push range with wrong messages with failOnErrors set to false', async () => {
-    td.when(mockCore.getInput('failOnErrors')).thenReturn('false')
-    cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+    td.when(core.getInput('failOnErrors')).thenReturn('false')
+    cwd = await git.bootstrap('fixtures/conventional')
     await createPushEventPayload(cwd, {
       commits: [
         {
@@ -160,15 +148,15 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
-    td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
+    td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
     td.verify(console.log(contains('wrong message 1')))
     td.verify(console.log(contains('wrong message 2')))
     td.verify(console.log(contains('Passing despite errors ✅')))
   })
 
   it('should pass for push range with correct messages with failOnErrors set to false', async () => {
-    td.when(mockCore.getInput('failOnErrors')).thenReturn('false')
-    cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+    td.when(core.getInput('failOnErrors')).thenReturn('false')
+    cwd = await git.bootstrap('fixtures/conventional')
     await createPushEventPayload(cwd, {
       commits: [
         {
@@ -187,12 +175,12 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
-    td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
+    td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
     td.verify(console.log('Lint free! 🎉'))
   })
 
   it('should pass for push range with correct messages', async () => {
-    cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+    cwd = await git.bootstrap('fixtures/conventional')
     await createPushEventPayload(cwd, {
       commits: [
         {
@@ -211,15 +199,13 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
-    td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
+    td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
     td.verify(console.log('Lint free! 🎉'))
   })
 
   it('should fail for commit with scope that is not a lerna package', async () => {
-    cwd = await git.bootstrap('fixtures/lerna-scopes', process.cwd())
-    td.when(mockCore.getInput('configFile')).thenReturn(
-      './commitlint.config.yml',
-    )
+    cwd = await git.bootstrap('fixtures/lerna-scopes')
+    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.yml')
     await createPushEventPayload(cwd, {
       commits: [
         {
@@ -233,15 +219,13 @@ describe('Commit Linter action', () => {
     await runAction()
 
     td.verify(
-      mockCore.setFailed(contains('chore(wrong): not including package scope')),
+      core.setFailed(contains('chore(wrong): not including package scope')),
     )
   })
 
   it('should pass for scope that is a lerna package', async () => {
-    cwd = await git.bootstrap('fixtures/lerna-scopes', process.cwd())
-    td.when(mockCore.getInput('configFile')).thenReturn(
-      './commitlint.config.yml',
-    )
+    cwd = await git.bootstrap('fixtures/lerna-scopes')
+    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.yml')
     await createPushEventPayload(cwd, {
       commits: [
         {
@@ -260,10 +244,8 @@ describe('Commit Linter action', () => {
   })
 
   it("should fail for commit that doesn't comply with jira rules", async () => {
-    cwd = await git.bootstrap('fixtures/jira', process.cwd())
-    td.when(mockCore.getInput('configFile')).thenReturn(
-      './commitlint.config.js',
-    )
+    cwd = await git.bootstrap('fixtures/jira')
+    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
     await createPushEventPayload(cwd, {
       commits: [
         {
@@ -278,32 +260,30 @@ describe('Commit Linter action', () => {
     await runAction()
 
     td.verify(
-      mockCore.setFailed(contains('ib-21212121212121: without jira ticket')),
+      core.setFailed(contains('ib-21212121212121: without jira ticket')),
     )
     td.verify(
-      mockCore.setFailed(
+      core.setFailed(
         contains(
           'ib-21212121212121 taskId must not be longer than 9 characters',
         ),
       ),
     )
     td.verify(
-      mockCore.setFailed(
+      core.setFailed(
         contains('ib-21212121212121 taskId must be uppercase case'),
       ),
     )
     td.verify(
-      mockCore.setFailed(
+      core.setFailed(
         contains('ib-21212121212121 commitStatus must be uppercase case'),
       ),
     )
   })
 
   it('should pass when commits are not available', async () => {
-    td.when(mockCore.getInput('configFile')).thenReturn(
-      './commitlint.config.js',
-    )
-    cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+    td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
+    cwd = await git.bootstrap('fixtures/conventional')
     await createPushEventPayload(cwd, {})
     updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
@@ -311,7 +291,7 @@ describe('Commit Linter action', () => {
 
     await runAction()
 
-    td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
+    td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
     td.verify(console.log('Lint free! 🎉'))
   })
 
@@ -326,14 +306,14 @@ describe('Commit Linter action', () => {
       )
 
       beforeEach(async () => {
-        cwd = await git.bootstrap('fixtures/conventional', process.cwd())
-        td.when(mockCore.getInput('configFile')).thenReturn(
+        cwd = await git.bootstrap('fixtures/conventional')
+        td.when(core.getInput('configFile')).thenReturn(
           './commitlint.config.js',
         )
         await createPullRequestEventPayload(cwd)
         updatePullRequestEnvVars(cwd, { eventName })
         td.when(
-          mockListCommits({
+          listCommits({
             owner: 'wagoid',
             repo: 'commitlint-github-action',
             pull_number: '1',
@@ -365,7 +345,7 @@ describe('Commit Linter action', () => {
       it('should NOT show errors for a message from before the push', async () => {
         await runAction()
 
-        td.verify(mockCore.setFailed(contains('message from before push')), {
+        td.verify(core.setFailed(contains('message from before push')), {
           times: 0,
         })
       })
@@ -373,33 +353,31 @@ describe('Commit Linter action', () => {
       it('should show errors for the first wrong message', async () => {
         await runAction()
 
-        td.verify(mockCore.setFailed(contains(firstCommit.commit.message)))
+        td.verify(core.setFailed(contains(firstCommit.commit.message)))
       })
 
       it('should show errors for the second wrong message', async () => {
         await runAction()
 
-        td.verify(mockCore.setFailed(contains(secondCommit.commit.message)))
+        td.verify(core.setFailed(contains(secondCommit.commit.message)))
       })
 
       it('should generate a JSON output of the errors', async () => {
         await runAction()
 
-        td.verify(mockCore.setOutput(resultsOutputId, expectedResultsOutput))
+        td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
       })
     },
   )
 
   describe('when it fails to fetch commits', () => {
     beforeEach(async () => {
-      cwd = await git.bootstrap('fixtures/conventional', process.cwd())
-      td.when(mockCore.getInput('configFile')).thenReturn(
-        './commitlint.config.js',
-      )
+      cwd = await git.bootstrap('fixtures/conventional')
+      td.when(core.getInput('configFile')).thenReturn('./commitlint.config.js')
       await createPullRequestEventPayload(cwd)
       updatePullRequestEnvVars(cwd)
       td.when(
-        mockListCommits({
+        listCommits({
           owner: 'wagoid',
           repo: 'commitlint-github-action',
           pull_number: '1',
@@ -413,7 +391,7 @@ describe('Commit Linter action', () => {
       await runAction()
 
       td.verify(
-        mockCore.setFailed(
+        core.setFailed(
           contains("error trying to get list of pull request's commits"),
         ),
       )
@@ -422,7 +400,7 @@ describe('Commit Linter action', () => {
     it('should show the original error message', async () => {
       await runAction()
 
-      td.verify(mockCore.setFailed(contains('HttpError: Bad credentials')))
+      td.verify(core.setFailed(contains('HttpError: Bad credentials')))
     })
   })
 
@@ -433,7 +411,7 @@ describe('Commit Linter action', () => {
     }
 
     beforeEach(async () => {
-      cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+      cwd = await git.bootstrap('fixtures/conventional')
       await createPushEventPayload(cwd, { commits: [commit] })
       updatePushEnvVars(cwd)
       td.replace(process, 'cwd', () => cwd)
@@ -443,7 +421,7 @@ describe('Commit Linter action', () => {
     it('should pass', async () => {
       await runAction()
 
-      td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
+      td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
     })
 
     it('should show success message', async () => {
@@ -465,7 +443,7 @@ describe('Commit Linter action', () => {
 
       await runAction()
 
-      td.verify(mockCore.setOutput(resultsOutputId, expectedResultsOutput))
+      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
     })
   })
 
@@ -482,7 +460,7 @@ describe('Commit Linter action', () => {
         message:
           'chore: correct message\nsome context without leading blank line',
       }
-      cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+      cwd = await git.bootstrap('fixtures/conventional')
       await createPushEventPayload(cwd, {
         commits: [commitWithWarning, correctCommit],
       })
@@ -512,33 +490,33 @@ describe('Commit Linter action', () => {
     it('should pass and show that warnings exist', async () => {
       await runAction()
 
-      td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
+      td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
       td.verify(console.log(contains('You have commit messages with warnings')))
     })
 
     it('should show the results in an output', async () => {
       await runAction()
 
-      td.verify(mockCore.setOutput(resultsOutputId, expectedResultsOutput))
+      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
     })
 
     describe('and failOnWarnings is set to true', () => {
       beforeEach(() => {
-        td.when(mockCore.getInput('failOnWarnings')).thenReturn('true')
+        td.when(core.getInput('failOnWarnings')).thenReturn('true')
       })
 
       it('should fail', async () => {
         await runAction()
 
         td.verify(
-          mockCore.setFailed(contains('You have commit messages with errors')),
+          core.setFailed(contains('You have commit messages with errors')),
         )
       })
 
       it('should show the results in an output', async () => {
         await runAction()
 
-        td.verify(mockCore.setOutput(resultsOutputId, expectedResultsOutput))
+        td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
       })
     })
   })
@@ -555,7 +533,7 @@ describe('Commit Linter action', () => {
     }
 
     beforeEach(async () => {
-      cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+      cwd = await git.bootstrap('fixtures/conventional')
       await createPushEventPayload(cwd, {
         commits: [wrongCommit, commitWithWarning],
       })
@@ -568,7 +546,7 @@ describe('Commit Linter action', () => {
       await runAction()
 
       td.verify(
-        mockCore.setFailed(contains('You have commit messages with errors')),
+        core.setFailed(contains('You have commit messages with errors')),
       )
     })
 
@@ -593,19 +571,19 @@ describe('Commit Linter action', () => {
 
       await runAction()
 
-      td.verify(mockCore.setOutput(resultsOutputId, expectedResultsOutput))
+      td.verify(core.setOutput(resultsOutputId, expectedResultsOutput))
     })
 
     describe('and failOnWarnings is set to true', () => {
       beforeEach(() => {
-        td.when(mockCore.getInput('failOnWarnings')).thenReturn('true')
+        td.when(core.getInput('failOnWarnings')).thenReturn('true')
       })
 
       it('should fail', async () => {
         await runAction()
 
         td.verify(
-          mockCore.setFailed(contains('You have commit messages with errors')),
+          core.setFailed(contains('You have commit messages with errors')),
         )
       })
     })
@@ -613,7 +591,7 @@ describe('Commit Linter action', () => {
 
   describe('when commit contains required signed-off-by message', () => {
     beforeEach(async () => {
-      cwd = await git.bootstrap('fixtures/signed-off-by', process.cwd())
+      cwd = await git.bootstrap('fixtures/signed-off-by')
       await createPushEventPayload(cwd, {
         commits: [
           {
@@ -631,14 +609,14 @@ describe('Commit Linter action', () => {
     it('should pass', async () => {
       await runAction()
 
-      td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
+      td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
       td.verify(console.log('Lint free! 🎉'))
     })
   })
 
   describe('when a different helpUrl is provided in the config', () => {
     beforeEach(async () => {
-      cwd = await git.bootstrap('fixtures/custom-help-url', process.cwd())
+      cwd = await git.bootstrap('fixtures/custom-help-url')
       await createPushEventPayload(cwd, {
         commits: [
           {
@@ -656,9 +634,9 @@ describe('Commit Linter action', () => {
       await runAction()
 
       td.verify(
-        mockCore.setFailed(contains('You have commit messages with errors')),
+        core.setFailed(contains('You have commit messages with errors')),
       )
-      td.verify(mockCore.setFailed(contains(' https://example.org')))
+      td.verify(core.setFailed(contains(' https://example.org')))
     })
   })
 
@@ -669,7 +647,7 @@ describe('Commit Linter action', () => {
     }
 
     beforeEach(async () => {
-      cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+      cwd = await git.bootstrap('fixtures/conventional')
       await createPushEventPayload(cwd, {
         commits: [
           { id: 'correct-commit', message: 'chore: correct message 2' },
@@ -682,25 +660,25 @@ describe('Commit Linter action', () => {
     })
 
     it('should pass when only considering messages defined by commitDepth', async () => {
-      td.when(mockCore.getInput('commitDepth')).thenReturn('1')
+      td.when(core.getInput('commitDepth')).thenReturn('1')
       await runAction()
 
-      td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
+      td.verify(core.setFailed(), { times: 0, ignoreExtraArgs: true })
       td.verify(console.log('Lint free! 🎉'))
     })
 
     it('should fail when older commits have lint errors', async () => {
-      td.when(mockCore.getInput('commitDepth')).thenReturn('2')
+      td.when(core.getInput('commitDepth')).thenReturn('2')
       await runAction()
 
-      td.verify(mockCore.setFailed(contains(incorrectCommit.message)))
+      td.verify(core.setFailed(contains(incorrectCommit.message)))
     })
 
     it('should consider all commits when an invalid commit depth is passed in config', async () => {
-      td.when(mockCore.getInput('commitDepth')).thenReturn('xzy')
+      td.when(core.getInput('commitDepth')).thenReturn('xzy')
       await runAction()
 
-      td.verify(mockCore.setFailed(contains(incorrectCommit.message)))
+      td.verify(core.setFailed(contains(incorrectCommit.message)))
     })
   })
 })

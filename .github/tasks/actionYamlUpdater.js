@@ -3,10 +3,10 @@ const yaml = require('yaml')
 
 const versionRegex = /\d+\.\d+\.\d+/
 
-exports.readVersion = (contents) =>
+module.exports.readVersion = (contents) =>
   yaml.parse(contents).runs.image.match(versionRegex)[0]
 
-exports.writeVersion = (contents, version) => {
+module.exports.writeVersion = (contents, version) => {
   const actionFile = yaml.parse(contents)
   actionFile.runs.image = actionFile.runs.image.replace(versionRegex, version)
 
