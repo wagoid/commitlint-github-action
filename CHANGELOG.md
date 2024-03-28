@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [5.5.1](https://github.com/wagoid/commitlint-github-action/compare/v5.5.0...v5.5.1) (2024-03-28)
+
+
+### Bug Fixes
+
+* upgrade commitlint to latest v18 ([6ee28c9](https://github.com/wagoid/commitlint-github-action/commit/6ee28c93002746f39d5d3f364b4d02e3b10600a1)), closes [#760](https://github.com/wagoid/commitlint-github-action/issues/760)
+
 ## [5.5.0](https://github.com/wagoid/commitlint-github-action/compare/v5.4.5...v5.5.0) (2024-03-28)
 
 
