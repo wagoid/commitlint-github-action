@@ -1,10 +1,9 @@
 {
   "name": "commitlint-github-action",
-  "version": "5.4.5",
+  "version": "5.4.6",
   "description": "commitlint github action",
   "private": true,
   "module": "./dist/run.mjs",
-  "type": "module",
   "scripts": {
     "postinstall": "husky install",
     "test": "NODE_PATH=./node_modules NODE_OPTIONS=\"$NODE_OPTIONS --experimental-vm-modules\" npx jest",
