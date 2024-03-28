@@ -53,11 +53,7 @@ jobs:
           git config user.email 'github-action@users.noreply.github.com'
           git config user.name 'GitHub Action'
       - name: Update versions and changelog
-        run: |
-          # remove `"type": "module"` from package.json since `commit-and-tag-version` doesn't support it
-          sed -i '/"type": "module",/c\' package.json
-          npx commit-and-tag-version
-          git checkout package.json
+        run: npx commit-and-tag-version
       - name: Set VERSION env var
         run: |
           version=`node -p "require('./package.json').version"`
