@@ -5,7 +5,7 @@ import { context as eventContext, getOctokit } from '@actions/github'
 import lint from '@commitlint/lint'
 import { format } from '@commitlint/format'
 import load from '@commitlint/load'
-import generateOutputs from './generateOutputs'
+import generateOutputs from './generateOutputs.mjs'
 
 const pullRequestEvent = 'pull_request'
 const pullRequestTargetEvent = 'pull_request_target'
@@ -102,6 +102,13 @@ const showLintResults = async (eventCommits) => {
   if (commitDepth) {
     commits = commits?.slice(0, commitDepth)
   }
+
+  if (configPath?.endsWith('.js')) {
+    throw new Error(
+      '.js extension is not allowed for the `configFile`, please use .mjs instead',
+    )
+  }
+
   const config = existsSync(configPath)
     ? await load({}, { file: configPath })
     : await load({ extends: ['@commitlint/config-conventional'] })

@@ -1,4 +1,4 @@
-FROM node:16.14.2-alpine3.14 as build
+FROM node:20.9.0-alpine3.17 as build
 
 COPY package*.json /
 
@@ -12,7 +12,7 @@ FROM node:20.9.0-alpine3.17
 
 RUN apk --no-cache add git
 
-COPY --from=build dist/run.js /run.js
+COPY --from=build dist/run.mjs /run.mjs
 
 COPY package*.json /
 
