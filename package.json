@@ -1,9 +1,8 @@
 {
   "name": "commitlint-github-action",
-  "version": "5.5.1",
+  "version": "6.0.0",
   "description": "commitlint github action",
   "private": true,
-  "type": "module",
   "module": "./dist/run.mjs",
   "scripts": {
     "postinstall": "husky install",

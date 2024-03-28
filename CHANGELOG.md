@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.0.0](https://github.com/wagoid/commitlint-github-action/compare/v5.5.1...v6.0.0) (2024-03-28)
+
+
+### ⚠ BREAKING CHANGES
+
+* `commitlint.config.js` is not supported anymore, please use `.mjs` extension
+
+### Features
+
+* upgrade to commitlint v19 ([732f0ad](https://github.com/wagoid/commitlint-github-action/commit/732f0ad7d5fc8650d54cbdbb9183a4e40f3e9ed8))
+
 ## [5.5.1](https://github.com/wagoid/commitlint-github-action/compare/v5.5.0...v5.5.1) (2024-03-28)
 
 
