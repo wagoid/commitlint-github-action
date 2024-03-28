@@ -1,5 +1,5 @@
 node_modules
-commitlint.config.js
+commitlint.config.mjs
 action.yml
 .github
 CHANGELOG.md

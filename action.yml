@@ -5,7 +5,7 @@ inputs:
   configFile:
     description: Commitlint config file. If the file doesn't exist, config-conventional settings will be
       loaded as a fallback.
-    default: ./commitlint.config.js
+    default: ./commitlint.config.mjs
     required: false
   failOnWarnings:
     description: Whether you want to fail on warnings or not
