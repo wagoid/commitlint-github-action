@@ -1,3 +1,19 @@
+# Changelog
+
+All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
+
+## [5.5.0](https://github.com/wagoid/commitlint-github-action/compare/v5.4.5...v5.5.0) (2024-03-28)
+
+
+### Features
+
+* upgrade commitlint to latest version ([2ff45dc](https://github.com/wagoid/commitlint-github-action/commit/2ff45dc12063297947621e4f7e0b4e53b17fd6ed))
+
+
+### Bug Fixes
+
+* rollback update of commitlint to support configs that use commonjs ([06143b2](https://github.com/wagoid/commitlint-github-action/commit/06143b235b3cbc9b59880866cf547f9b7b52b79c))
+
 ## [5.4.6](https://github.com/wagoid/commitlint-github-action/compare/v5.4.5...v5.4.6) (2024-03-28)
 
 
@@ -596,6 +612,3 @@ like the fact that `improvement` type is now rejected in `@commitlint/config-con
 * add commitlint action ([478fbaf](https://github.com/wagoid/commitlint-github-action/commit/478fbaff69771fd49568dabcefde8dd86543c1fe))
 * add firstParent input to ignore errors from your default branch ([598e473](https://github.com/wagoid/commitlint-github-action/commit/598e473cb441db3b8a81761f2d77f6182ce73993))
 * use image from docker hub ([9379b32](https://github.com/wagoid/commitlint-github-action/commit/9379b32eb6e98429a7b2d25d47864e730d10bdc7))
-
-
-
