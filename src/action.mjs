@@ -5,7 +5,7 @@ import { context as eventContext, getOctokit } from '@actions/github'
 import lint from '@commitlint/lint'
 import { format } from '@commitlint/format'
 import load from '@commitlint/load'
-import generateOutputs from './generateOutputs'
+import generateOutputs from './generateOutputs.mjs'
 
 const pullRequestEvent = 'pull_request'
 const pullRequestTargetEvent = 'pull_request_target'
