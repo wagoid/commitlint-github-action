@@ -5,7 +5,7 @@ jobs:
   commitlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - run: sed -i -E "s/(docker:.+)/Dockerfile/" ./action.yml
       - run: echo -n '' > .dockerignore
       - uses: actions/setup-node@v3
@@ -30,7 +30,7 @@ jobs:
   commitlint-pulling-from-docker-hub:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: actions/setup-node@v3
         with:
           node-version: '20.9.0'
