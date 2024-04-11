@@ -11,6 +11,12 @@ updates:
     schedule:
       interval: weekly
     open-pull-requests-limit: 99
+    groups:
+      minor-and-patch:
+        applies-to: version-updates
+        update-types:
+        - "patch"
+        - "minor"
 
   - package-ecosystem: docker
     directory: /

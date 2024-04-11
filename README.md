@@ -19,24 +19,26 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
-      - uses: wagoid/commitlint-github-action@v5
+      - uses: wagoid/commitlint-github-action@v6
 ```
 
 Alternatively, you can run on other event types such as `on: [push]`. In that case the action will lint the push event's commit(s) instead of linting commits from a pull request. You can also combine `push` and `pull_request` together in the same workflow.
 
 ## Inputs
 
-You can supply these inputs to the `wagoid/commitlint-github-action@v5` step.
+You can supply these inputs to the `wagoid/commitlint-github-action@v6` step.
 
 ### `configFile`
 
 The path to your commitlint config file.
 
-Default: `commitlint.config.js`
+Default: `commitlint.config.mjs`
 
 If the config file doesn't exist, [config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) settings will be loaded as a default fallback.
 
 Details on the configuration file can be found on [the commitlint website](https://commitlint.js.org/#/reference-configuration).
+
+Note: `commitlint.config.js` doesn't work with this action. If you use a JS config file, it's required to be an ES Module (`.mjs` extension)
 
 ### `failOnWarnings`
 
@@ -149,7 +151,7 @@ jobs:
       - run: npm install
       # Run the commitlint action, considering its own dependencies and yours as well 🚀
       # `github.workspace` is the path to your repository.
-      - uses: wagoid/commitlint-github-action@v5
+      - uses: wagoid/commitlint-github-action@v6
         env:
           NODE_PATH: ${{ github.workspace }}/node_modules
 ```
