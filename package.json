@@ -51,7 +51,7 @@
     "@rollup/plugin-commonjs": "^25.0.7",
     "@rollup/plugin-node-resolve": "^15.2.3",
     "babel-jest": "^29.7.0",
-    "commit-and-tag-version": "^12.2.0",
+    "commit-and-tag-version": "^12.4.0",
     "conventional-changelog-cli": "^4.1.0",
     "eslint": "^8.57.0",
     "eslint-config-airbnb-base": "^15.0.0",
