@@ -22,13 +22,20 @@ const getCommitDepth = () => {
   return Number.isNaN(commitDepth) ? null : Math.max(commitDepth, 0)
 }
 
-const getPushEventCommits = () => {
-  const mappedCommits = eventContext.payload.commits.map((commit) => ({
-    message: commit.message,
-    hash: commit.id,
-  }))
+const getPushEventCommits = async () => {
+  const octokit = getOctokit(getInput('token'))
+  const { owner, repo, before } = eventContext.issue
+  const { data: commits } = await octokit.rest.repos.listCommits({
+    owner,
+    repo,
+    sha: before,
+    per_page: 100,
+  })
 
-  return mappedCommits
+  return commits.map((commit) => ({
+    message: commit.commit.message,
+    hash: commit.sha,
+  }))
 }
 
 const getPullRequestEventCommits = async () => {
