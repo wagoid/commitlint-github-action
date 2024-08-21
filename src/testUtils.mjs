@@ -19,26 +19,16 @@ export const updatePushEnvVars = (cwd) => {
 
 export const createPushEventPayload = async (
   cwd,
-  commits = null,
-  before = null,
+  { forced = false, headCommit = null, commits = [] },
 ) => {
   const payload = {
-    forced: false,
-    head_commit: null,
-    before: before || '00000',
-    commits: commits || [
-      {
-        id: 'ignored',
-        message: 'but needed for triggering',
-      },
-    ],
+    forced,
+    head_commit: headCommit,
+    commits,
   }
   const eventPath = path.join(cwd, 'pushEventPayload.json')
 
-  updateEnvVars({
-    GITHUB_EVENT_PATH: eventPath,
-    GITHUB_REPOSITORY: 'wagoid/commitlint-github-action',
-  })
+  updateEnvVars({ GITHUB_EVENT_PATH: eventPath })
   await writeFile(eventPath, JSON.stringify(payload), 'utf8')
 }
 
