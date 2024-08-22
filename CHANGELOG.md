@@ -2,6 +2,20 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.1.1](https://github.com/wagoid/commitlint-github-action/compare/v6.1.0...v6.1.1) (2024-08-21)
+
+## [6.1.0](https://github.com/wagoid/commitlint-github-action/compare/v6.0.2...v6.1.0) (2024-08-20)
+
+
+### Features
+
+* updating push event trigger to use rest API (OctoKit) vs push event ([70e22e9](https://github.com/wagoid/commitlint-github-action/commit/70e22e95384c0028a4a5a9679a729c3ac9224dcd))
+
+
+### Bug Fixes
+
+* updating unit tests with mocking push octokit list commits ([c3ab7fd](https://github.com/wagoid/commitlint-github-action/commit/c3ab7fd301c536b0e96211a1dde49b6aabbfa8fd))
+
 ## [6.0.2](https://github.com/wagoid/commitlint-github-action/compare/v6.0.1...v6.0.2) (2024-08-05)
 
 ## [6.0.1](https://github.com/wagoid/commitlint-github-action/compare/v6.0.0...v6.0.1) (2024-04-10)
