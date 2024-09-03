@@ -26,6 +26,7 @@ const getPushEventCommits = async () => {
   const octokit = getOctokit(getInput('token'))
   const { owner, repo } = eventContext.issue
   const { before, after } = eventContext.payload
+  console.log(`before: ${before}, after: ${after}`)
   const { data: comparison } = await octokit.rest.repos.compareCommits({
     owner,
     repo,
