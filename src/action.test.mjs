@@ -4,11 +4,11 @@ import { git } from '@commitlint/test'
 import { jest, describe, it } from '@jest/globals'
 import * as td from 'testdouble'
 import {
-  updatePushEnvVars,
-  createPushEventPayload,
-  createPullRequestEventPayload,
-  updatePullRequestEnvVars,
   buildResponseCommit,
+  createPullRequestEventPayload,
+  createPushEventPayload,
+  updatePullRequestEnvVars,
+  updatePushEnvVars,
 } from './testUtils.mjs'
 
 const resultsOutputId = 'results'
@@ -449,6 +449,37 @@ describe('Commit Linter action', () => {
 
     td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
     td.verify(console.log('Lint free! 🎉'))
+  })
+
+  it('should get commits from event for a first push', async () => {
+    const commit = {
+      id: '0000000000000000000000000000000000000000',
+      message: 'chore: correct message',
+    }
+
+    cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+    await createPushEventPayload(
+      cwd,
+      { commits: [commit] },
+      '0000000000000000000000000000000000000000',
+    )
+    updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        head: 'aaaaa',
+        base: '0000000000000000000000000000000000000000',
+        per_page: 100,
+      }),
+    ).thenResolve({
+      data: { commits: [buildResponseCommit(commit.id, commit.message)] },
+    })
+    td.replace(process, 'cwd', () => cwd)
+    td.replace(console, 'log')
+
+    td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
+    td.verify(mockCompareCommits(), { times: 0 })
   })
 
   describe.each(['pull_request', 'pull_request_target'])(
