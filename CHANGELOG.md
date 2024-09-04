@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.1.2](https://github.com/wagoid/commitlint-github-action/compare/v6.1.1...v6.1.2) (2024-09-04)
+
+
+### Bug Fixes
+
+* using compareCommits for push event commit query ([#801](https://github.com/wagoid/commitlint-github-action/issues/801)) ([47ff131](https://github.com/wagoid/commitlint-github-action/commit/47ff1315a12847478779c4d002c30f406009e206))
+
 ## [6.1.1](https://github.com/wagoid/commitlint-github-action/compare/v6.1.0...v6.1.1) (2024-08-21)
 
 ## [6.1.0](https://github.com/wagoid/commitlint-github-action/compare/v6.0.2...v6.1.0) (2024-08-20)
