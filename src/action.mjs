@@ -12,6 +12,7 @@ const pullRequestTargetEvent = 'pull_request_target'
 const pullRequestEvents = [pullRequestEvent, pullRequestTargetEvent]
 
 const { GITHUB_EVENT_NAME } = process.env
+const FIRST_COMMIT_SHA = '0000000000000000000000000000000000000000'
 
 const configPath = resolve(process.env.GITHUB_WORKSPACE, getInput('configFile'))
 
@@ -22,13 +23,30 @@ const getCommitDepth = () => {
   return Number.isNaN(commitDepth) ? null : Math.max(commitDepth, 0)
 }
 
-const getPushEventCommits = () => {
-  const mappedCommits = eventContext.payload.commits.map((commit) => ({
-    message: commit.message,
-    hash: commit.id,
-  }))
+const getPushEventCommits = async () => {
+  const octokit = getOctokit(getInput('token'))
+  const { owner, repo } = eventContext.issue
+  const { before, after } = eventContext.payload
 
-  return mappedCommits
+  if (before === FIRST_COMMIT_SHA) {
+    return eventContext.payload.commits.map((commit) => ({
+      message: commit.message,
+      hash: commit.id,
+    }))
+  }
+
+  const { data: comparison } = await octokit.rest.repos.compareCommits({
+    owner,
+    repo,
+    head: after,
+    base: before,
+    per_page: 100,
+  })
+
+  return comparison.commits.map((commit) => ({
+    message: commit.commit.message,
+    hash: commit.sha,
+  }))
 }
 
 const getPullRequestEventCommits = async () => {

@@ -4,11 +4,11 @@ import { git } from '@commitlint/test'
 import { jest, describe, it } from '@jest/globals'
 import * as td from 'testdouble'
 import {
-  updatePushEnvVars,
-  createPushEventPayload,
-  createPullRequestEventPayload,
-  updatePullRequestEnvVars,
   buildResponseCommit,
+  createPullRequestEventPayload,
+  createPushEventPayload,
+  updatePullRequestEnvVars,
+  updatePushEnvVars,
 } from './testUtils.mjs'
 
 const resultsOutputId = 'results'
@@ -19,7 +19,8 @@ const {
 
 const initialEnv = { ...process.env }
 
-const mockListCommits = td.func('listCommits')
+const mockListPullCommits = td.func('listCommits')
+const mockCompareCommits = td.func('compareCommits')
 
 const mockCore = td.object(['getInput', 'setFailed', 'setOutput'])
 
@@ -30,7 +31,10 @@ jest.unstable_mockModule('@actions/github', () => {
     constructor() {
       this.rest = {
         pulls: {
-          listCommits: mockListCommits,
+          listCommits: mockListPullCommits,
+        },
+        repos: {
+          compareCommits: mockCompareCommits,
         },
       }
     }
@@ -81,6 +85,19 @@ describe('Commit Linter action', () => {
       ],
     })
     updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        per_page: 100,
+        base: 'bbbbb',
+        head: 'aaaaa',
+      }),
+    ).thenResolve({
+      data: {
+        commits: [buildResponseCommit('wrong-message', 'wrong message')],
+      },
+    })
     td.replace(process, 'cwd', () => cwd)
 
     await runAction()
@@ -111,6 +128,19 @@ describe('Commit Linter action', () => {
       ],
     })
     updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        per_page: 100,
+        base: 'bbbbb',
+        head: 'aaaaa',
+      }),
+    ).thenResolve({
+      data: {
+        commits: [buildResponseCommit('wrong-message', 'wrong message')],
+      },
+    })
     td.replace(process, 'cwd', () => cwd)
 
     await runAction()
@@ -129,6 +159,20 @@ describe('Commit Linter action', () => {
       ],
     })
     updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        per_page: 100,
+        base: 'bbbbb',
+        head: 'aaaaa',
+      }),
+    ).thenResolve({
+      data: {
+        commits: [buildResponseCommit('wrong-message', 'wrong message')],
+      },
+    })
+
     td.replace(process, 'cwd', () => cwd)
 
     await runAction()
@@ -140,17 +184,23 @@ describe('Commit Linter action', () => {
 
   it('should fail for push range with wrong messages', async () => {
     cwd = await git.bootstrap('fixtures/conventional', process.cwd())
-    await createPushEventPayload(cwd, {
-      commits: [
-        {
-          id: 'wrong-message-1',
-          message: 'wrong message 1',
-        },
-        {
-          id: 'wrong-message-2',
-          message: 'wrong message 2',
-        },
-      ],
+    await createPushEventPayload(cwd)
+    updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        per_page: 100,
+        base: 'bbbbb',
+        head: 'aaaaa',
+      }),
+    ).thenResolve({
+      data: {
+        commits: [
+          buildResponseCommit('wrong-message-1', 'wrong message 1'),
+          buildResponseCommit('wrong-message-2', 'wrong message 2'),
+        ],
+      },
     })
     updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
@@ -163,17 +213,23 @@ describe('Commit Linter action', () => {
   it('should pass for push range with wrong messages with failOnErrors set to false', async () => {
     td.when(mockCore.getInput('failOnErrors')).thenReturn('false')
     cwd = await git.bootstrap('fixtures/conventional', process.cwd())
-    await createPushEventPayload(cwd, {
-      commits: [
-        {
-          id: 'wrong-message-1',
-          message: 'wrong message 1',
-        },
-        {
-          id: 'wrong-message-2',
-          message: 'wrong message 2',
-        },
-      ],
+    await createPushEventPayload(cwd)
+    updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        per_page: 100,
+        base: 'bbbbb',
+        head: 'aaaaa',
+      }),
+    ).thenResolve({
+      data: {
+        commits: [
+          buildResponseCommit('wrong-message-1', 'wrong message 1'),
+          buildResponseCommit('wrong-message-2', 'wrong message 2'),
+        ],
+      },
     })
     updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
@@ -190,17 +246,23 @@ describe('Commit Linter action', () => {
   it('should pass for push range with correct messages with failOnErrors set to false', async () => {
     td.when(mockCore.getInput('failOnErrors')).thenReturn('false')
     cwd = await git.bootstrap('fixtures/conventional', process.cwd())
-    await createPushEventPayload(cwd, {
-      commits: [
-        {
-          id: 'correct-message-1',
-          message: 'chore: correct message 1',
-        },
-        {
-          id: 'correct-message-2',
-          message: 'chore: correct message 2',
-        },
-      ],
+    await createPushEventPayload(cwd)
+    updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        per_page: 100,
+        base: 'bbbbb',
+        head: 'aaaaa',
+      }),
+    ).thenResolve({
+      data: {
+        commits: [
+          buildResponseCommit('correct-message-1', 'chore: correct message 1'),
+          buildResponseCommit('correct-message-2', 'chore: correct message 2'),
+        ],
+      },
     })
     updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
@@ -214,17 +276,23 @@ describe('Commit Linter action', () => {
 
   it('should pass for push range with correct messages', async () => {
     cwd = await git.bootstrap('fixtures/conventional', process.cwd())
-    await createPushEventPayload(cwd, {
-      commits: [
-        {
-          id: 'correct-message-1',
-          message: 'chore: correct message 1',
-        },
-        {
-          id: 'correct-message-2',
-          message: 'chore: correct message 2',
-        },
-      ],
+    await createPushEventPayload(cwd)
+    updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        per_page: 100,
+        base: 'bbbbb',
+        head: 'aaaaa',
+      }),
+    ).thenResolve({
+      data: {
+        commits: [
+          buildResponseCommit('correct-message-1', 'chore: correct message 1'),
+          buildResponseCommit('correct-message-2', 'chore: correct message 2'),
+        ],
+      },
     })
     updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
@@ -241,12 +309,25 @@ describe('Commit Linter action', () => {
     td.when(mockCore.getInput('configFile')).thenReturn(
       './commitlint.config.yml',
     )
-    await createPushEventPayload(cwd, {
-      commits: [
-        {
-          message: 'chore(wrong): not including package scope',
-        },
-      ],
+    await createPushEventPayload(cwd)
+    updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        per_page: 100,
+        base: 'bbbbb',
+        head: 'aaaaa',
+      }),
+    ).thenResolve({
+      data: {
+        commits: [
+          buildResponseCommit(
+            'correct-message',
+            'chore(wrong): not including package scope',
+          ),
+        ],
+      },
     })
     updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
@@ -263,13 +344,25 @@ describe('Commit Linter action', () => {
     td.when(mockCore.getInput('configFile')).thenReturn(
       './commitlint.config.yml',
     )
-    await createPushEventPayload(cwd, {
-      commits: [
-        {
-          id: 'correct-message',
-          message: 'chore(second-package): this works',
-        },
-      ],
+    await createPushEventPayload(cwd)
+    updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        per_page: 100,
+        base: 'bbbbb',
+        head: 'aaaaa',
+      }),
+    ).thenResolve({
+      data: {
+        commits: [
+          buildResponseCommit(
+            'correct-message',
+            'chore(second-package): this works',
+          ),
+        ],
+      },
     })
     updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
@@ -285,13 +378,24 @@ describe('Commit Linter action', () => {
     td.when(mockCore.getInput('configFile')).thenReturn(
       './commitlint.config.mjs',
     )
-    await createPushEventPayload(cwd, {
-      commits: [
-        {
-          id: 'wrong-message',
-          message: 'ib-21212121212121: without jira ticket',
-        },
-      ],
+    await createPushEventPayload(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        per_page: 100,
+        base: 'bbbbb',
+        head: 'aaaaa',
+      }),
+    ).thenResolve({
+      data: {
+        commits: [
+          buildResponseCommit(
+            'wrong-message',
+            'ib-21212121212121: without jira ticket',
+          ),
+        ],
+      },
     })
     updatePushEnvVars(cwd)
     td.replace(process, 'cwd', () => cwd)
@@ -325,8 +429,19 @@ describe('Commit Linter action', () => {
       './commitlint.config.mjs',
     )
     cwd = await git.bootstrap('fixtures/conventional', process.cwd())
-    await createPushEventPayload(cwd, {})
+    await createPushEventPayload(cwd, { commits: [] }, 'bbbbb', 'aaaaa')
     updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        head: 'aaaaa',
+        base: 'bbbbb',
+        per_page: 100,
+      }),
+    ).thenResolve({
+      data: { commits: [] },
+    })
     td.replace(process, 'cwd', () => cwd)
     td.replace(console, 'log')
 
@@ -334,6 +449,37 @@ describe('Commit Linter action', () => {
 
     td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
     td.verify(console.log('Lint free! 🎉'))
+  })
+
+  it('should get commits from event for a first push', async () => {
+    const commit = {
+      id: '0000000000000000000000000000000000000000',
+      message: 'chore: correct message',
+    }
+
+    cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+    await createPushEventPayload(
+      cwd,
+      { commits: [commit] },
+      '0000000000000000000000000000000000000000',
+    )
+    updatePushEnvVars(cwd)
+    td.when(
+      mockCompareCommits({
+        owner: 'wagoid',
+        repo: 'commitlint-github-action',
+        head: 'aaaaa',
+        base: '0000000000000000000000000000000000000000',
+        per_page: 100,
+      }),
+    ).thenResolve({
+      data: { commits: [buildResponseCommit(commit.id, commit.message)] },
+    })
+    td.replace(process, 'cwd', () => cwd)
+    td.replace(console, 'log')
+
+    td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
+    td.verify(mockCompareCommits(), { times: 0 })
   })
 
   describe.each(['pull_request', 'pull_request_target'])(
@@ -354,7 +500,7 @@ describe('Commit Linter action', () => {
         await createPullRequestEventPayload(cwd)
         updatePullRequestEnvVars(cwd, { eventName })
         td.when(
-          mockListCommits({
+          mockListPullCommits({
             owner: 'wagoid',
             repo: 'commitlint-github-action',
             pull_number: '1',
@@ -420,7 +566,7 @@ describe('Commit Linter action', () => {
       await createPullRequestEventPayload(cwd)
       updatePullRequestEnvVars(cwd)
       td.when(
-        mockListCommits({
+        mockListPullCommits({
           owner: 'wagoid',
           repo: 'commitlint-github-action',
           pull_number: '1',
@@ -457,6 +603,17 @@ describe('Commit Linter action', () => {
       cwd = await git.bootstrap('fixtures/conventional', process.cwd())
       await createPushEventPayload(cwd, { commits: [commit] })
       updatePushEnvVars(cwd)
+      td.when(
+        mockCompareCommits({
+          owner: 'wagoid',
+          repo: 'commitlint-github-action',
+          head: 'aaaaa',
+          base: 'bbbbb',
+          per_page: 100,
+        }),
+      ).thenResolve({
+        data: { commits: [buildResponseCommit(commit.id, commit.message)] },
+      })
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
     })
@@ -506,6 +663,25 @@ describe('Commit Linter action', () => {
       cwd = await git.bootstrap('fixtures/conventional', process.cwd())
       await createPushEventPayload(cwd, {
         commits: [commitWithWarning, correctCommit],
+      })
+      td.when(
+        mockCompareCommits({
+          owner: 'wagoid',
+          repo: 'commitlint-github-action',
+          per_page: 100,
+          base: 'bbbbb',
+          head: 'aaaaa',
+        }),
+      ).thenResolve({
+        data: {
+          commits: [
+            buildResponseCommit(
+              commitWithWarning.id,
+              commitWithWarning.message,
+            ),
+            buildResponseCommit(correctCommit.id, correctCommit.message),
+          ],
+        },
       })
       updatePushEnvVars(cwd)
       td.replace(process, 'cwd', () => cwd)
@@ -580,6 +756,26 @@ describe('Commit Linter action', () => {
       await createPushEventPayload(cwd, {
         commits: [wrongCommit, commitWithWarning],
       })
+      td.when(
+        mockCompareCommits({
+          owner: 'wagoid',
+          repo: 'commitlint-github-action',
+          per_page: 100,
+          base: 'bbbbb',
+          head: 'aaaaa',
+        }),
+      ).thenResolve({
+        data: {
+          commits: [
+            buildResponseCommit(wrongCommit.id, wrongCommit.message),
+            buildResponseCommit(
+              commitWithWarning.id,
+              commitWithWarning.message,
+            ),
+          ],
+        },
+      })
+
       updatePushEnvVars(cwd)
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
@@ -635,14 +831,24 @@ describe('Commit Linter action', () => {
   describe('when commit contains required signed-off-by message', () => {
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/signed-off-by', process.cwd())
-      await createPushEventPayload(cwd, {
-        commits: [
-          {
-            id: 'correct-commit',
-            message:
+      await createPushEventPayload(cwd)
+      td.when(
+        mockCompareCommits({
+          owner: 'wagoid',
+          repo: 'commitlint-github-action',
+          per_page: 100,
+          base: 'bbbbb',
+          head: 'aaaaa',
+        }),
+      ).thenResolve({
+        data: {
+          commits: [
+            buildResponseCommit(
+              'correct-commit',
               'chore: correct message\n\nsome context without leading blank line.\n\nSigned-off-by: John Doe <john.doe@example.com>',
-          },
-        ],
+            ),
+          ],
+        },
       })
       updatePushEnvVars(cwd)
       td.replace(process, 'cwd', () => cwd)
@@ -660,13 +866,19 @@ describe('Commit Linter action', () => {
   describe('when a different helpUrl is provided in the config', () => {
     beforeEach(async () => {
       cwd = await git.bootstrap('fixtures/custom-help-url', process.cwd())
-      await createPushEventPayload(cwd, {
-        commits: [
-          {
-            id: 'wrong-commit',
-            message: 'wrong message',
-          },
-        ],
+      await createPushEventPayload(cwd)
+      td.when(
+        mockCompareCommits({
+          owner: 'wagoid',
+          repo: 'commitlint-github-action',
+          per_page: 100,
+          base: 'bbbbb',
+          head: 'aaaaa',
+        }),
+      ).thenResolve({
+        data: {
+          commits: [buildResponseCommit('wrong-commit', 'wrong message')],
+        },
       })
       updatePushEnvVars(cwd)
       td.replace(process, 'cwd', () => cwd)
@@ -698,6 +910,22 @@ describe('Commit Linter action', () => {
         ],
       })
       updatePushEnvVars(cwd)
+      td.when(
+        mockCompareCommits({
+          owner: 'wagoid',
+          repo: 'commitlint-github-action',
+          per_page: 100,
+          base: 'bbbbb',
+          head: 'aaaaa',
+        }),
+      ).thenResolve({
+        data: {
+          commits: [
+            buildResponseCommit('correct-commit', 'chore: correct message 2'),
+            buildResponseCommit(incorrectCommit.id, incorrectCommit.message),
+          ],
+        },
+      })
       td.replace(process, 'cwd', () => cwd)
       td.replace(console, 'log')
     })
