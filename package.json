@@ -53,7 +53,7 @@
     "babel-jest": "^29.7.0",
     "commit-and-tag-version": "^12.2.0",
     "conventional-changelog-cli": "^4.1.0",
-    "eslint": "^8.34.0",
+    "eslint": "^9.0.0",
     "eslint-config-airbnb-base": "^15.0.0",
     "eslint-config-node": "^4.1.0",
     "eslint-config-prettier": "^8.5.0",
