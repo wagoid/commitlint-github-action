@@ -7,6 +7,7 @@ import { format } from '@commitlint/format'
 import load from '@commitlint/load'
 import generateOutputs from './generateOutputs.mjs'
 
+const mergeGroupEvent = 'merge_group'
 const pullRequestEvent = 'pull_request'
 const pullRequestTargetEvent = 'pull_request_target'
 const pullRequestEvents = [pullRequestEvent, pullRequestTargetEvent]
@@ -65,7 +66,21 @@ const getPullRequestEventCommits = async () => {
   }))
 }
 
+const getMergeGroupEventCommits = async () => {
+  const { merge_group } = eventContext.payload
+
+  return [
+    {
+      message: merge_group.head_commit.message,
+      hash: merge_group.head_sha,
+    },
+  ]
+}
+
 const getEventCommits = async () => {
+  if (GITHUB_EVENT_NAME === mergeGroupEvent) {
+    return getMergeGroupEventCommits()
+  }
   if (pullRequestEvents.includes(GITHUB_EVENT_NAME)) {
     return getPullRequestEventCommits()
   }
