@@ -77,3 +77,32 @@ export const buildResponseCommit = (sha, message) => ({
     message,
   },
 })
+
+export const createMergeGroupEventPayload = async (cwd, mergeGroupData) => {
+  const payload = {
+    action: 'checks_requested',
+    merge_group: mergeGroupData,
+    repository: {
+      owner: {
+        login: 'wagoid',
+      },
+      name: 'commitlint-github-action',
+    },
+  }
+
+  const eventPath = path.join(cwd, 'mergeGroupEventPayload.json')
+
+  updateEnvVars({
+    GITHUB_EVENT_PATH: eventPath,
+    GITHUB_EVENT_NAME: 'merge_group',
+    GITHUB_REPOSITORY: 'wagoid/commitlint-github-action',
+  })
+  await writeFile(eventPath, JSON.stringify(payload), 'utf8')
+}
+
+export const updateMergeGroupEnvVars = (cwd) => {
+  updateEnvVars({
+    GITHUB_WORKSPACE: cwd,
+    GITHUB_EVENT_NAME: 'merge_group',
+  })
+}
