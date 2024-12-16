@@ -5,8 +5,10 @@ import { jest, describe, it } from '@jest/globals'
 import * as td from 'testdouble'
 import {
   buildResponseCommit,
+  createMergeGroupEventPayload,
   createPullRequestEventPayload,
   createPushEventPayload,
+  updateMergeGroupEnvVars,
   updatePullRequestEnvVars,
   updatePushEnvVars,
 } from './testUtils.mjs'
@@ -950,6 +952,58 @@ describe('Commit Linter action', () => {
       await runAction()
 
       td.verify(mockCore.setFailed(contains(incorrectCommit.message)))
+    })
+  })
+
+  describe('when handling merge_group event', () => {
+    beforeEach(async () => {
+      cwd = await git.bootstrap('fixtures/conventional', process.cwd())
+      td.when(mockCore.getInput('configFile')).thenReturn(
+        './commitlint.config.mjs',
+      )
+
+      td.replace(process, 'cwd', () => cwd)
+      td.replace(console, 'log')
+    })
+
+    it('should lint the squashed commit message successfully', async () => {
+      const mergeGroupData = {
+        head_sha: 'merge-group-head-sha',
+        head_commit: {
+          id: 'merge-group-head-sha',
+          message: 'feat: add new feature\n\nThis is a detailed description.',
+          tree_id: 'tree-sha',
+        },
+      }
+
+      await createMergeGroupEventPayload(cwd, mergeGroupData)
+      updateMergeGroupEnvVars(cwd)
+
+      await runAction()
+
+      td.verify(mockCore.setFailed(), { times: 0, ignoreExtraArgs: true })
+      td.verify(console.log('Lint free! 🎉'))
+    })
+
+    it('should fail if the squashed commit message has linting errors', async () => {
+      const mergeGroupData = {
+        head_sha: 'merge-group-head-sha',
+        head_commit: {
+          id: 'merge-group-head-sha',
+          message: 'bad commit message',
+          tree_id: 'tree-sha',
+        },
+      }
+
+      await createMergeGroupEventPayload(cwd, mergeGroupData)
+      updateMergeGroupEnvVars(cwd)
+
+      await runAction()
+
+      td.verify(
+        mockCore.setFailed(contains('You have commit messages with errors')),
+      )
+      td.verify(mockCore.setFailed(contains('bad commit message')))
     })
   })
 })
