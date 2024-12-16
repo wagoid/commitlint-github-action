@@ -2,6 +2,13 @@
 
 All notable changes to this project will be documented in this file. See [commit-and-tag-version](https://github.com/absolute-version/commit-and-tag-version) for commit guidelines.
 
+## [6.2.0](https://github.com/wagoid/commitlint-github-action/compare/v6.1.2...v6.2.0) (2024-12-16)
+
+
+### Features
+
+* handle merge_group event - get squashed commit ([#806](https://github.com/wagoid/commitlint-github-action/issues/806)) ([ef2cd3b](https://github.com/wagoid/commitlint-github-action/commit/ef2cd3b0d22642360cebe0fee208e9c725d4bb82))
+
 ## [6.1.2](https://github.com/wagoid/commitlint-github-action/compare/v6.1.1...v6.1.2) (2024-09-04)
 
 
