@@ -4,7 +4,7 @@ Lints Pull Request commits with [commitlint](https://commitlint.js.org/).
 
 ## Usage
 
-Create a github workflow in the `.github` folder, e.g. `.github/workflows/commitlint.yml`:
+Create a GitHub workflow in the `.github` folder, e.g. `.github/workflows/commitlint.yml`:
 
 ```yaml
 name: Lint Commit Messages
@@ -18,11 +18,11 @@ jobs:
   commitlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
       - uses: wagoid/commitlint-github-action@v6
 ```
 
-Alternatively, you can run on other event types such as `on: [push]`. In that case the action will lint the push event's commit(s) instead of linting commits from a pull request. You can also combine `push` and `pull_request` together in the same workflow.
+Alternatively, you can run on other event types such as `on: [push]`. In that case, the action will lint the push event's commit(s) instead of linting commits from a pull request. You can also combine `push` and `pull_request` together in the same workflow.
 
 ### Using with GitHub Merge Queues
 
@@ -44,7 +44,7 @@ jobs:
   commitlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           ref: ${{ github.sha }}
 
@@ -68,7 +68,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 ```
 
 This workflow can also be a meaningful one that checks out the commits in your PR and runs other checks, but it must have a job named **commitlint**.
@@ -204,10 +204,10 @@ jobs:
   commitlint:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v2
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
-          node-version: '14'
+          node-version: '22'
       - run: npm install
       # Run the commitlint action, considering its own dependencies and yours as well 🚀
       # `github.workspace` is the path to your repository.
