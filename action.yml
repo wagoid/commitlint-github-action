@@ -3,8 +3,9 @@ description: Lints Pull Request commit messages with commitlint
 author: Wagner Santos
 inputs:
   configFile:
-    description: Commitlint config file. If the file doesn't exist, config-conventional settings will be
-      loaded as a fallback.
+    description: >
+      Commitlint config file. The .js extension is not supported; use .mjs instead.
+      If the file doesn't exist, config-conventional settings will be loaded as a fallback.
     default: ./commitlint.config.mjs
     required: false
   failOnWarnings:
@@ -14,13 +15,15 @@ inputs:
   failOnErrors:
     description: Whether you want to fail on errors or not
     default: "true"
-    required: true
+    required: false
   helpURL:
     description: Link to a page explaining your commit message convention
     default: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
     required: false
   commitDepth:
-    description: When set to a valid Integer value - X, considers only the latest X number of commits.
+    description: >
+      When set to an integer value X, considers only the first X commits from the returned commit list.
+      Values less than or equal to zero, or values that cannot be parsed as an integer, are ignored and all commits are linted.
     default: ""
     required: false
   token:
@@ -32,7 +35,11 @@ inputs:
     required: false
 outputs:
   results:
-    description: The error and warning messages for each one of the analyzed commits
+    description: >
+      JSON-encoded string representing an array of lint results for each analyzed
+      commit; parse it with fromJSON in workflows. Each entry contains:
+      hash (commit SHA), message (commit message), valid (boolean),
+      errors (array of strings), warnings (array of strings).
 runs:
   using: docker
   image: docker://wagoid/commitlint-github-action:6.2.1
