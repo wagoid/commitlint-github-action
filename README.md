@@ -1,4 +1,4 @@
-# Commitlint Github Action
+# Commitlint GitHub Action
 
 Lints Pull Request commits with [commitlint](https://commitlint.js.org/).
 
@@ -51,11 +51,11 @@ jobs:
       - uses: wagoid/commitlint-github-action@v6
 ```
 
-#### Important Note:
+#### Important Note
 
-To ensure that the merge_group event triggers correctly, you need to have **at least one workflow that responds to the pull_request event** with a job named the same as the one in your merge_group workflow (**commitlint** in this example). This is necessary because the merge queue relies on the existence of status checks from the pull request context.
+To ensure that the `merge_group` event triggers correctly, you need to have **at least one workflow that responds to the `pull_request` event** with a job named the same as the one in your `merge_group` workflow (**commitlint** in this example). This is required because the merge queue relies on status checks from the pull request context.
 
-Here's a minimal pull_request workflow to satisfy this requirement:
+Here's a minimal `pull_request` workflow to satisfy this requirement:
 
 ```yaml
 name: Placeholder Workflow for Merge Queue
@@ -92,13 +92,13 @@ You can supply these inputs to the `wagoid/commitlint-github-action@v6` step.
 
 The path to your commitlint config file.
 
-Default: `commitlint.config.mjs`
+Default: `./commitlint.config.mjs`
 
 If the config file doesn't exist, [config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional) settings will be loaded as a default fallback.
 
 Details on the configuration file can be found on [the commitlint website](https://commitlint.js.org/#/reference-configuration).
 
-Note: `commitlint.config.js` doesn't work with this action. If you use a JS config file, it's required to be an ES Module (`.mjs` extension)
+**Note:** `commitlint.config.js` does not work with this action. If you use a JS config file, it must use the ES Module format (`.mjs` extension).
 
 ### `failOnWarnings`
 
@@ -108,7 +108,7 @@ Default: `false`
 
 ### `failOnErrors`
 
-Whether you want to fail on errors or not. Still outputs the results, just forces the action to pass even if errors are detected.
+Whether to fail the action when errors are detected. When set to `false`, the action still outputs results but always passes.
 
 Default: `true`
 
@@ -116,21 +116,21 @@ Default: `true`
 
 Link to a page explaining your commit message convention.
 
-default: `https://github.com/conventional-changelog/commitlint/#what-is-commitlint`
+Default: `https://github.com/conventional-changelog/commitlint/#what-is-commitlint`
 
 ### `commitDepth`
 
 When set to a valid Integer value - X, considers only the latest X number of commits.
 
-default: `null` (Equivalent to linting all commits)
+Default: empty (leaving it empty lints all commits)
 
 ### `token`
 
 Personal access token (PAT) used to interact with the GitHub API.
 By default, the automatic token provided by GitHub is used.
-You can see more info about GitHub's default token [here](https://docs.github.com/en/actions/configuring-and-managing-workflows/authenticating-with-the-github_token).
+You can see more info about GitHub's automatic token [here](https://docs.github.com/actions/security-guides/automatic-token-authentication).
 
-default: `${{ github.token }}`
+Default: `${{ github.token }}`
 
 ## Outputs
 
@@ -157,28 +157,28 @@ You have commit messages with errors
 ⓘ   Get help: https://github.com/conventional-changelog/commitlint/#what-is-commitlint
 ```
 
-```JSON
+```json
 [
   {
     "hash": "cb0f846f13b490c2fd17bd5ed0b6f65ba9b86c75",
     "message": "wrong message",
     "valid": false,
     "errors": ["subject may not be empty", "type may not be empty"],
-    "warnings": [],
+    "warnings": []
   },
   {
     "hash": "cb14483cbde23b61322ffb8d3fcdc87f514a3141",
     "message": "chore: my message\n\nsome context without leading blank line",
     "valid": true,
     "errors": [],
-    "warnings": ["body must have leading blank line"],
-  },
+    "warnings": ["body must have leading blank line"]
+  }
 ]
 ```
 
 ## About `extends` in your config file
 
-This is a [`Docker` action](https://github.com/actions/toolkit/blob/e2adf403d6d14a9ca7474976ccaca20f72ff8209/docs/action-types.md#why-would-i-choose-a-docker-action), and was made like this so that you can run it with minimum setup, regardless of your repo's environment. It comes packed with the most famous shared configurations that you can use in your commitlint config's `extends` field:
+This is a [Docker action](https://github.com/actions/toolkit/blob/e2adf403d6d14a9ca7474976ccaca20f72ff8209/docs/action-types.md#why-would-i-choose-a-docker-action), and was built this way so that you can run it with minimum setup, regardless of your repo's environment. It comes packed with the most famous shared configurations that you can use in your commitlint config's `extends` field:
 
 - [@commitlint/config-angular](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-angular)
 - [@commitlint/config-conventional](https://github.com/conventional-changelog/commitlint/tree/master/%40commitlint/config-conventional)
@@ -188,9 +188,9 @@ This is a [`Docker` action](https://github.com/actions/toolkit/blob/e2adf403d6d1
 - [commitlint-config-jira](https://github.com/Gherciu/commitlint-jira)
 - [commitlint-config-function-rules](https://github.com/vidavidorra/commitlint-plugin-function-rules#readme)
 
-Apart from the shared configurations that are included by default, you can also include extra dependencies for other configs and plugins that you want to use.
+In addition to the shared configurations included by default, you can also add extra dependencies for other configs and plugins.
 
-In order to do so, you can use `NODE_PATH` env var to make the action take those dependencies into account. Below is an example workflow that does that.
+To do so, you can use the `NODE_PATH` environment variable to make the action include those dependencies. Below is an example workflow.
 
 ```yaml
 name: Lint Commit Messages
